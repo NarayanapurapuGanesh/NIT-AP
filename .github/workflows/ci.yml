@@ -1,0 +1,59 @@
+name: FacultyIQ Production CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  backend-build:
+    name: Build & Verify ASP.NET Core 9 Solution
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET 9 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Restore Dependencies
+        run: dotnet restore backend/FacultyIQ.sln
+
+      - name: Build Solution (Release)
+        run: dotnet build backend/FacultyIQ.sln --configuration Release --no-restore
+
+      - name: Run Unit Tests
+        run: dotnet test backend/FacultyIQ.sln --configuration Release --no-build --verbosity normal
+
+  frontend-build:
+    name: Build & Verify Next.js 15 App
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: frontend/package.json
+
+      - name: Install Dependencies
+        run: cd frontend && npm ci
+
+      - name: Next.js Production Build
+        run: cd frontend && npm run build
+
+  docker-validate:
+    name: Validate Docker Infrastructure Configurations
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate Docker Compose Configuration
+        run: docker compose -f docker/docker-compose.yml config

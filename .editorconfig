@@ -1,0 +1,21 @@
+root = true
+
+[*]
+indent_style = space
+indent_size = 2
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+[*.cs]
+indent_size = 4
+csharp_using_directive_placement = outside_namespace:error
+csharp_style_expression_bodied_methods = when_possible:suggestion
+csharp_style_expression_bodied_constructors = when_possible:suggestion
+
+[*.{json,yml,yaml,md}]
+indent_size = 2
+
+[*.{js,jsx,ts,tsx}]
+indent_size = 2
