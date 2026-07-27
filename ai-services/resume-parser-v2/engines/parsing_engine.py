@@ -116,6 +116,17 @@ class ParsingEngine:
                 if len(combined) > 40:
                     uncertain.append(combined)
 
+        # Coding skills extraction (for coding test generation)
+        coding_skills = self._extractor._extract_coding_skills(skills)
+
+        # Core interview points generation
+        core_interview_points = self._extractor._generate_core_interview_points(
+            name=name, education=education, experience=experience,
+            skills=skills, publications=publications, projects=projects,
+            awards=awards_flat, candidate_type=candidate_type,
+            profile_summary=profile_summary,
+        )
+
         return DeterministicEntities(
             name=name,
             email=email,
@@ -124,6 +135,8 @@ class ParsingEngine:
             profile_summary=profile_summary,
             skills=skills,
             soft_skills=soft_skills,
+            coding_skills=coding_skills,
+            core_interview_points=core_interview_points,
             education=education,
             experience=experience,
             publications=publications,

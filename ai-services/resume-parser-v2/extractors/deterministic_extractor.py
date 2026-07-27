@@ -257,6 +257,17 @@ class DeterministicExtractor(IExtractor):
         # --- Candidate type classification ---
         candidate_type = self._classify_candidate_type(experience, education, publications)
 
+        # --- Coding skills (subset for coding test generation) ---
+        coding_skills = self._extract_coding_skills(skills)
+
+        # --- Core interview points ---
+        core_interview_points = self._generate_core_interview_points(
+            name=name, education=education, experience=experience,
+            skills=skills, publications=publications, projects=projects,
+            awards=awards_flat, candidate_type=candidate_type,
+            profile_summary=profile_summary,
+        )
+
         # --- Uncertain sections (for LLM callback) ---
         uncertain = []
         for sec in sections:
@@ -264,6 +275,9 @@ class DeterministicExtractor(IExtractor):
                 combined = " ".join(sec.content_lines)
                 if len(combined) > 40:
                     uncertain.append(combined)
+
+        # --- Populate project_links from URLs inside project descriptions ---
+        self._enrich_project_links(projects)
 
         return DeterministicEntities(
             name=name,
@@ -273,6 +287,8 @@ class DeterministicExtractor(IExtractor):
             profile_summary=profile_summary,
             skills=skills,
             soft_skills=soft_skills,
+            coding_skills=coding_skills,
+            core_interview_points=core_interview_points,
             education=education,
             experience=experience,
             publications=publications,
@@ -313,6 +329,25 @@ class DeterministicExtractor(IExtractor):
         candidate_type = self._classify_candidate_type(experience, education, publications)
         uncertain = self._find_uncertain_sections(lines)
 
+        # --- Coding Skills ---
+        coding_skills = self._extract_coding_skills(skills)
+
+        # --- Core Interview Points ---
+        core_interview_points = self._generate_core_interview_points(
+            name=name,
+            education=education,
+            experience=experience,
+            skills=skills,
+            publications=publications,
+            projects=projects,
+            awards=awards_flat,
+            candidate_type=candidate_type,
+            profile_summary=profile_summary,
+        )
+
+        # --- Populate project_links ---
+        self._enrich_project_links(projects)
+
         return DeterministicEntities(
             name=name,
             email=email,
@@ -321,6 +356,8 @@ class DeterministicExtractor(IExtractor):
             profile_summary=profile_summary,
             skills=skills,
             soft_skills=soft_skills,
+            coding_skills=coding_skills,
+            core_interview_points=core_interview_points,
             education=education,
             experience=experience,
             publications=publications,
@@ -333,6 +370,107 @@ class DeterministicExtractor(IExtractor):
             candidate_type=candidate_type,
             uncertain_sections=uncertain,
         )
+
+    def _enrich_project_links(self, projects: List[ProjectEntity]):
+        """Helper to scan project descriptions for links."""
+        for p in projects:
+            if not p.project_links:
+                p.project_links = self._extract_urls_from_text(p.description)
+
+    def _extract_urls_from_text(self, text: str) -> List[str]:
+        """Extract all http/https URLs from a text string."""
+        if not text:
+            return []
+        return self.PROJECT_URL_REGEX.findall(text)
+
+    def _extract_coding_skills(self, skills: List[str]) -> List[str]:
+        """Filter the extracted skills list to isolate programming languages and frameworks
+        suitable for automated coding test question generation."""
+        coding = []
+        for skill in skills:
+            # Normalize to lowercase for matching against the canonical set
+            if skill.lower() in self.CODING_SKILLS_SET:
+                coding.append(skill)
+        return sorted(set(coding))
+
+    def _generate_core_interview_points(
+        self,
+        skills: List[str] = None,
+        coding_skills: List[str] = None,
+        education: List['EducationEntity'] = None,
+        experience: List['ExperienceEntity'] = None,
+        projects: List['ProjectEntity'] = None,
+        publications: List['PublicationEntity'] = None,
+        certifications: List[str] = None,
+        candidate_type: str = "Unknown",
+        # Accept but ignore extra kwargs for flexibility
+        **kwargs,
+    ) -> List[str]:
+        """Generate heuristic-based core interview talking points for the faculty interview panel.
+
+        Produces 5-8 structured points covering the candidate's strongest angles:
+        education depth, technical breadth, project complexity, research output, and growth areas.
+        """
+        points: List[str] = []
+        skills = skills or []
+        coding_skills = coding_skills or []
+        education = education or []
+        experience = experience or []
+        projects = projects or []
+        publications = publications or []
+        certifications = certifications or []
+
+        # 1. Candidate classification context
+        if candidate_type and candidate_type != "Unknown":
+            points.append(f"Candidate is classified as '{candidate_type}' — tailor interview depth accordingly.")
+
+        # 2. Education highlights
+        highest_degrees = []
+        for edu in education:
+            deg_info = edu.degree
+            if edu.institution:
+                deg_info += f" from {edu.institution}"
+            if edu.gpa:
+                deg_info += f" (GPA/Marks: {edu.gpa})"
+            highest_degrees.append(deg_info)
+        if highest_degrees:
+            points.append(f"Education: {'; '.join(highest_degrees[:3])}. Probe depth of coursework and academic rigor.")
+
+        # 3. Technical skill breadth
+        if skills:
+            top_skills = skills[:8]
+            points.append(f"Technical skill breadth: {', '.join(top_skills)}. Assess practical proficiency vs. listing.")
+
+        # 4. Coding ability — key for automated test generation
+        if coding_skills:
+            points.append(f"Coding proficiency claimed in: {', '.join(coding_skills[:6])}. Recommend hands-on coding round in these languages.")
+
+        # 5. Project depth
+        if projects:
+            project_titles = [p.title for p in projects[:4]]
+            points.append(f"Has {len(projects)} project(s): {', '.join(project_titles)}. Investigate design decisions, scalability, and individual contribution.")
+
+        # 6. Research / Publications
+        if publications:
+            points.append(f"Published {len(publications)} paper(s). Verify originality and discuss methodology in depth.")
+
+        # 7. Work experience
+        if experience:
+            roles = [f"{e.title} at {e.organization}" for e in experience[:3] if e.organization]
+            if roles:
+                points.append(f"Professional roles: {'; '.join(roles)}. Probe real-world impact and measurable outcomes.")
+
+        # 8. Certifications / continuous learning
+        if certifications:
+            points.append(f"Holds {len(certifications)} certification(s). Verify relevance and recency.")
+
+        # 9. Growth / gap areas
+        if not publications and candidate_type == "Academic":
+            points.append("No publications detected despite academic profile — explore research aspirations.")
+        if not experience and candidate_type != "Fresher":
+            points.append("No work experience found — clarify career gaps or undocumented roles.")
+
+        return points[:10]
 
     def _clean_pdf_dict_garbage(self, text: str) -> str:
         if not text:
@@ -935,12 +1073,13 @@ class DeterministicExtractor(IExtractor):
                                     desc_parts.append(re.sub(r'^[•\-–]\s*', '', next_l))
                                 elif any(k.upper() in next_l.upper() for k in ["PROJECT TITLE", "PROJECT:"]):
                                     break
-                        projects.append(ProjectEntity(title=title, description=" | ".join(desc_parts) if desc_parts else title, technologies=tech))
+                        full_desc = " | ".join(desc_parts) if desc_parts else title
+                        projects.append(ProjectEntity(title=title, description=full_desc, technologies=tech, project_links=self._extract_urls_from_text(full_desc)))
                 elif len(clean_l) > 6 and not clean_l.startswith("-") and not clean_l.startswith("•") and not any(k in clean_l.lower() for k in ["demonstrates", "mindset", "practices", "application", "technologies", "technology used"]):
                     parts = clean_l.split("|")
                     title = re.sub(r'^(?:PROJECT\s*)?(?:TITLE|NAME)?\s*[:\-=]\s*', '', parts[0].strip(), flags=re.IGNORECASE).strip()
                     tech = [t.strip() for t in parts[1].split(",")] if len(parts) > 1 else []
-                    projects.append(ProjectEntity(title=title, description=clean_l, technologies=tech))
+                    projects.append(ProjectEntity(title=title, description=clean_l, technologies=tech, project_links=self._extract_urls_from_text(clean_l)))
             i += 1
 
         return projects[:6]
@@ -1013,7 +1152,10 @@ class DeterministicExtractor(IExtractor):
                     break
 
                 description = " | ".join(desc_parts) if desc_parts else title
-                projects.append(ProjectEntity(title=title, description=description, technologies=tech))
+                proj_urls = []
+                for dp in desc_parts:
+                    proj_urls.extend(self.PROJECT_URL_REGEX.findall(dp))
+                projects.append(ProjectEntity(title=title, description=description, technologies=tech, project_links=proj_urls))
                 i = j
                 continue
 
@@ -1143,3 +1285,111 @@ class DeterministicExtractor(IExtractor):
                 if not any(h in line.lower() for h in ["experience", "education", "skills", "projects", "publications"]):
                     uncertain.append(line)
         return uncertain[:5]
+
+    # =====================================================================
+    #  CODING SKILLS EXTRACTION (for coding test question generation)
+    # =====================================================================
+
+    def _extract_coding_skills(self, all_skills: List[str]) -> List[str]:
+        """Filters programming languages and frameworks from the full skills list
+        that can be used to generate coding test questions in the next module."""
+        coding = []
+        for skill in all_skills:
+            skill_lower = skill.lower().strip()
+            if skill_lower in self.CODING_SKILLS_SET:
+                coding.append(skill)
+        return list(set(coding))
+
+    # =====================================================================
+    #  URL EXTRACTION FROM TEXT (for project links)
+    # =====================================================================
+
+    def _extract_urls_from_text(self, text: str) -> List[str]:
+        """Extracts HTTP/HTTPS URLs from a given text block."""
+        if not text:
+            return []
+        return list(set(self.PROJECT_URL_REGEX.findall(text)))
+
+    # =====================================================================
+    #  CORE INTERVIEW POINTS GENERATION
+    # =====================================================================
+
+    def _generate_core_interview_points(
+        self,
+        name: Optional[str],
+        education: List[EducationEntity],
+        experience: List[ExperienceEntity],
+        skills: List[str],
+        publications: List[PublicationEntity],
+        projects: List[ProjectEntity],
+        awards: List[str],
+        candidate_type: str,
+        profile_summary: Optional[str],
+    ) -> List[str]:
+        """Generates key talking points for the faculty interview panel based on
+        the candidate's extracted profile. These are heuristic summaries that
+        highlight the candidate's strongest attributes and areas to probe."""
+        points: List[str] = []
+
+        # 1. Highest qualification
+        if education:
+            top_edu = education[0]
+            points.append(
+                f"Highest Qualification: {top_edu.degree}"
+                + (f" from {top_edu.institution}" if top_edu.institution else "")
+                + (f" ({top_edu.year})" if top_edu.year else "")
+                + (f" — GPA/Marks: {top_edu.gpa}" if top_edu.gpa else "")
+            )
+
+        # 2. Candidate type
+        points.append(f"Candidate Profile Type: {candidate_type}")
+
+        # 3. Teaching / Industry experience summary
+        if experience:
+            exp_titles = [e.title for e in experience[:3]]
+            points.append(f"Key Experience Roles: {', '.join(exp_titles)}")
+            if any(kw in ' '.join(exp_titles).lower() for kw in ['professor', 'lecturer', 'teaching', 'faculty', 'instructor']):
+                points.append("Has prior teaching/faculty experience — probe pedagogical approach and course design skills.")
+            if any(kw in ' '.join(exp_titles).lower() for kw in ['engineer', 'developer', 'architect', 'analyst', 'lead']):
+                points.append("Has industry engineering experience — probe practical problem-solving and system design capabilities.")
+
+        # 4. Research output
+        if publications:
+            points.append(f"Research Output: {len(publications)} publication(s) detected. Probe research methodology, domain expertise, and publication quality.")
+            venues = [p.venue for p in publications if p.venue]
+            if venues:
+                points.append(f"Publication Venues: {', '.join(venues[:3])}")
+
+        # 5. Technical depth
+        if skills:
+            top_skills = skills[:8]
+            points.append(f"Core Technical Competencies ({len(skills)} total): {', '.join(top_skills)}")
+            # Detect specialization areas
+            skill_lower_set = {s.lower() for s in skills}
+            if skill_lower_set & {'machine learning', 'deep learning', 'pytorch', 'tensorflow', 'nlp', 'computer vision'}:
+                points.append("Specialization Area: AI/ML — probe depth of understanding in model architectures, training pipelines, and real-world deployment.")
+            if skill_lower_set & {'distributed systems', 'microservices', 'kubernetes', 'docker', 'aws', 'azure', 'gcp'}:
+                points.append("Specialization Area: Cloud/Systems — probe scalability thinking, infrastructure design, and DevOps maturity.")
+            if skill_lower_set & {'react', 'next.js', 'angular', 'vue.js', 'flutter'}:
+                points.append("Specialization Area: Frontend/Full-Stack — probe UI/UX sensibility, state management, and performance optimization.")
+
+        # 6. Project highlights
+        if projects:
+            points.append(f"Projects Built: {len(projects)} project(s). Probe technical decision-making and architecture choices.")
+            for proj in projects[:2]:
+                point = f"Project: \"{proj.title}\""
+                if proj.technologies:
+                    point += f" (Tech: {', '.join(proj.technologies[:4])})"
+                if proj.project_links:
+                    point += f" — Live/Repo Links: {', '.join(proj.project_links[:2])}"
+                points.append(point)
+
+        # 7. Awards & achievements
+        if awards:
+            points.append(f"Notable Achievements: {', '.join(awards[:3])}")
+
+        # 8. Profile summary if available
+        if profile_summary and len(profile_summary) > 20:
+            points.append(f"Self-Described Summary: \"{profile_summary[:200]}\"")
+
+        return points[:15]

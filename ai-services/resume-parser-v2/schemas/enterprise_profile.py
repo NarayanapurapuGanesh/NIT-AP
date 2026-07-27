@@ -84,6 +84,8 @@ class EnterpriseCandidateProfile(BaseModel):
     projects: List[ProjectEntity] = Field(default_factory=list, description="Project entries")
     skills: List[str] = Field(default_factory=list, description="Technical skills inventory")
     soft_skills: List[str] = Field(default_factory=list, description="Soft/interpersonal skills")
+    coding_skills: List[str] = Field(default_factory=list, description="Programming languages and frameworks for coding test generation")
+    core_interview_points: List[str] = Field(default_factory=list, description="Key talking points for faculty interview panels")
     publications: List[PublicationEntity] = Field(default_factory=list, description="Publications & patents")
     patents: List[str] = Field(default_factory=list, description="Patents")
     awards: List[str] = Field(default_factory=list, description="Honors & awards (flat list)")

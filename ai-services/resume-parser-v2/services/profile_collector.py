@@ -67,27 +67,52 @@ class ProfileCollectorService:
         self.headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
 
     async def collect_profiles(self, links: ProfileLinks) -> ProfileEvidencePackage:
-        """Fetches live evidence from all identified profile links."""
-        if self.offline_mode:
-            return self._build_offline_evidence(links)
+        """Fetches live evidence from all identified profile links.
 
+        Even in offline_mode, critical coding platforms (GitHub, CodeChef, LeetCode)
+        are fetched live for recruitment accuracy. Only non-critical or unreachable
+        platforms fall back to offline stubs.
+        """
         github_data = None
         scholar_data = None
         kaggle_data = None
         codechef_data = None
         leetcode_data = None
 
-        async with httpx.AsyncClient(timeout=8.0, headers=self.headers, follow_redirects=True) as client:
-            if links.github:
-                github_data = await self._fetch_github(client, links.github)
-            if links.codechef:
-                codechef_data = await self._fetch_codechef(client, links.codechef)
-            if links.leetcode:
-                leetcode_data = await self._fetch_leetcode(client, links.leetcode)
-            if links.google_scholar:
-                scholar_data = await self._fetch_scholar(client, links.google_scholar)
-            if links.kaggle:
-                kaggle_data = await self._fetch_kaggle(client, links.kaggle)
+        # Critical platforms: always attempt live fetch regardless of offline_mode
+        critical_fetched = False
+        try:
+            async with httpx.AsyncClient(timeout=8.0, headers=self.headers, follow_redirects=True) as client:
+                if links.github:
+                    github_data = await self._fetch_github(client, links.github)
+                if links.codechef:
+                    codechef_data = await self._fetch_codechef(client, links.codechef)
+                if links.leetcode:
+                    leetcode_data = await self._fetch_leetcode(client, links.leetcode)
+
+                # Non-critical platforms: only fetch if not in offline_mode
+                if not self.offline_mode:
+                    if links.google_scholar:
+                        scholar_data = await self._fetch_scholar(client, links.google_scholar)
+                    if links.kaggle:
+                        kaggle_data = await self._fetch_kaggle(client, links.kaggle)
+
+                critical_fetched = True
+        except Exception:
+            # Network entirely unavailable — fall through to offline stubs
+            pass
+
+        # If critical live fetch failed or returned nothing, fill with offline stubs
+        if not critical_fetched or self.offline_mode:
+            offline = self._build_offline_evidence(links)
+            if not github_data and links.github:
+                github_data = offline.github
+            if not codechef_data and links.codechef:
+                codechef_data = offline.codechef
+            if not leetcode_data and links.leetcode:
+                leetcode_data = offline.leetcode
+            if not scholar_data and links.google_scholar:
+                scholar_data = offline.google_scholar
 
         return ProfileEvidencePackage(
             github=github_data,
@@ -95,7 +120,7 @@ class ProfileCollectorService:
             kaggle=kaggle_data,
             codechef=codechef_data,
             leetcode=leetcode_data,
-            is_offline=False,
+            is_offline=not critical_fetched,
         )
 
     async def _fetch_github(self, client: httpx.AsyncClient, url: str) -> Optional[GitHubProfileData]:
@@ -236,18 +261,19 @@ class ProfileCollectorService:
     def _build_offline_evidence(self, links: ProfileLinks) -> ProfileEvidencePackage:
         github_data = (
             GitHubProfileData(
-                username=links.github.rstrip("/").split("/")[-1] if links.github else "candidate",
-                public_repos=20,
-                total_stars=1,
-                top_languages=["Python", "JavaScript"],
+                username=links.github.rstrip("/").split("/")[-1] if links.github else None,
             )
             if links.github
             else None
         )
 
-        scholar_data = ScholarProfileData(citations=0, h_index=0, i10_index=0) if links.google_scholar else None
-        codechef_data = CodeChefProfileData(username="n_ganesh_1023", rating=1619, global_rank=13739) if links.codechef else None
-        leetcode_data = LeetCodeProfileData(username="ganesh05092004", solved_problems=12, contest_rating=1395) if links.leetcode else None
+        scholar_data = ScholarProfileData() if links.google_scholar else None
+        codechef_data = CodeChefProfileData(
+            username=links.codechef.rstrip("/").split("/")[-1] if links.codechef else None,
+        ) if links.codechef else None
+        leetcode_data = LeetCodeProfileData(
+            username=links.leetcode.rstrip("/").split("/")[-1] if links.leetcode else None,
+        ) if links.leetcode else None
 
         return ProfileEvidencePackage(
             github=github_data,

@@ -270,6 +270,8 @@ class CandidateIntelligenceEngine:
             projects=entities.projects,
             skills=entities.skills,
             soft_skills=entities.soft_skills,
+            coding_skills=entities.coding_skills,
+            core_interview_points=entities.core_interview_points,
             publications=entities.publications,
             patents=entities.patents,
             awards=entities.awards,
