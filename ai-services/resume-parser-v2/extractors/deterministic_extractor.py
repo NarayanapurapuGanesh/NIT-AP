@@ -52,6 +52,7 @@ class ProjectEntity(BaseModel):
     title: str = Field(..., description="Project name")
     description: str = Field("", description="Project details and features")
     technologies: List[str] = Field(default_factory=list, description="Extracted tech stack")
+    project_links: List[str] = Field(default_factory=list, description="URLs found in or near project description")
 
 
 class AchievementEntity(BaseModel):
@@ -67,6 +68,8 @@ class DeterministicEntities(BaseModel):
     profile_summary: Optional[str] = Field(None, description="Profile/objective/summary text")
     skills: List[str] = Field(default_factory=list, description="Extracted technical/domain skills")
     soft_skills: List[str] = Field(default_factory=list, description="Extracted soft/interpersonal skills")
+    coding_skills: List[str] = Field(default_factory=list, description="Programming languages and frameworks for coding test generation")
+    core_interview_points: List[str] = Field(default_factory=list, description="Key talking points for the interview panel")
     education: List[EducationEntity] = Field(default_factory=list, description="Education records")
     experience: List[ExperienceEntity] = Field(default_factory=list, description="Work experience records")
     publications: List[PublicationEntity] = Field(default_factory=list, description="Publication records")
@@ -88,6 +91,18 @@ class DeterministicExtractor(IExtractor):
     DOI_REGEX = re.compile(r'10\.\d{4,9}/[-._;()/:A-Z0-9]+', re.IGNORECASE)
     YEAR_REGEX = re.compile(r'\b(19\d\d|20\d\d)\b')
     DATE_RANGE_REGEX = re.compile(r'\b(?:19\d\d|20\d\d)\s*[-–—\to]\s*(?:19\d\d|20\d\d|Present|Expected|\d{4}\s*\(Expected\))\b', re.IGNORECASE)
+    PROJECT_URL_REGEX = re.compile(r'https?://[^\s<>"\)]+', re.IGNORECASE)
+
+    # Coding skills: programming languages / frameworks that can be tested in a coding exam
+    CODING_SKILLS_SET = {
+        "python", "java", "c++", "c#", "c", "javascript", "typescript", "go", "rust",
+        "kotlin", "swift", "dart", "ruby", "php", "perl", "scala", "r", "matlab",
+        "sql", "html", "css", "react", "next.js", "node.js", "angular", "vue.js",
+        "django", "flask", "fastapi", "spring boot", "express",
+        "pytorch", "tensorflow", "scikit-learn", "pandas", "numpy", "keras",
+        "docker", "kubernetes", "git", "linux",
+        "flutter", "solidity", "graphql", "rest api",
+    }
 
     TITLE_BLACKLIST = {
         "student", "engineer", "developer", "intern", "researcher", "professor", "manager",
@@ -424,7 +439,7 @@ class DeterministicExtractor(IExtractor):
                     ]
                 )
 
-                if is_pdf_garbage or len(re.findall(r'[a-zA-Z]', extracted)) < 40:
+                if is_pdf_garbage or len(extracted) < 800:
                     # Run High-Res Pytesseract OCR Fallback for visual/scanned PDF
                     import pytesseract
                     from PIL import Image
@@ -510,6 +525,14 @@ class DeterministicExtractor(IExtractor):
         if split_match:
             return re.sub(r'\s+', '', split_match.group(1))
 
+        # 3. OCR Fallback: Check lines with @ and . and strip spaces to try matching a valid email
+        for line in clean_text.split('\n'):
+            if '@' in line and '.' in line:
+                no_space_line = re.sub(r'\s+', '', line)
+                m = self.EMAIL_REGEX.search(no_space_line)
+                if m:
+                    return m.group(0)
+
         return None
 
     def _extract_phone(self, text: str) -> Optional[str]:
@@ -550,8 +573,20 @@ class DeterministicExtractor(IExtractor):
         for line in contact_lines:
             match = self.ADDRESS_PATTERNS.search(line)
             if match:
-                # Return the full line as address context
-                clean = line.strip()
+                # Clean out emails and urls
+                clean_line = re.sub(r'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}', '', line)
+                clean_line = re.sub(r'https?://[^\s]+', '', clean_line)
+                
+                # Split by common contact separators
+                parts = re.split(r'\s*[|•\-\u2022]\s*', clean_line)
+                for part in parts:
+                    if self.ADDRESS_PATTERNS.search(part):
+                        clean_part = part.strip()
+                        if len(clean_part) < 80:
+                            return clean_part
+
+                # Fallback
+                clean = clean_line.strip()
                 if len(clean) < 80:
                     return clean
                 return match.group(0)
@@ -566,7 +601,21 @@ class DeterministicExtractor(IExtractor):
             addr_lines = snippet.split("\n")
             for addr_line in addr_lines:
                 if match.group(0).lower() in addr_line.lower():
-                    clean = addr_line.strip()
+                    # Clean out emails and urls
+                    clean_line = re.sub(r'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}', '', addr_line)
+                    clean_line = re.sub(r'https?://[^\s]+', '', clean_line)
+                    
+                    # Split by common contact separators
+                    parts = re.split(r'\s*[|•\-\u2022]\s*', clean_line)
+                    for part in parts:
+                        if self.ADDRESS_PATTERNS.search(part):
+                            clean = part.strip()
+                            clean = re.sub(r'^[^a-zA-Z]+', '', clean)
+                            if clean and len(clean) < 80:
+                                return clean
+
+                    # If parts splitting doesn't work, just clean the line
+                    clean = clean_line.strip()
                     clean = re.sub(r'^[^a-zA-Z]+', '', clean)
                     if clean and len(clean) < 80:
                         return clean

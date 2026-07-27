@@ -42,7 +42,10 @@ class ParsingEngine:
                 section_map[key] = []
             section_map[key].extend(sec.content_lines)
 
-        all_text = layout_doc.reading_order_text or raw_text
+        # If raw_text (which might be OCR'd) is much longer than the layout text (hybrid PDF bug), use raw_text
+        reading_text = layout_doc.reading_order_text or ""
+        all_text = raw_text if len(raw_text) > len(reading_text) * 1.5 else reading_text
+        
         unwrapped_text = self._extractor._unwrap_split_emails(all_text)
         clean_all = self._extractor._clean_pdf_dict_garbage(unwrapped_text)
         all_lines = [line.strip() for line in clean_all.split("\n") if line.strip()]
@@ -58,6 +61,11 @@ class ParsingEngine:
         
         skills_text = "\n".join(section_map.get("SKILLS", []))
         skills = self._extractor._extract_skills(skills_text) if skills_text else self._extractor._extract_skills(clean_all)
+        print(f"[DEBUG ParsingEngine] Extracted skills: {skills}")
+        if not skills:
+            print(f"[DEBUG ParsingEngine] clean_all length: {len(clean_all)}")
+            print(f"[DEBUG ParsingEngine] raw_text length: {len(raw_text)}")
+            print(f"[DEBUG ParsingEngine] raw_text snippet: {raw_text[:1000]}")
         
         soft_skills_text = "\n".join(section_map.get("SOFT_SKILLS", [])) or skills_text
         soft_skills = self._extractor._extract_soft_skills(soft_skills_text) if soft_skills_text else self._extractor._extract_soft_skills(clean_all)

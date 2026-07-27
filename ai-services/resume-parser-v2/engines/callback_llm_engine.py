@@ -33,6 +33,7 @@ class CallbackLLMEngine:
             len(entities.skills) < 3 or
             not entities.experience
         )
+        print(f"[DEBUG Engine 5] needs_recovery={needs_recovery}, skills={len(entities.skills)}, experience={len(entities.experience)}, uncertain={len(entities.uncertain_sections)}")
         
         if not needs_recovery:
             return entities
