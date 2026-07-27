@@ -2,7 +2,7 @@ using FacultyIQ.Domain.Abstractions;
 
 namespace FacultyIQ.Domain.Entities.Identity;
 
-public class RefreshToken : BaseEntity<Guid>
+public class RefreshToken : BaseEntity<Guid>, ISoftDelete
 {
     public Guid UserId { get; set; }
     public User User { get; set; } = null!;
@@ -17,4 +17,8 @@ public class RefreshToken : BaseEntity<Guid>
 
     public bool IsActive => RevokedAtUtc == null && !IsExpired;
     public bool IsExpired => DateTime.UtcNow >= ExpiresAtUtc;
+
+    public bool IsDeleted { get; set; }
+    public DateTime? DeletedAtUtc { get; set; }
+    public string? DeletedBy { get; set; }
 }

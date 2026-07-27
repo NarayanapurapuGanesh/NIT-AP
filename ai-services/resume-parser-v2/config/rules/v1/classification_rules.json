@@ -1,0 +1,165 @@
+{
+  "version": "1.0.0",
+  "description": "Deterministic classification rules for FacultyIQ Resume Intelligence Platform",
+  "accepted_types": [
+    "Resume",
+    "Academic Resume",
+    "Faculty CV",
+    "Curriculum Vitae",
+    "Research CV",
+    "Student Resume"
+  ],
+  "document_rules": [
+    {
+      "type": "Faculty CV",
+      "priority": 100,
+      "min_score": 0.45,
+      "rules": [
+        { "id": "fcv_title", "type": "header_regex", "pattern": "(?i)curriculum\\s+vitae|faculty\\s+cv|academic\\s+cv", "weight": 0.35, "reason": "Header contains explicit 'Curriculum Vitae' / 'Faculty CV' title" },
+        { "id": "fcv_academic_rank", "type": "keyword_regex", "pattern": "(?i)professor|associate\\s+professor|assistant\\s+professor|head\\s+of\\s+department|dean", "weight": 0.25, "reason": "Mentions faculty academic rank (Professor / Associate / Assistant Professor)" },
+        { "id": "fcv_publications", "type": "heading_regex", "pattern": "(?i)publications|peer-reviewed|journal\\s+articles|conference\\s+proceedings", "weight": 0.20, "reason": "Contains scholarly publication section" },
+        { "id": "fcv_grants", "type": "keyword_regex", "pattern": "(?i)sponsored\\s+research|research\\s+grants|patents|ph\\.?d\\.?\\s+supervised|h-index", "weight": 0.15, "reason": "Mentions research grants, patents, or PhD supervision" }
+      ]
+    },
+    {
+      "type": "Academic Resume",
+      "priority": 90,
+      "min_score": 0.40,
+      "rules": [
+        { "id": "acad_res_title", "type": "header_regex", "pattern": "(?i)academic\\s+resume|research\\s+profile", "weight": 0.30, "reason": "Header contains 'Academic Resume' or 'Research Profile'" },
+        { "id": "acad_res_research", "type": "heading_regex", "pattern": "(?i)research\\s+interests|research\\s+experience|scholarly\\s+activities", "weight": 0.25, "reason": "Contains research experience or research interests section" },
+        { "id": "acad_res_teaching", "type": "heading_regex", "pattern": "(?i)teaching\\s+experience|courses\\s+taught|academic\\s+appointments", "weight": 0.25, "reason": "Contains teaching experience section" },
+        { "id": "acad_res_citations", "type": "keyword_regex", "pattern": "(?i)citations|orcid|scopus|google\\s+scholar|journal", "weight": 0.15, "reason": "Mentions academic citation databases (ORCID / Scopus / Google Scholar)" }
+      ]
+    },
+    {
+      "type": "Research CV",
+      "priority": 85,
+      "min_score": 0.40,
+      "rules": [
+        { "id": "rcv_title", "type": "header_regex", "pattern": "(?i)research\\s+cv|scientific\\s+cv", "weight": 0.35, "reason": "Header contains 'Research CV' or 'Scientific CV'" },
+        { "id": "rcv_pi", "type": "keyword_regex", "pattern": "(?i)principal\\s+investigator|co-pi|postdoctoral\\s+fellow|lab\\s+director", "weight": 0.25, "reason": "Mentions research investigator roles (PI / Co-PI / Postdoc)" },
+        { "id": "rcv_grants", "type": "heading_regex", "pattern": "(?i)grants\\s+and\\s+fellowships|funded\\s+projects|patents\\s+and\\s+publications", "weight": 0.25, "reason": "Contains funded projects or grants section" }
+      ]
+    },
+    {
+      "type": "Student Resume",
+      "priority": 80,
+      "min_score": 0.40,
+      "rules": [
+        { "id": "stud_gpa", "type": "keyword_regex", "pattern": "(?i)cgpa|gpa\\s*:\\s*\\d|sgpa|class\\s+rank", "weight": 0.25, "reason": "Mentions student GPA / CGPA academic performance" },
+        { "id": "stud_degree", "type": "keyword_regex", "pattern": "(?i)b\\.tech|m\\.tech|b\\.s\\.|m\\.s\\.|undergraduate\\s+student|graduate\\s+student", "weight": 0.25, "reason": "Mentions student degree program (B.Tech / M.Tech / BS / MS)" },
+        { "id": "stud_coursework", "type": "heading_regex", "pattern": "(?i)relevant\\s+coursework|academic\\s+projects|internships", "weight": 0.25, "reason": "Contains relevant coursework or student project sections" }
+      ]
+    },
+    {
+      "type": "Curriculum Vitae",
+      "priority": 75,
+      "min_score": 0.40,
+      "rules": [
+        { "id": "cv_title", "type": "header_regex", "pattern": "(?i)curriculum\\s+vitae|^c\\.?v\\.?", "weight": 0.40, "reason": "Document header explicitly states 'Curriculum Vitae' / 'CV'" },
+        { "id": "cv_education", "type": "heading_regex", "pattern": "(?i)education|academic\\s+qualifications|education\\s+history", "weight": 0.25, "reason": "Contains education section" },
+        { "id": "cv_experience", "type": "heading_regex", "pattern": "(?i)work\\s+experience|professional\\s+experience|employment\\s+history", "weight": 0.25, "reason": "Contains professional experience section" }
+      ]
+    },
+    {
+      "type": "Resume",
+      "priority": 70,
+      "min_score": 0.35,
+      "rules": [
+        { "id": "res_title", "type": "header_regex", "pattern": "(?i)^resume$|professional\\s+resume", "weight": 0.30, "reason": "Header contains explicit 'Resume' title" },
+        { "id": "res_headings", "type": "heading_regex", "pattern": "(?i)experience|skills|education|projects|summary", "weight": 0.30, "reason": "Contains standard candidate resume headings (Skills, Experience, Education)" },
+        { "id": "res_contact", "type": "keyword_regex", "pattern": "(?i)email|phone|linkedin\\.com|github\\.com", "weight": 0.20, "reason": "Contains standard candidate contact profile markers" }
+      ]
+    },
+    {
+      "type": "Invoice",
+      "priority": 95,
+      "min_score": 0.40,
+      "rules": [
+        { "id": "inv_title", "type": "header_regex", "pattern": "(?i)invoice|tax\\s+invoice|bill\\s+to|receipt", "weight": 0.40, "reason": "Contains explicit 'Invoice' or 'Tax Invoice' header" },
+        { "id": "inv_financials", "type": "keyword_regex", "pattern": "(?i)amount\\s+due|subtotal|total\\s+paid|gstin|vat\\s+no|invoice\\s+number", "weight": 0.35, "reason": "Contains invoice monetary and tax identifiers" },
+        { "id": "inv_table", "type": "heading_regex", "pattern": "(?i)description|quantity|unit\\s+price|amount", "weight": 0.20, "reason": "Contains itemized invoice table columns" }
+      ]
+    },
+    {
+      "type": "Research Paper",
+      "priority": 90,
+      "min_score": 0.45,
+      "rules": [
+        { "id": "paper_abstract", "type": "heading_regex", "pattern": "(?i)^abstract$", "weight": 0.35, "reason": "Contains formal paper 'Abstract' heading" },
+        { "id": "paper_structure", "type": "heading_regex", "pattern": "(?i)introduction|methodology|experimental\\s+results|conclusion|references", "weight": 0.35, "reason": "Contains scientific paper standard structure (Introduction, Methodology, References)" },
+        { "id": "paper_doi", "type": "keyword_regex", "pattern": "(?i)doi:|arXiv:|ieee\\s+transactions|acm\\s+digital|vol\\.\\s*\\d+", "weight": 0.20, "reason": "Contains paper publication DOI or academic journal metadata" }
+      ]
+    },
+    {
+      "type": "Course Syllabus",
+      "priority": 85,
+      "min_score": 0.40,
+      "rules": [
+        { "id": "syl_title", "type": "header_regex", "pattern": "(?i)course\\s+syllabus|syllabus|course\\s+outline", "weight": 0.40, "reason": "Header contains explicit 'Course Syllabus' title" },
+        { "id": "syl_schedule", "type": "heading_regex", "pattern": "(?i)office\\s+hours|grading\\s+policy|course\\s+schedule|prerequisites", "weight": 0.35, "reason": "Contains course administration policies and office hours" }
+      ]
+    },
+    {
+      "type": "Question Paper",
+      "priority": 85,
+      "min_score": 0.40,
+      "rules": [
+        { "id": "qp_title", "type": "header_regex", "pattern": "(?i)end\\s+semester\\s+examination|mid\\s+term\\s+exam|question\\s+paper", "weight": 0.40, "reason": "Header contains examination title" },
+        { "id": "qp_time_marks", "type": "keyword_regex", "pattern": "(?i)time\\s*:\\s*\\d+\\s*hours?|maximum\\s+marks|attempt\\s+all\\s+questions", "weight": 0.35, "reason": "Contains examination instructions (Time / Maximum Marks)" }
+      ]
+    },
+    {
+      "type": "Marksheet",
+      "priority": 85,
+      "min_score": 0.40,
+      "rules": [
+        { "id": "mark_title", "type": "header_regex", "pattern": "(?i)statement\\s+of\\s+marks|grade\\s+sheet|marksheet|transcript", "weight": 0.40, "reason": "Header contains explicit 'Grade Sheet' / 'Statement of Marks'" },
+        { "id": "mark_grades", "type": "keyword_regex", "pattern": "(?i)sgpa|cgpa|credits\\s+earned|controller\\s+of\\s+examinations|pass/fail", "weight": 0.35, "reason": "Contains transcript credit points, SGPA/CGPA, or controller stamp" }
+      ]
+    },
+    {
+      "type": "Certificate",
+      "priority": 80,
+      "min_score": 0.40,
+      "rules": [
+        { "id": "cert_title", "type": "header_regex", "pattern": "(?i)certificate\\s+of|this\\s+is\\s+to\\s+certify|awarded\\s+to", "weight": 0.45, "reason": "Contains explicit certificate award phrase ('Certificate of ...' / 'This is to certify')" }
+      ]
+    },
+    {
+      "type": "Cover Letter",
+      "priority": 75,
+      "min_score": 0.40,
+      "rules": [
+        { "id": "cl_greeting", "type": "keyword_regex", "pattern": "(?i)dear\\s+(hiring\\s+manager|search\\s+committee|recruiter|dr\\.|prof\\.)", "weight": 0.40, "reason": "Contains cover letter salutation ('Dear Search Committee' / 'Dear Hiring Manager')" },
+        { "id": "cl_opening", "type": "keyword_regex", "pattern": "(?i)i\\s+am\\s+writing\\s+to\\s+apply\\s+for|please\\s+accept\\s+my\\s+application", "weight": 0.35, "reason": "Contains standard job application introduction sentence" }
+      ]
+    },
+    {
+      "type": "Recommendation Letter",
+      "priority": 75,
+      "min_score": 0.40,
+      "rules": [
+        { "id": "rec_title", "type": "header_regex", "pattern": "(?i)letter\\s+of\\s+recommendation|recommendation\\s+letter|letter\\s+of\\s+reference", "weight": 0.40, "reason": "Contains explicit 'Letter of Recommendation' header" },
+        { "id": "rec_body", "type": "keyword_regex", "pattern": "(?i)i\\s+am\\s+pleased\\s+to\\s+recommend|i\\s+have\\s+known|strongly\\s+recommend", "weight": 0.35, "reason": "Contains endorsement phrasing ('pleased to recommend' / 'strongly recommend')" }
+      ]
+    },
+    {
+      "type": "Book",
+      "priority": 60,
+      "min_score": 0.50,
+      "rules": [
+        { "id": "book_isbn", "type": "keyword_regex", "pattern": "(?i)isbn\\s*[-:]?\\s*\\d|table\\s+of\\s+contents|all\\s+rights\\s+reserved", "weight": 0.40, "reason": "Contains ISBN number or copyright notice" }
+      ]
+    },
+    {
+      "type": "Identity Document",
+      "priority": 90,
+      "min_score": 0.45,
+      "rules": [
+        { "id": "id_doc", "type": "keyword_regex", "pattern": "(?i)passport|driver\\s+license|national\\s+identity|permanent\\s+account\\ cardinal", "weight": 0.45, "reason": "Contains official identification document markers" }
+      ]
+    }
+  ]
+}

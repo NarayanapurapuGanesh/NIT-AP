@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
+import './globals.css';
 import '@/styles/globals.css';
+import { Providers } from '@/components/providers';
 
 export const metadata: Metadata = {
   title: 'FacultyIQ | Enterprise AI Faculty Recruitment Platform',
@@ -14,7 +16,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className="bg-slate-950 text-slate-100 font-sans antialiased min-h-screen">
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

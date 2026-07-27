@@ -1,0 +1,10 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: facultyiq-ai-services-pdb
+  namespace: facultyiq-prod
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app: facultyiq-ai-services

@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: facultyiq-backend
+  namespace: facultyiq-prod
+  labels:
+    app: facultyiq-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: facultyiq-backend
+  template:
+    metadata:
+      labels:
+        app: facultyiq-backend
+    spec:
+      containers:
+      - name: backend
+        image: facultyiq/backend:2.0.0
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            cpu: "200m"
+            memory: "256Mi"
+          limits:
+            cpu: "500m"
+            memory: "1Gi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+  namespace: facultyiq-prod
+spec:
+  type: ClusterIP
+  selector:
+    app: facultyiq-backend
+  ports:
+  - port: 8080
+    targetPort: 8080

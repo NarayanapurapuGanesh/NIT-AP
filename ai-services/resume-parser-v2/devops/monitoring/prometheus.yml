@@ -1,0 +1,13 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: 'facultyiq-ai-services'
+    metrics_path: '/api/v1/platform/metrics'
+    static_configs:
+      - targets: ['ai-services:8000']
+
+  - job_name: 'facultyiq-nodes'
+    static_configs:
+      - targets: ['localhost:9100']

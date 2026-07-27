@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { Cpu, ShieldCheck, ArrowRight } from 'lucide-react';
+import { Cpu, ShieldCheck, UserPlus } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 
 export default function LandingLayout({ children }: { children: React.ReactNode }) {
@@ -23,13 +23,16 @@ export default function LandingLayout({ children }: { children: React.ReactNode 
             <Link href="#security" className="hover:text-white transition-colors">Security</Link>
           </nav>
 
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-3">
             <Link href="/login">
-              <Button variant="ghost" size="sm">Sign In</Button>
+              <Button variant="ghost" size="sm" className="text-xs text-slate-300 hover:text-white">
+                Sign In
+              </Button>
             </Link>
-            <Link href="/dashboard">
-              <Button variant="primary" size="sm">
-                Dashboard <ArrowRight className="ml-1.5 h-4 w-4" />
+            <Link href="/register">
+              <Button size="sm" className="bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold px-4 py-2 flex items-center space-1.5">
+                <UserPlus className="h-3.5 w-3.5 mr-1" />
+                <span>Get Started</span>
               </Button>
             </Link>
           </div>
@@ -44,7 +47,7 @@ export default function LandingLayout({ children }: { children: React.ReactNode 
             <ShieldCheck className="h-4 w-4 text-sky-400" />
             <span>Offline-First Enterprise AI Faculty Recruitment Platform</span>
           </div>
-          <div>© {new Date().getFullYear()} FacultyIQ Platform. Enterprise Architecture Phase 1 Foundation.</div>
+          <div>© {new Date().getFullYear()} FacultyIQ Platform. All rights reserved.</div>
         </div>
       </footer>
     </div>

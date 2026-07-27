@@ -1,0 +1,9 @@
+SUMMARY
+Motivated Computer Science undergraduate skilled in C, C++, Java, Python, JavaScript, MERN, Unity, Figma and AI-based applications.
+
+TECHNICAL SKILLS
+Programming Languages: C, C++, C#, Python, Java, JavaScript, HTML, CSS
+Frontend: NextJS, ReactJS, Styled Components, Chrome Dev Tools, Material UI
+
+EDUCATION
+Sasi Institute of Technology & Engineering 2023-2027

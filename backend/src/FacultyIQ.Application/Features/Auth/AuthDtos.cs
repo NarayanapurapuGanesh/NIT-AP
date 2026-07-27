@@ -16,6 +16,8 @@ public record RevokeTokenRequest(string RefreshToken);
 
 public record ChangePasswordRequest(string CurrentPassword, string NewPassword);
 
+public record UpdateProfileRequest(string FirstName, string LastName);
+
 public record UserDto(
     Guid Id,
     string Email,

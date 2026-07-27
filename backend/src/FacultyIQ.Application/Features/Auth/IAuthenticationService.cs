@@ -10,4 +10,5 @@ public interface IAuthenticationService
     Task<Result> RevokeTokenAsync(string token, string? ipAddress, CancellationToken cancellationToken = default);
     Task<Result<UserDto>> GetCurrentUserAsync(Guid userId, CancellationToken cancellationToken = default);
     Task<Result> ChangePasswordAsync(Guid userId, ChangePasswordRequest request, CancellationToken cancellationToken = default);
+    Task<Result> UpdateProfileAsync(Guid userId, UpdateProfileRequest request, CancellationToken cancellationToken = default);
 }

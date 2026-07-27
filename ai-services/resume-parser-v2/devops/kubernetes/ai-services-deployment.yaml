@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: facultyiq-ai-services
+  namespace: facultyiq-prod
+  labels:
+    app: facultyiq-ai-services
+    tier: api
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: facultyiq-ai-services
+  template:
+    metadata:
+      labels:
+        app: facultyiq-ai-services
+    spec:
+      containers:
+      - name: ai-services
+        image: facultyiq/ai-services:2.0.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8000
+          name: http
+        envFrom:
+        - configMapRef:
+            name: facultyiq-config
+        - secretRef:
+            name: facultyiq-secrets
+        resources:
+          requests:
+            cpu: "250m"
+            memory: "512Mi"
+          limits:
+            cpu: "1000m"
+            memory: "2Gi"
+        livenessProbe:
+          httpGet:
+            path: /api/v1/health
+            port: 8000
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        readinessProbe:
+          httpGet:
+            path: /api/v1/readiness
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ai-services-service
+  namespace: facultyiq-prod
+spec:
+  type: ClusterIP
+  selector:
+    app: facultyiq-ai-services
+  ports:
+  - port: 8000
+    targetPort: 8000
+    name: http

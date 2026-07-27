@@ -1,0 +1,30 @@
+name: FacultyIQ Continuous Deployment (CD) Pipeline
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  deploy-production:
+    name: Build, Sign & Deploy to Kubernetes
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Build AI Services Container Image
+      run: |
+        docker build -f devops/docker/Dockerfile.ai-services -t facultyiq/ai-services:${{ github.ref_name }} .
+
+    - name: Install Helm & Kubectl
+      uses: azure/setup-helm@v4
+
+    - name: Deploy Helm Chart to EKS Production
+      run: |
+        echo "Deploying FacultyIQ Helm chart to production namespace..."
+        helm upgrade --install facultyiq devops/helm/facultyiq -f devops/helm/facultyiq/values-prod.yaml --namespace facultyiq-prod --create-namespace

@@ -1,0 +1,39 @@
+{
+  "annotations": { "list": [] },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 1,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "title": "API Request Throughput",
+      "type": "timeseries",
+      "targets": [
+        { "expr": "rate(facultyiq_api_requests_total[5m])", "legendFormat": "RPS" }
+      ]
+    },
+    {
+      "title": "Average API Latency (ms)",
+      "type": "timeseries",
+      "targets": [
+        { "expr": "facultyiq_api_latency_avg_ms", "legendFormat": "Latency ms" }
+      ]
+    },
+    {
+      "title": "CPU Usage (%)",
+      "type": "gauge",
+      "targets": [
+        { "expr": "facultyiq_cpu_usage_percent", "legendFormat": "CPU %" }
+      ]
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": ["facultyiq", "production"],
+  "time": { "from": "now-6h", "to": "now" },
+  "title": "FacultyIQ Enterprise Production Dashboard",
+  "version": 1
+}

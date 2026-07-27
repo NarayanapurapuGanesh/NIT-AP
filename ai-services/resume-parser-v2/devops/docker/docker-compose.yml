@@ -1,0 +1,86 @@
+version: '3.8'
+
+services:
+  ai-services:
+    build:
+      context: ../..
+      dockerfile: devops/docker/Dockerfile.ai-services
+    image: facultyiq/ai-services:2.0.0
+    container_name: facultyiq-ai-services
+    environment:
+      - APP_ENV=production
+      - PORT=8000
+      - LOG_LEVEL=INFO
+      - OLLAMA_BASE_URL=http://ollama:11434
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+      - redis
+      - ollama
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  frontend:
+    build:
+      context: ../..
+      dockerfile: devops/docker/Dockerfile.frontend
+    image: facultyiq/frontend:2.0.0
+    container_name: facultyiq-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    restart: always
+
+  nginx:
+    image: nginx:alpine
+    container_name: facultyiq-nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "80:80"
+    depends_on:
+      - ai-services
+      - frontend
+    restart: always
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: facultyiq-postgres
+    environment:
+      - POSTGRES_DB=facultyiq
+      - POSTGRES_USER=facultyiq_admin
+      - POSTGRES_PASSWORD=facultyiq_secure_password_123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+
+  redis:
+    image: redis:7-alpine
+    container_name: facultyiq-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: always
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: facultyiq-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_models:/root/.ollama
+    restart: always
+
+volumes:
+  postgres_data:
+  redis_data:
+  ollama_models:

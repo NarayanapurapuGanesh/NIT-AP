@@ -114,6 +114,26 @@ public class AuthController : ControllerBase
         return Ok(new { message = "Password updated successfully." });
     }
 
+    [HttpPut("profile")]
+    [Authorize]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> UpdateProfile([FromBody] UpdateProfileRequest request, CancellationToken cancellationToken)
+    {
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (!Guid.TryParse(userIdClaim, out var userId))
+        {
+            return Unauthorized();
+        }
+
+        var result = await _authService.UpdateProfileAsync(userId, request, cancellationToken);
+        if (result.IsFailure)
+        {
+            return BadRequest(new { error = result.Error.Description });
+        }
+
+        return Ok(new { message = "Profile updated successfully." });
+    }
+
     private string? GetIpAddress()
     {
         if (Request.Headers.ContainsKey("X-Forwarded-For"))

@@ -1,0 +1,30 @@
+# =========================================================
+# Phase 17: Production Multi-Stage Dockerfile - Backend API
+# ASP.NET Core 9.0 Web API
+# =========================================================
+
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+WORKDIR /src
+
+COPY backend/src/FacultyIQ.Api/FacultyIQ.Api.csproj backend/src/FacultyIQ.Api/
+COPY backend/src/FacultyIQ.Application/FacultyIQ.Application.csproj backend/src/FacultyIQ.Application/
+COPY backend/src/FacultyIQ.Domain/FacultyIQ.Domain.csproj backend/src/FacultyIQ.Domain/
+COPY backend/src/FacultyIQ.Infrastructure/FacultyIQ.Infrastructure.csproj backend/src/FacultyIQ.Infrastructure/
+
+RUN dotnet restore backend/src/FacultyIQ.Api/FacultyIQ.Api.csproj
+
+COPY backend/src/ backend/src/
+WORKDIR /src/backend/src/FacultyIQ.Api
+RUN dotnet publish -c Release -o /app/publish /p:UseAppHost=false
+
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS final
+WORKDIR /app
+EXPOSE 8080
+
+RUN groupadd -g 10002 dotnetgroup && \
+    useradd -u 10002 -g dotnetgroup -s /bin/sh dotnetuser
+
+COPY --from=build /app/publish .
+USER dotnetuser
+
+ENTRYPOINT ["dotnet", "FacultyIQ.Api.dll"]

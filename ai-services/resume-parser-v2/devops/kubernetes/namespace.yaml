@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: facultyiq-prod
+  labels:
+    name: facultyiq-prod
+    environment: production

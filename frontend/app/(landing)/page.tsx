@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Cpu, Shield, Database, Server, Sparkles, ArrowRight } from 'lucide-react';
+import { Cpu, Shield, Database, Server, Sparkles, UserPlus, LogIn } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 
 export default function LandingPage() {
@@ -18,7 +18,7 @@ export default function LandingPage() {
             className="inline-flex items-center gap-2 rounded-full border border-sky-500/30 bg-sky-500/10 px-4 py-1.5 text-xs font-medium text-sky-300"
           >
             <Sparkles className="h-3.5 w-3.5" />
-            <span>Phase 1 Architecture Foundation Operational</span>
+            <span>Autonomous Multi-Agent Faculty Recruitment Suite</span>
           </motion.div>
 
           <motion.h1
@@ -39,7 +39,7 @@ export default function LandingPage() {
             transition={{ delay: 0.2 }}
             className="text-lg text-slate-400 leading-relaxed"
           >
-            An offline-first, AI-native SaaS system engineered for higher education institutions. Streamlining dossier parsing, publication analysis, and structured candidate evaluation with on-premise AI privacy.
+            Streamlining faculty dossier parsing, video analysis, technical evaluation, and candidate reports. Register your account to get started.
           </motion.p>
 
           <motion.div
@@ -48,14 +48,16 @@ export default function LandingPage() {
             transition={{ delay: 0.3 }}
             className="flex items-center justify-center space-x-4 pt-4"
           >
-            <Link href="/dashboard">
-              <Button size="lg" className="shadow-xl shadow-sky-500/25">
-                Launch Platform <ArrowRight className="ml-2 h-4 w-4" />
+            <Link href="/register">
+              <Button size="lg" className="bg-sky-600 hover:bg-sky-500 text-white shadow-xl shadow-sky-500/25 px-6 py-3 font-semibold flex items-center space-x-2">
+                <UserPlus className="h-4 w-4" />
+                <span>Get Started & Create Account</span>
               </Button>
             </Link>
-            <Link href="#architecture">
-              <Button variant="outline" size="lg">
-                Explore Architecture
+            <Link href="/login">
+              <Button variant="outline" size="lg" className="border-slate-700 text-slate-300 hover:bg-slate-800 flex items-center space-x-2">
+                <LogIn className="h-4 w-4" />
+                <span>Sign In to Portal</span>
               </Button>
             </Link>
           </motion.div>
@@ -66,23 +68,23 @@ export default function LandingPage() {
           {[
             {
               icon: <Cpu className="h-6 w-6 text-sky-400" />,
-              title: 'Offline-First AI',
-              desc: 'On-premise inference with Ollama local models guarantees absolute university candidate data privacy.',
+              title: 'Resume & Dossier Agent',
+              desc: 'Automated CV parsing, qualification verification, teaching experience extraction, and rubric match scoring.',
             },
             {
               icon: <Server className="h-6 w-6 text-indigo-400" />,
-              title: 'Clean Architecture',
-              desc: 'ASP.NET Core 9 backend with CQRS readiness, Domain-Driven Design, and decoupled dependencies.',
+              title: 'Video Analysis Agent',
+              desc: 'Multimodal interview transcript analysis, soft-skill radar scoring, pedagogical clarity, and confidence metrics.',
             },
             {
               icon: <Database className="h-6 w-6 text-emerald-400" />,
-              title: 'EF Core & PostgreSQL',
-              desc: 'Robust persistence foundation featuring automatic auditing, soft deletes, and unit of work.',
+              title: 'Technical & Coding Agent',
+              desc: 'Technical coding evaluation, algorithm efficiency scoring, test suite validation, and code maintainability analysis.',
             },
             {
               icon: <Shield className="h-6 w-6 text-purple-400" />,
-              title: 'Enterprise Security',
-              desc: 'Strict RFC 7807 problem details, environment isolation, and microservice-ready containerization.',
+              title: 'Interactive Q&A Session',
+              desc: 'Interactive candidate interview simulation, live panel question evaluation, and overall synthesis report generation.',
             },
           ].map((item, idx) => (
             <motion.div

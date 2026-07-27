@@ -1,0 +1,25 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: db-backup-cronjob
+  namespace: facultyiq-prod
+spec:
+  schedule: "0 2 * * *"  # Daily at 2 AM
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: db-backup
+            image: postgres:16-alpine
+            command:
+            - /bin/sh
+            - -c
+            - "pg_dump -h postgres-service -U facultyiq_admin facultyiq > /backups/backup_$(date +%Y%m%d_%H%M%S).sql"
+            env:
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: facultyiq-secrets
+                  key: POSTGRES_PASSWORD
+          restartPolicy: OnFailure

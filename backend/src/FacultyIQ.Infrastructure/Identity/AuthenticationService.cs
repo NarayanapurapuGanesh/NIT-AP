@@ -238,4 +238,19 @@ public class AuthenticationService : IAuthenticationService
 
         return Result.Success();
     }
+
+    public async Task<Result> UpdateProfileAsync(Guid userId, UpdateProfileRequest request, CancellationToken cancellationToken = default)
+    {
+        var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == userId && !u.IsDeleted, cancellationToken);
+        if (user is null)
+        {
+            return Result.Failure(Error.NotFound("Auth.UserNotFound", "User not found."));
+        }
+
+        user.FirstName = request.FirstName;
+        user.LastName = request.LastName;
+        await _dbContext.SaveChangesAsync(cancellationToken);
+
+        return Result.Success();
+    }
 }
