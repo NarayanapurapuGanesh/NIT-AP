@@ -31,7 +31,7 @@ class FileValidationResult(BaseModel):
 class FileValidator(IValidator):
     """Smart File Validation Engine enforcing security, magic byte, and format checks."""
 
-    ALLOWED_EXTENSIONS = {".pdf", ".docx", ".png", ".jpg", ".jpeg", ".tiff", ".tif"}
+    ALLOWED_EXTENSIONS = {".pdf", ".docx", ".doc", ".txt", ".png", ".jpg", ".jpeg", ".tiff", ".tif"}
     REJECTED_EXTENSIONS = {".zip", ".exe", ".mp4", ".mp3", ".ppt", ".pptx", ".xls", ".xlsx", ".rar", ".7z", ".bat", ".sh"}
 
     MAGIC_SIGNATURES = [

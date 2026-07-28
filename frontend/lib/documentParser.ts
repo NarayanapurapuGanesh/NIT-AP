@@ -25,12 +25,12 @@ export async function analyzeResumeWithBackend(file: File): Promise<any> {
       method: 'POST',
       body: formData,
     });
-    if (response.ok) {
-      const result = await response.json();
+    const result = await response.json().catch(() => null);
+    if (result && result.data) {
       return result.data;
     }
   } catch (err) {
-    console.warn('Backend service offline or unreachable, falling back to client parser:', err);
+    console.error('Backend connection failed:', err);
   }
   return null;
 }

@@ -37,7 +37,7 @@ class Settings(BaseSettings):
 
     # Security & CORS Settings
     ALLOWED_ORIGINS: Union[str, List[str]] = Field(
-        default=["http://localhost:3000", "http://localhost:8000", "http://127.0.0.1:3000"],
+        default=["*"],
         description="Comma-separated or list of allowed CORS origins",
     )
     ALLOWED_HOSTS: Union[str, List[str]] = Field(

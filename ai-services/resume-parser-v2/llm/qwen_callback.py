@@ -55,7 +55,7 @@ class QwenCallbackLLM(ILLMProvider):
             pass
 
         # Fallback offline string synthesis when Ollama service is offline
-        return "Classification: Projects"
+        return '{"classification": "Projects", "extracted_entities": []}'
 
     async def generate_structured(self, prompt: str, schema: Dict[str, Any]) -> Dict[str, Any]:
         system = "Return strictly valid JSON matching the requested schema. Do not include markdown code block syntax."

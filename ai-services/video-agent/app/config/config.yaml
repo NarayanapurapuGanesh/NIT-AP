@@ -1,0 +1,13 @@
+app:
+  name: FacultyIQ Video Evaluation Agent
+  version: 1.0.0
+  environment: development
+
+server:
+  host: 0.0.0.0
+  port: 8005
+
+whisper:
+  model_size: small
+  device: cuda
+  compute_type: auto

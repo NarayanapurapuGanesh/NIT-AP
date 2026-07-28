@@ -36,16 +36,18 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
 
 def setup_security(app: FastAPI) -> None:
     """Applies security middlewares (CORS, Trusted Host, Security Headers) to FastAPI instance."""
-    # CORS
-    origins = (
-        [str(origin) for origin in settings.ALLOWED_ORIGINS]
-        if isinstance(settings.ALLOWED_ORIGINS, list)
-        else [settings.ALLOWED_ORIGINS]
-    )
+    origins = [
+        "http://localhost:3002",
+        "http://localhost:3000",
+        "http://localhost:8000",
+        "http://127.0.0.1:3002",
+        "http://127.0.0.1:3000",
+        "http://127.0.0.1:8000",
+    ]
 
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=origins,
+        allow_origin_regex=r"http://(localhost|127\.0\.0\.1)(:\d+)?",
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],

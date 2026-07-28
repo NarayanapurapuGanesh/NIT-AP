@@ -128,7 +128,9 @@ export default function ResumeAgentPage() {
           <div className="flex items-start space-x-4">
             <ShieldAlert className="h-8 w-8 text-rose-400 flex-shrink-0 mt-1" />
             <div className="space-y-2">
-              <h3 className="text-base font-bold text-white">Smart File Validation Error (Module 1)</h3>
+              <h3 className="text-base font-bold text-white">
+                {errorMessage.includes('Could not connect') ? 'Backend Connection Error (Port 8000)' : 'Smart File Validation Error (Module 1)'}
+              </h3>
               <p className="text-xs text-rose-200 leading-relaxed font-mono bg-rose-950/60 p-3 rounded-lg border border-rose-800">
                 {errorMessage}
               </p>

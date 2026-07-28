@@ -9,17 +9,13 @@
       "program": "${workspaceFolder}/backend/src/FacultyIQ.Api/bin/Debug/net9.0/FacultyIQ.Api.dll",
       "args": [],
       "cwd": "${workspaceFolder}/backend/src/FacultyIQ.Api",
-      "stopAtEntry": false,
       "serverReadyAction": {
-        "action": "openUrl",
+        "action": "openExternally",
         "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
         "uriFormat": "%s/swagger"
       },
       "env": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "sourceFileMap": {
-        "/Views": "${workspaceFolder}/Views"
       }
     },
     {
