@@ -1,13 +1,115 @@
+# ==============================================================================
+# FacultyIQ Video Evidence Extraction Service — Configuration
+# ==============================================================================
+
 app:
-  name: FacultyIQ Video Evaluation Agent
-  version: 1.0.0
-  environment: development
+  name: "FacultyIQ Video Evidence Extraction Service"
+  version: "2.0.0"
+  environment: "development"
 
 server:
-  host: 0.0.0.0
+  host: "0.0.0.0"
   port: 8005
+  workers: 1
+  reload: true
 
+# ------------------------------------------------------------------------------
+# Storage Paths (relative to project root)
+# ------------------------------------------------------------------------------
+storage:
+  temp_dir: "temp"
+  output_dir: "output"
+  logs_dir: "logs"
+  uploads_dir: "temp/uploads"
+
+# ------------------------------------------------------------------------------
+# Validation Limits (Module 1)
+# ------------------------------------------------------------------------------
+validation:
+  allowed_extensions:
+    - ".mp4"
+    - ".mov"
+    - ".avi"
+    - ".mkv"
+    - ".webm"
+  allowed_mime_types:
+    - "video/mp4"
+    - "video/quicktime"
+    - "video/x-msvideo"
+    - "video/x-matroska"
+    - "video/webm"
+  max_file_size_mb: 500
+  min_duration_seconds: 10.0
+  max_duration_seconds: 7200.0
+
+# ------------------------------------------------------------------------------
+# Whisper Transcription (Module 3)
+# ------------------------------------------------------------------------------
 whisper:
-  model_size: small
-  device: cuda
-  compute_type: auto
+  model_size: "small"
+  device: "auto"
+  compute_type: "auto"
+  beam_size: 5
+  language: "en"
+  word_timestamps: true
+
+# ------------------------------------------------------------------------------
+# Scene Detection (Module 4)
+# ------------------------------------------------------------------------------
+scene_detection:
+  threshold: 27.0
+  min_scene_duration: 2.0
+  max_keyframes_per_scene: 1
+  output_format: "jpg"
+  output_quality: 95
+
+# ------------------------------------------------------------------------------
+# OCR (Module 5)
+# ------------------------------------------------------------------------------
+ocr:
+  language: "eng"
+  psm: 6
+  oem: 3
+  min_confidence: 30.0
+  preprocessing: true
+
+# ------------------------------------------------------------------------------
+# Voice Analysis (Module 10)
+# ------------------------------------------------------------------------------
+voice:
+  enabled: false
+  sample_rate: 16000
+  hop_length: 512
+  min_pitch_hz: 50.0
+  max_pitch_hz: 500.0
+
+# ------------------------------------------------------------------------------
+# Pipeline Module Toggles (Module 11)
+# ------------------------------------------------------------------------------
+pipeline:
+  transcription: true
+  frame_extraction: true
+  ocr: true
+  timeline: true
+  summary: true
+  voice_analysis: false
+  parallel_execution: true
+  max_workers: 4
+
+# ------------------------------------------------------------------------------
+# GPU Configuration (Module 13)
+# ------------------------------------------------------------------------------
+gpu:
+  enabled: true
+  prefer_cuda: true
+  ffmpeg_hwaccel: "auto"
+
+# ------------------------------------------------------------------------------
+# Logging Configuration (Module 17)
+# ------------------------------------------------------------------------------
+logging:
+  level: "INFO"
+  rotation: "10 MB"
+  retention: "14 days"
+  format: "<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> | <level>{level: <8}</level> | <cyan>{name}</cyan>:<cyan>{function}</cyan>:<cyan>{line}</cyan> | {extra[module]} | <level>{message}</level>"
+  enable_module_logs: true

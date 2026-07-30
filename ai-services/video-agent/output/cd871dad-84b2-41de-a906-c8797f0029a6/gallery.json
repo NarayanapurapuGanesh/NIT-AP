@@ -1,0 +1,14 @@
+{
+  "total_slides": 1,
+  "slides": [
+    {
+      "slide_id": "slide_001",
+      "timestamp": 197.56,
+      "timestamp_formatted": "00:03:17",
+      "thumbnail": "C:\\Users\\Ganesh\\OneDrive\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\cd871dad-84b2-41de-a906-c8797f0029a6\\slides\\slide_001_thumb.jpg",
+      "full_image": "C:\\Users\\Ganesh\\OneDrive\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\cd871dad-84b2-41de-a906-c8797f0029a6\\slides\\slide_001.jpg",
+      "ocr_text": "Rokcieval ~ Avs mented Generation (OO; toons 2 Rak. LLW Zahe\\ ene  LUWN ca lbemiges ~ | |. No sovece an ee"
+    }
+  ],
+  "json_path": "C:\\Users\\Ganesh\\OneDrive\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\cd871dad-84b2-41de-a906-c8797f0029a6\\gallery.json"
+}

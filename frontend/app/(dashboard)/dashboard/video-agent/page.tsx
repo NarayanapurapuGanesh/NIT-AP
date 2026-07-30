@@ -14,34 +14,47 @@ import {
   Upload,
   AlertCircle,
   FileVideo,
-  Award,
   Layers,
-  Eye,
-  Activity,
-  Check,
-  Zap,
-  BarChart3
+  FileText,
+  ListOrdered
 } from 'lucide-react';
 
-interface EvaluationReport {
+interface ProcessingStep {
+  module_name: string;
+  status: 'PENDING' | 'RUNNING' | 'COMPLETED' | 'SKIPPED' | 'FAILED';
+  started_at?: string;
+  completed_at?: string;
+  duration_seconds?: number;
+  error?: string;
+}
+
+interface JobResponse {
   job_id: string;
-  overall_score: number;
-  scores: {
-    clarity_and_delivery: number;
-    visual_and_engagement: number;
-    content_and_pedagogy: number;
-    overall_score: number;
+  status: 'QUEUED' | 'PROCESSING' | 'COMPLETED' | 'FAILED' | 'PARTIAL';
+  message: string;
+  steps: ProcessingStep[];
+}
+
+interface FullReportDTO {
+  jobId: string;
+  video: {
+    filename: string;
+    durationSeconds: number;
+    resolution: string;
   };
-  recommendation: {
-    recommendation: string;
-    confidence_level: number;
-    summary: str;
+  summary: {
+    shortSummary: string;
+    topicsCovered: string[];
+    concepts: string[];
+    keywords: string[];
+    technicalTerms: string[];
   };
-  strengths: string[];
-  weaknesses: string[];
-  html_report_path: string;
-  md_report_path: string;
-  json_report_path: string;
+  timeline: {
+    totalEntries: number;
+    durationSeconds: number;
+    entries: any[];
+  };
+  ocr: any[];
 }
 
 export default function VideoAgentPage() {
@@ -49,15 +62,19 @@ export default function VideoAgentPage() {
   const [file, setFile] = useState<File | null>(null);
   const [videoPreviewUrl, setVideoPreviewUrl] = useState<string | null>(null);
   const [analyzing, setAnalyzing] = useState(false);
-  const [report, setReport] = useState<EvaluationReport | null>(null);
+  
+  const [jobStatus, setJobStatus] = useState<JobResponse | null>(null);
+  const [report, setReport] = useState<FullReportDTO | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<'metrics' | 'report'>('metrics');
+  const [activeTab, setActiveTab] = useState<'status' | 'summary' | 'timeline' | 'ocr'>('status');
 
   const processVideoFile = async (uploadedFile: File) => {
     setAnalyzing(true);
     setFile(uploadedFile);
     setErrorMessage(null);
+    setJobStatus(null);
     setReport(null);
+    setActiveTab('status');
 
     // Create local object URL for instant video player preview
     const previewUrl = URL.createObjectURL(uploadedFile);
@@ -67,21 +84,52 @@ export default function VideoAgentPage() {
     formData.append('file', uploadedFile);
 
     try {
-      const res = await fetch('http://localhost:8005/video/evaluate', {
+      // 1. Trigger the processing pipeline
+      const res = await fetch('http://localhost:8005/video/process', {
         method: 'POST',
         body: formData,
       });
 
       if (!res.ok) {
         const errData = await res.json().catch(() => ({}));
-        throw new Error(errData.detail || errData.message || `Evaluation failed with status ${res.status}`);
+        throw new Error(errData.detail || errData.message || `Pipeline failed to start with status ${res.status}`);
       }
 
-      const reportData: EvaluationReport = await res.json();
+      const initialJob: JobResponse = await res.json();
+      setJobStatus(initialJob);
+      const jobId = initialJob.job_id;
+
+      // 2. Poll for job status
+      let currentJob = initialJob;
+      while (currentJob.status !== 'COMPLETED' && currentJob.status !== 'FAILED') {
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        
+        const statusRes = await fetch(`http://localhost:8005/video/status/${jobId}`);
+        if (!statusRes.ok) {
+          throw new Error('Failed to fetch job status');
+        }
+        
+        currentJob = await statusRes.json();
+        setJobStatus(currentJob);
+      }
+
+      if (currentJob.status === 'FAILED') {
+        throw new Error(currentJob.message || 'Pipeline processing failed.');
+      }
+
+      // 3. Fetch final report
+      const reportRes = await fetch(`http://localhost:8005/video/report/${jobId}`);
+      if (!reportRes.ok) {
+        throw new Error('Failed to fetch evidence report');
+      }
+      
+      const reportData: FullReportDTO = await reportRes.json();
       setReport(reportData);
+      setActiveTab('summary');
+      
     } catch (err: any) {
-      console.error('Video evaluation failed:', err);
-      setErrorMessage(err.message || 'Could not connect to Video Evaluation Agent (http://localhost:8005). Please verify backend status.');
+      console.error('Video processing failed:', err);
+      setErrorMessage(err.message || 'Could not connect to Video Evidence Extraction Service (http://localhost:8005).');
     } finally {
       setAnalyzing(false);
     }
@@ -111,11 +159,11 @@ export default function VideoAgentPage() {
         <div className="space-y-1">
           <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 text-xs font-semibold">
             <Video className="h-3.5 w-3.5 text-indigo-400" />
-            <span>Multimodal Video Evaluation Agent (Phases 1–9)</span>
+            <span>Video Evidence Extraction Service</span>
           </div>
-          <h1 className="text-2xl font-bold text-white tracking-tight">Teaching Demonstration & Video Evaluation Engine</h1>
+          <h1 className="text-2xl font-bold text-white tracking-tight">Teaching Demonstration Extraction Engine</h1>
           <p className="text-xs text-slate-300">
-            Offline-first AI Agent evaluating speech delivery, slide OCR, MediaPipe gestures, and teaching intelligence.
+            Offline-first AI Agent extracting transcripts, slide OCR, and teaching timelines.
           </p>
         </div>
 
@@ -133,7 +181,7 @@ export default function VideoAgentPage() {
             className="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs px-5 py-2.5 rounded-xl shadow-lg flex items-center space-x-2 transition-all"
           >
             <Upload className="h-4 w-4" />
-            <span>{analyzing ? 'Evaluating Video...' : 'Upload Video File'}</span>
+            <span>{analyzing ? 'Processing Video...' : 'Upload Video File'}</span>
           </Button>
         </div>
       </div>
@@ -159,16 +207,9 @@ export default function VideoAgentPage() {
               {file ? file.name : 'Drag & drop demo teaching video here, or click to browse'}
             </h3>
             <p className="text-xs text-slate-400">
-              Supported Formats: MP4, MOV, AVI, MKV, WEBM (Max 500MB, 10s minimum)
+              Supported Formats: MP4, MOV, AVI, MKV, WEBM (Max 500MB)
             </p>
           </div>
-
-          {file && (
-            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-lg bg-indigo-500/20 text-indigo-300 text-xs font-semibold">
-              <Check className="h-3.5 w-3.5" />
-              <span>Selected: {file.name} ({(file.size / (1024 * 1024)).toFixed(1)} MB)</span>
-            </div>
-          )}
         </div>
       </div>
 
@@ -177,7 +218,7 @@ export default function VideoAgentPage() {
         <div className="p-4 rounded-xl bg-red-950/60 border border-red-500/30 text-red-300 text-xs flex items-start space-x-3 shadow-lg">
           <AlertCircle className="h-5 w-5 text-red-400 shrink-0 mt-0.5" />
           <div className="space-y-1">
-            <span className="font-bold">Evaluation Error</span>
+            <span className="font-bold">Extraction Error</span>
             <p>{errorMessage}</p>
           </div>
         </div>
@@ -211,153 +252,137 @@ export default function VideoAgentPage() {
               {file && (
                 <div className="flex items-center justify-between text-xs text-slate-400 pt-2 border-t border-slate-800/80">
                   <span className="flex items-center"><Volume2 className="h-3.5 w-3.5 text-indigo-400 mr-1" /> Audio Track Active</span>
-                  <span className="flex items-center"><Clock className="h-3.5 w-3.5 text-sky-400 mr-1" /> Ready for AI Analysis</span>
-                </div>
-              )}
-            </CardContent>
-          </Card>
-
-          {/* AI Score Index Card */}
-          <Card className="border-indigo-500/30 bg-gradient-to-b from-indigo-950/40 via-slate-900/60 to-slate-950/90 backdrop-blur-md shadow-2xl">
-            <CardHeader className="pb-2">
-              <span className="text-[10px] uppercase tracking-wider text-indigo-400 font-bold flex items-center">
-                <Award className="h-3.5 w-3.5 mr-1" /> Composite Teaching Score
-              </span>
-              <div className="flex items-baseline space-x-2">
-                <span className="text-4xl font-extrabold text-white font-mono">
-                  {report ? report.overall_score : '--'}
-                </span>
-                <span className="text-sm text-slate-400 font-semibold">/ 100</span>
-              </div>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="w-full bg-slate-800 h-2.5 rounded-full overflow-hidden">
-                <div
-                  className="bg-gradient-to-r from-indigo-500 via-sky-400 to-emerald-400 h-full rounded-full transition-all duration-700"
-                  style={{ width: `${report ? report.overall_score : 0}%` }}
-                ></div>
-              </div>
-
-              {report && (
-                <div className="pt-2 flex items-center justify-between">
-                  <span className="text-xs text-slate-300 font-semibold">Recommendation:</span>
-                  <span className={`px-3 py-1 rounded-full text-xs font-bold ${
-                    report.recommendation.recommendation === 'Recommend'
-                      ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
-                      : 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
-                  }`}>
-                    {report.recommendation.recommendation}
-                  </span>
+                  <span className="flex items-center"><Clock className="h-3.5 w-3.5 text-sky-400 mr-1" /> Ready for AI Extraction</span>
                 </div>
               )}
             </CardContent>
           </Card>
         </div>
 
-        {/* Right Column: Detailed 9-Phase Evaluation Diagnostics */}
+        {/* Right Column: Detailed Extraction Evidence */}
         <div className="lg:col-span-2 space-y-6">
           <Card className="border-slate-800 bg-slate-900/60 backdrop-blur-md shadow-2xl">
             <CardHeader className="flex flex-row items-center justify-between pb-4 border-b border-slate-800/80">
               <div>
                 <CardTitle className="text-base font-bold text-white flex items-center">
                   <Sparkles className="h-4 w-4 text-indigo-400 mr-2" />
-                  Multimodal Evaluation Diagnostics
+                  Evidence Extraction Results
                 </CardTitle>
                 <CardDescription className="text-xs text-slate-400">
-                  9-Phase breakdown: Speech, Visual Gestures, Slide OCR, and Ollama LLM Intelligence
+                  Transcripts, OCR, Timelines, and Summaries
                 </CardDescription>
               </div>
 
               <div className="flex space-x-1 p-1 bg-slate-950/80 rounded-lg border border-slate-800 text-xs">
                 <button
-                  onClick={() => setActiveTab('metrics')}
-                  className={`px-3 py-1 rounded-md transition-colors ${activeTab === 'metrics' ? 'bg-indigo-600 text-white font-medium' : 'text-slate-400 hover:text-white'}`}
+                  onClick={() => setActiveTab('status')}
+                  className={`px-3 py-1 rounded-md transition-colors ${activeTab === 'status' ? 'bg-indigo-600 text-white font-medium' : 'text-slate-400 hover:text-white'}`}
                 >
-                  Score Breakdown
+                  <Layers className="h-3.5 w-3.5 inline mr-1" /> Status
                 </button>
                 <button
-                  onClick={() => setActiveTab('report')}
-                  className={`px-3 py-1 rounded-md transition-colors ${activeTab === 'report' ? 'bg-indigo-600 text-white font-medium' : 'text-slate-400 hover:text-white'}`}
+                  onClick={() => setActiveTab('summary')}
+                  disabled={!report}
+                  className={`px-3 py-1 rounded-md transition-colors ${!report ? 'opacity-50 cursor-not-allowed' : ''} ${activeTab === 'summary' ? 'bg-indigo-600 text-white font-medium' : 'text-slate-400 hover:text-white'}`}
                 >
-                  Executive Report
+                  <FileText className="h-3.5 w-3.5 inline mr-1" /> Summary
+                </button>
+                <button
+                  onClick={() => setActiveTab('timeline')}
+                  disabled={!report}
+                  className={`px-3 py-1 rounded-md transition-colors ${!report ? 'opacity-50 cursor-not-allowed' : ''} ${activeTab === 'timeline' ? 'bg-indigo-600 text-white font-medium' : 'text-slate-400 hover:text-white'}`}
+                >
+                  <ListOrdered className="h-3.5 w-3.5 inline mr-1" /> Timeline
                 </button>
               </div>
             </CardHeader>
 
             <CardContent className="pt-6">
-              {activeTab === 'metrics' ? (
+              {activeTab === 'status' && (
                 <div className="space-y-4">
-                  {/* Category Scores */}
-                  <div className="space-y-3">
-                    <div className="p-4 rounded-xl bg-slate-950/50 border border-slate-800 space-y-2">
-                      <div className="flex justify-between text-xs font-semibold text-white">
-                        <span>1. Speech Delivery & Vocal Clarity (Whisper + Signal Analysis)</span>
-                        <span className="font-mono text-indigo-400">{report ? `${report.scores.clarity_and_delivery}%` : '--'}</span>
+                  {jobStatus ? (
+                    <div className="space-y-3">
+                      <div className="text-xs font-semibold text-white mb-2">
+                        Pipeline Status: <span className="text-indigo-400">{jobStatus.status}</span>
                       </div>
-                      <div className="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
-                        <div className="bg-indigo-500 h-full rounded-full" style={{ width: `${report ? report.scores.clarity_and_delivery : 0}%` }}></div>
-                      </div>
+                      {jobStatus.steps.map((step) => (
+                        <div key={step.module_name} className="p-3 rounded-xl bg-slate-950/50 border border-slate-800 flex justify-between items-center">
+                          <span className="text-xs font-medium text-slate-300 uppercase">{step.module_name.replace('_', ' ')}</span>
+                          <span className={`text-[10px] px-2 py-1 rounded-full font-bold
+                            ${step.status === 'COMPLETED' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 
+                              step.status === 'RUNNING' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30 animate-pulse' : 
+                              step.status === 'FAILED' ? 'bg-red-500/20 text-red-400 border border-red-500/30' : 
+                              'bg-slate-800 text-slate-500'}`}
+                          >
+                            {step.status} {step.duration_seconds ? `(${step.duration_seconds}s)` : ''}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="py-8 text-center text-slate-500 text-xs">
+                      No job running. Upload a video file to extract evidence.
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {activeTab === 'summary' && report && (
+                <div className="space-y-4">
+                  <div className="p-4 rounded-xl bg-indigo-950/30 border border-indigo-500/20 space-y-2">
+                    <h4 className="text-xs font-bold text-indigo-300 uppercase tracking-wider">Teaching Summary</h4>
+                    <p className="text-xs text-slate-200">{report.summary.shortSummary}</p>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="p-4 rounded-xl bg-emerald-950/20 border border-emerald-500/20 space-y-2">
+                      <h4 className="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center">
+                        <CheckCircle2 className="h-3.5 w-3.5 mr-1" /> Topics Covered
+                      </h4>
+                      <ul className="text-xs text-slate-300 space-y-1 list-disc list-inside">
+                        {report.summary.topicsCovered.slice(0, 5).map((topic, i) => (
+                          <li key={i}>{topic}</li>
+                        ))}
+                      </ul>
                     </div>
 
-                    <div className="p-4 rounded-xl bg-slate-950/50 border border-slate-800 space-y-2">
-                      <div className="flex justify-between text-xs font-semibold text-white">
-                        <span>2. Visual Engagement & Pose/Gesture (MediaPipe Mesh)</span>
-                        <span className="font-mono text-sky-400">{report ? `${report.scores.visual_and_engagement}%` : '--'}</span>
-                      </div>
-                      <div className="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
-                        <div className="bg-sky-500 h-full rounded-full" style={{ width: `${report ? report.scores.visual_and_engagement : 0}%` }}></div>
-                      </div>
-                    </div>
-
-                    <div className="p-4 rounded-xl bg-slate-950/50 border border-slate-800 space-y-2">
-                      <div className="flex justify-between text-xs font-semibold text-white">
-                        <span>3. Slide Structure & Teaching Intelligence (OCR + Ollama Llama3.2 3B)</span>
-                        <span className="font-mono text-emerald-400">{report ? `${report.scores.content_and_pedagogy}%` : '--'}</span>
-                      </div>
-                      <div className="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
-                        <div className="bg-emerald-500 h-full rounded-full" style={{ width: `${report ? report.scores.content_and_pedagogy : 0}%` }}></div>
+                    <div className="p-4 rounded-xl bg-sky-950/20 border border-sky-500/20 space-y-2">
+                      <h4 className="text-xs font-bold text-sky-400 uppercase tracking-wider flex items-center">
+                        <Sparkles className="h-3.5 w-3.5 mr-1" /> Keywords
+                      </h4>
+                      <div className="flex flex-wrap gap-2">
+                        {report.summary.keywords.slice(0, 8).map((kw, i) => (
+                          <span key={i} className="px-2 py-1 bg-sky-500/10 text-sky-300 rounded text-[10px]">{kw}</span>
+                        ))}
                       </div>
                     </div>
                   </div>
                 </div>
-              ) : (
-                <div className="space-y-4">
-                  {report ? (
-                    <div className="space-y-4">
-                      <div className="p-4 rounded-xl bg-indigo-950/30 border border-indigo-500/20 space-y-2">
-                        <h4 className="text-xs font-bold text-indigo-300 uppercase tracking-wider">Executive Recommendation Summary</h4>
-                        <p className="text-xs text-slate-200">{report.recommendation.summary}</p>
+              )}
+              
+              {activeTab === 'timeline' && report && (
+                <div className="space-y-4 max-h-96 overflow-y-auto pr-2 custom-scrollbar">
+                  {report.timeline.entries.map((entry, idx) => (
+                    <div key={idx} className="flex gap-4 p-3 rounded-lg bg-slate-900/50 border border-slate-800">
+                      <div className="text-xs font-mono text-indigo-400 shrink-0">
+                        {entry.timestampFormatted || `${Math.floor(entry.timestamp)}s`}
                       </div>
-
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="p-4 rounded-xl bg-emerald-950/20 border border-emerald-500/20 space-y-2">
-                          <h4 className="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center">
-                            <CheckCircle2 className="h-3.5 w-3.5 mr-1" /> Key Strengths
-                          </h4>
-                          <ul className="text-xs text-slate-300 space-y-1 list-disc list-inside">
-                            {report.strengths.map((str, i) => (
-                              <li key={i}>{str}</li>
-                            ))}
-                          </ul>
-                        </div>
-
-                        <div className="p-4 rounded-xl bg-amber-950/20 border border-amber-500/20 space-y-2">
-                          <h4 className="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center">
-                            <AlertCircle className="h-3.5 w-3.5 mr-1" /> Growth Areas
-                          </h4>
-                          <ul className="text-xs text-slate-300 space-y-1 list-disc list-inside">
-                            {report.weaknesses.map((weak, i) => (
-                              <li key={i}>{weak}</li>
-                            ))}
-                          </ul>
-                        </div>
+                      <div className="space-y-1 text-xs">
+                        {entry.transcriptText && (
+                          <p className="text-slate-300">
+                            <span className="text-sky-500 mr-2">🗣️</span>
+                            {entry.transcriptText}
+                          </p>
+                        )}
+                        {entry.ocrText && (
+                          <p className="text-slate-400 italic">
+                            <span className="text-emerald-500 mr-2">📄 OCR:</span>
+                            {entry.ocrText}
+                          </p>
+                        )}
                       </div>
                     </div>
-                  ) : (
-                    <div className="py-8 text-center text-slate-500 text-xs">
-                      No report generated yet. Upload a video file to run the complete 9-phase evaluation.
-                    </div>
-                  )}
+                  ))}
                 </div>
               )}
             </CardContent>

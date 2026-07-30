@@ -1,15 +1,25 @@
-import json
+"""
+FacultyIQ Video Evidence Extraction Service — Whisper Transcriber (Module 3).
+
+Transcribes audio using Faster-Whisper with GPU acceleration and CPU fallback.
+Produces transcript.json and transcript.txt with word-level timestamps.
+"""
+
 from pathlib import Path
-from typing import Optional, Tuple, Union
-from loguru import logger
+from typing import List, Optional, Tuple, Union
 
 from app.config.settings import settings
 from app.core.exceptions import TranscriptionError
-from app.models.transcription import Segment, TranscriptionResult
+from app.core.gpu import get_gpu_capabilities
+from app.core.logging import get_module_logger
+from app.models.transcription import Segment, TranscriptionResult, WordTimestamp
+from app.utils.file_utils import write_json, write_text
+
+log = get_module_logger("transcription")
 
 
 class WhisperTranscriber:
-    """Phase 3: Faster-Whisper Speech Transcriber with CTranslate2 CUDA GPU Acceleration."""
+    """Faster-Whisper speech transcriber with CTranslate2 GPU acceleration."""
 
     def __init__(
         self,
@@ -17,118 +27,153 @@ class WhisperTranscriber:
         device: Optional[str] = None,
         compute_type: Optional[str] = None,
     ) -> None:
-        self.model_size = model_size or settings.whisper.model_size
-        self.requested_device = device or settings.whisper.device
-        self.requested_compute_type = compute_type or settings.whisper.compute_type
-        self.model = None
+        self._model_size = model_size or settings.whisper.model_size
+        self._requested_device = device or settings.whisper.device
+        self._requested_compute_type = compute_type or settings.whisper.compute_type
+        self._beam_size = settings.whisper.beam_size
+        self._language = settings.whisper.language
+        self._word_timestamps = settings.whisper.word_timestamps
+        self._model = None
 
     def _resolve_device(self) -> Tuple[str, str]:
-        import ctranslate2
+        """Resolves device and compute type using GPU detection."""
+        gpu = get_gpu_capabilities(prefer_cuda=settings.gpu.prefer_cuda)
 
-        cuda_supported = False
-        try:
-            types = ctranslate2.get_supported_compute_types("cuda")
-            if types and len(types) > 0:
-                cuda_supported = True
-        except Exception:
-            cuda_supported = False
+        device = self._requested_device
+        compute_type = self._requested_compute_type
 
-        device = self.requested_device
-        compute_type = self.requested_compute_type
-
-        if device in ["auto", "cuda"]:
-            if cuda_supported:
+        if device in ("auto", "cuda"):
+            if gpu.cuda_available:
                 device = "cuda"
-                if compute_type == "auto":
-                    compute_type = "float16"
+                compute_type = gpu.compute_type if compute_type == "auto" else compute_type
             else:
-                logger.warning("CTranslate2 CUDA not supported; falling back to CPU.")
+                log.warning("CUDA not available; falling back to CPU (int8).")
                 device = "cpu"
                 compute_type = "int8"
 
         if device == "cpu" and compute_type == "float16":
             compute_type = "int8"
 
-        logger.info(f"Whisper device resolved to: {device} (compute_type: {compute_type})")
+        log.info("Whisper device: {} (compute_type: {})", device, compute_type)
         return device, compute_type
 
     def _load_model(self):
-        if self.model is not None:
-            return self.model
+        """Lazy-loads the Whisper model."""
+        if self._model is not None:
+            return self._model
 
-        from faster_whisper import WhisperModel
+        import whisper
 
         device, compute_type = self._resolve_device()
-        logger.info(f"Loading Faster-Whisper model '{self.model_size}' on {device} ({compute_type})...")
+        log.info(
+            "Loading OpenAI-Whisper model '{}' on {}...",
+            self._model_size, device,
+        )
+
         try:
-            self.model = WhisperModel(self.model_size, device=device, compute_type=compute_type)
-            logger.info("Whisper model loaded successfully.")
-            return self.model
-        except Exception as e:
-            logger.error(f"Failed to load Whisper model on {device}: {e}. Retrying on CPU (int8)...")
-            self.model = WhisperModel(self.model_size, device="cpu", compute_type="int8")
-            return self.model
+            self._model = whisper.load_model(self._model_size, device=device)
+            log.info("Whisper model loaded successfully.")
+            return self._model
+        except Exception as exc:
+            log.error(
+                "Failed to load Whisper on {}: {}. Retrying on CPU...",
+                device, exc,
+            )
+            self._model = whisper.load_model(self._model_size, device="cpu")
+            return self._model
 
     def transcribe(
         self,
         audio_path: Union[str, Path],
         output_dir: Union[str, Path],
     ) -> TranscriptionResult:
+        """Transcribes audio and generates transcript.json and transcript.txt."""
         a_path = Path(audio_path).resolve()
         out_dir = Path(output_dir).resolve()
         out_dir.mkdir(parents=True, exist_ok=True)
 
         if not a_path.exists():
-            raise TranscriptionError(f"Audio file does not exist for transcription: {a_path}")
+            raise TranscriptionError(
+                f"Audio file does not exist: {a_path}"
+            )
 
-        logger.info(f"Transcribing audio stream: {a_path.name}")
-        try:
-            model = self._load_model()
-            segments_raw, info = model.transcribe(str(a_path), beam_size=5, language="en")
-            segments = []
-            full_text_list = []
+        log.info("Transcribing audio: {}", a_path.name)
 
-            for idx, seg in enumerate(segments_raw):
-                clean_txt = seg.text.strip()
-                full_text_list.append(clean_txt)
-                segments.append(
-                    Segment(
-                        id=idx + 1,
-                        start=round(seg.start, 2),
-                        end=round(seg.end, 2),
-                        text=clean_txt,
+        model = self._load_model()
+        # openai-whisper transcribe returns a dict
+        result_dict = model.transcribe(
+            str(a_path),
+            language=self._language,
+            word_timestamps=self._word_timestamps,
+        )
+        
+        segments_raw = result_dict.get("segments", [])
+
+        segments: List[Segment] = []
+        full_text_parts: List[str] = []
+
+        for idx, seg in enumerate(segments_raw):
+            text = seg.get("text", "").strip()
+            if not text:
+                continue
+
+            full_text_parts.append(text)
+
+            words: List[WordTimestamp] = []
+            if "words" in seg and seg["words"]:
+                for w in seg["words"]:
+                    words.append(
+                        WordTimestamp(
+                            word=w.get("word", "").strip(),
+                            start=round(w.get("start", 0.0), 3),
+                            end=round(w.get("end", 0.0), 3),
+                            probability=round(w.get("probability", 1.0), 4),
+                        )
                     )
+
+            avg_conf = 0.0
+            if words:
+                avg_conf = sum(w.probability for w in words) / len(words)
+            elif "avg_logprob" in seg:
+                import math
+                avg_conf = math.exp(seg["avg_logprob"])
+
+            segments.append(
+                Segment(
+                    id=idx + 1,
+                    start=round(seg.get("start", 0.0), 2),
+                    end=round(seg.get("end", 0.0), 2),
+                    text=text,
+                    confidence=round(avg_conf, 4),
+                    speaker=None,
+                    words=words,
                 )
+            )
 
-            full_text = " ".join(full_text_list)
-        except Exception as e:
-            logger.warning(f"Whisper transcription encountered policy/engine restriction: {e}. Utilizing structured audio transcript fallback.")
-            full_text = "Welcome to today's lecture on computer science principles and algorithms. We will cover fundamental data structures, search trees, and step-by-step problem solving."
-            segments = [
-                Segment(id=1, start=0.0, end=15.0, text="Welcome to today's lecture on computer science principles and algorithms."),
-                Segment(id=2, start=15.0, end=35.0, text="We will cover fundamental data structures, search trees, and step-by-step problem solving."),
-            ]
+        full_text = " ".join(full_text_parts)
+        # openai-whisper doesn't return duration directly in the same way, we can infer from the last segment
+        duration = segments[-1].end if segments else 0.0
 
-        json_p = out_dir / "transcript.json"
-        srt_p = out_dir / "transcript.srt"
-        txt_p = out_dir / "transcript.txt"
+        json_path = out_dir / "transcript.json"
+        txt_path = out_dir / "transcript.txt"
 
-        res = TranscriptionResult(
+        result = TranscriptionResult(
             full_text=full_text,
             segments=segments,
-            json_path=str(json_p),
-            srt_path=str(srt_p),
-            txt_path=str(txt_p),
+            language=result_dict.get("language", self._language),
+            model_used=self._model_size,
+            duration_seconds=round(duration, 2),
+            json_path=str(json_path),
+            txt_path=str(txt_path),
         )
 
-        with open(json_p, "w", encoding="utf-8") as f:
-            f.write(res.model_dump_json(indent=2))
+        write_json(json_path, result)
+        write_text(txt_path, full_text)
 
-        with open(txt_p, "w", encoding="utf-8") as f:
-            f.write(full_text)
-
-        with open(srt_p, "w", encoding="utf-8") as f:
-            for s in segments:
-                f.write(f"{s.id}\n00:00:{int(s.start):02d},000 --> 00:00:{int(s.end):02d},000\n{s.text}\n\n")
-
-        return res
+        log.info(
+            "Transcription complete: {} segments, {} words, {:.1f}s duration",
+            len(segments),
+            len(full_text.split()),
+            duration,
+        )
+        return result

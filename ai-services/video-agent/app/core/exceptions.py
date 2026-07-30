@@ -1,55 +1,84 @@
+"""
+FacultyIQ Video Evidence Extraction Service — Domain Exceptions.
+
+Each exception maps to a specific pipeline module for precise error handling.
+"""
+
 from typing import Any, Dict, Optional
 
 
 class VideoAgentError(Exception):
-    """Base domain exception for FacultyIQ Video Evaluation Agent."""
+    """Base domain exception for FacultyIQ Video Evidence Extraction Service."""
 
-    def __init__(self, message: str, details: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(
+        self, message: str, details: Optional[Dict[str, Any]] = None
+    ) -> None:
         super().__init__(message)
         self.message = message
         self.details = details or {}
 
 
 class ValidationError(VideoAgentError):
-    """Raised when Phase 1 video upload validation fails."""
+    """Raised when video upload validation fails (format, size, duration, codecs, audio)."""
+
     pass
 
 
 class PreprocessingError(VideoAgentError):
-    """Raised when Phase 2 video/audio preprocessing fails."""
+    """Raised when video or audio preprocessing fails."""
+
     pass
 
 
 class TranscriptionError(VideoAgentError):
-    """Raised when Phase 3 speech transcription fails."""
+    """Raised when speech transcription via Faster-Whisper fails."""
+
     pass
 
 
 class SceneDetectionError(VideoAgentError):
-    """Raised when Phase 4 scene detection fails."""
+    """Raised when scene detection or keyframe extraction fails."""
+
     pass
 
 
 class OCRError(VideoAgentError):
-    """Raised when Phase 5 OCR extraction fails."""
+    """Raised when Tesseract OCR extraction fails."""
+
     pass
 
 
-class VisualAnalysisError(VideoAgentError):
-    """Raised when Phase 6 MediaPipe analysis fails."""
+class TimelineError(VideoAgentError):
+    """Raised when timeline merging fails."""
+
+    pass
+
+
+class SummaryError(VideoAgentError):
+    """Raised when teaching summary generation fails."""
+
     pass
 
 
 class VoiceAnalysisError(VideoAgentError):
-    """Raised when Phase 7 signal voice analysis fails."""
+    """Raised when voice metrics analysis fails."""
+
     pass
 
 
-class TeachingAnalysisError(VideoAgentError):
-    """Raised when Phase 8 teaching intelligence analysis fails."""
+class StorageError(VideoAgentError):
+    """Raised when output file storage operations fail."""
+
     pass
 
 
-class EvaluationError(VideoAgentError):
-    """Raised when Phase 9 evidence assembly, scoring, or report generation fails."""
+class GPUDetectionError(VideoAgentError):
+    """Raised when GPU detection encounters an unrecoverable error."""
+
+    pass
+
+
+class PipelineError(VideoAgentError):
+    """Raised when the pipeline orchestrator encounters a fatal error."""
+
     pass

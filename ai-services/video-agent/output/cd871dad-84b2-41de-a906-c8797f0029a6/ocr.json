@@ -1,0 +1,28 @@
+{
+  "total_slides": 1,
+  "average_confidence": 53.13,
+  "entries": [
+    {
+      "slide_id": "slide_001",
+      "timestamp": 197.56,
+      "image_path": "C:\\Users\\Ganesh\\OneDrive\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\cd871dad-84b2-41de-a906-c8797f0029a6\\slides\\slide_001.jpg",
+      "raw_text": "Rokcieval ~ Avs mented Generation\n(OO; toons 2 Rak. LLW Zahe\\ ene\n© LUWN ca lbemiges ~— |\n|. No sovece an ee\n",
+      "cleaned_text": "Rokcieval ~ Avs mented Generation (OO; toons 2 Rak. LLW Zahe\\ ene  LUWN ca lbemiges ~ | |. No sovece an ee",
+      "confidence": 53.13,
+      "titles": [
+        "Rokcieval ~ Avs mented Generation",
+        "(OO; toons 2 Rak. LLW Zahe\\ ene",
+        "© LUWN ca lbemiges ~— |"
+      ],
+      "paragraphs": [],
+      "bullets": [],
+      "tables": [],
+      "equations": [],
+      "code_blocks": [],
+      "algorithms": [],
+      "diagrams": []
+    }
+  ],
+  "json_path": "C:\\Users\\Ganesh\\OneDrive\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\cd871dad-84b2-41de-a906-c8797f0029a6\\ocr.json",
+  "txt_path": "C:\\Users\\Ganesh\\OneDrive\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\cd871dad-84b2-41de-a906-c8797f0029a6\\ocr.txt"
+}

@@ -1,1 +1,0 @@
-# Teaching analysis package

@@ -1,0 +1,72 @@
+{
+  "jobId": "cd871dad-84b2-41de-a906-c8797f0029a6",
+  "video": {
+    "filename": "cd871dad_What is Retrieval-Augmented Generation (RAG)_.mp4",
+    "format": "mp4",
+    "durationSeconds": 395.13,
+    "resolution": "1920x1080",
+    "fps": 29.97,
+    "fileSizeMb": 47.61,
+    "hasAudio": true,
+    "videoCodec": "aac",
+    "audioCodec": null
+  },
+  "transcript": {
+    "fullText": "",
+    "segments": [],
+    "language": "en",
+    "durationSeconds": 0.0
+  },
+  "slides": [
+    {
+      "slideId": "slide_001",
+      "timestamp": 197.56,
+      "timestampFormatted": "00:03:17",
+      "thumbnailUrl": "C:\\Users\\Ganesh\\OneDrive\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\cd871dad-84b2-41de-a906-c8797f0029a6\\slides\\slide_001_thumb.jpg",
+      "fullImageUrl": "C:\\Users\\Ganesh\\OneDrive\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\cd871dad-84b2-41de-a906-c8797f0029a6\\slides\\slide_001.jpg",
+      "ocrText": "Rokcieval ~ Avs mented Generation (OO; toons 2 Rak. LLW Zahe\\ ene  LUWN ca lbemiges ~ | |. No sovece an ee"
+    }
+  ],
+  "ocr": [
+    {
+      "slideId": "slide_001",
+      "timestamp": 197.56,
+      "text": "Rokcieval ~ Avs mented Generation (OO; toons 2 Rak. LLW Zahe\\ ene  LUWN ca lbemiges ~ | |. No sovece an ee",
+      "confidence": 53.13
+    }
+  ],
+  "timeline": {
+    "totalEntries": 1,
+    "durationSeconds": 395.13,
+    "entries": [
+      {
+        "timestamp": 197.56,
+        "timestampFormatted": "00:03:17",
+        "slideId": "slide_001",
+        "slideImageUrl": "C:\\Users\\Ganesh\\OneDrive\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\cd871dad-84b2-41de-a906-c8797f0029a6\\slides\\slide_001.jpg",
+        "transcriptText": null,
+        "ocrText": "Rokcieval ~ Avs mented Generation (OO; toons 2 Rak. LLW Zahe\\ ene  LUWN ca lbemiges ~ | |. No sovece an ee"
+      }
+    ]
+  },
+  "summary": {
+    "shortSummary": "Rokcieval ~ Avs mented Generation (OO; toons 2 Rak. LLW Zahe\\ ene  LUWN ca lbemiges ~ | |.",
+    "topicsCovered": [],
+    "concepts": [],
+    "keywords": [
+      "rokcieval",
+      "mented",
+      "generation",
+      "toons",
+      "zahe",
+      "luwn",
+      "lbemiges",
+      "sovece"
+    ],
+    "technicalTerms": [],
+    "programmingLanguages": [],
+    "algorithms": [],
+    "subjects": []
+  },
+  "voiceMetrics": null
+}

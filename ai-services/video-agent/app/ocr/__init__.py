@@ -1,1 +1,1 @@
-# OCR package
+# FacultyIQ Video Evidence Extraction Service — OCR Package

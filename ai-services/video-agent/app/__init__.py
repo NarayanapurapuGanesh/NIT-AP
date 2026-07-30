@@ -1,1 +1,1 @@
-# FacultyIQ Video Evaluation Agent App Package
+# FacultyIQ Video Evidence Extraction Service App Package

@@ -1,0 +1,26 @@
+# ==============================================================================
+# FacultyIQ Video Evidence Extraction Service — Docker Compose
+# ==============================================================================
+
+version: "3.9"
+
+services:
+  video-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: facultyiq-video-agent
+    ports:
+      - "8005:8005"
+    volumes:
+      - ./output:/app/output
+      - ./temp:/app/temp
+      - ./logs:/app/logs
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8005/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3

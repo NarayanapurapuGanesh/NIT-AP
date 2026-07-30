@@ -1,0 +1,14 @@
+{
+  "total_slides": 1,
+  "slides": [
+    {
+      "slide_id": "slide_001",
+      "timestamp": 197.56,
+      "timestamp_formatted": "00:03:17",
+      "thumbnail": "C:\\Users\\Ganesh\\OneDrive\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\0585520d-5a5a-4fb3-af31-ae4b14527f34\\slides\\slide_001_thumb.jpg",
+      "full_image": "C:\\Users\\Ganesh\\OneDrive\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\0585520d-5a5a-4fb3-af31-ae4b14527f34\\slides\\slide_001.jpg",
+      "ocr_text": "Rokcieval - Avs mented Ge eneration = O. olen? Th KH ar O| apse Rat. LL Radel UsSer~ LL Cg \\unres i - . |. No sevece ; Ss ; NASA ="
+    }
+  ],
+  "json_path": "C:\\Users\\Ganesh\\OneDrive\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\0585520d-5a5a-4fb3-af31-ae4b14527f34\\gallery.json"
+}

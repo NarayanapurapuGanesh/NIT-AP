@@ -1,0 +1,43 @@
+# ==============================================================================
+# FacultyIQ Video Evidence Extraction Service — Python Dependencies
+# ==============================================================================
+
+# Core Framework
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+pydantic==2.10.5
+pydantic-settings==2.7.1
+
+# Configuration
+PyYAML==6.0.2
+
+# Logging
+loguru==0.7.3
+
+# Video Processing
+opencv-python-headless==4.11.0.86
+
+# Audio Processing
+openai-whisper
+
+# OCR
+pytesseract==0.3.13
+Pillow==11.1.0
+
+# Scene Detection
+scenedetect[opencv]==0.6.5
+
+# Image Hashing (deduplication)
+imagehash==4.3.2
+
+# Voice Analysis (optional)
+librosa==0.10.2.post1
+scipy==1.15.1
+
+# HTTP Client
+python-multipart==0.0.20
+httpx==0.28.1
+
+# Testing
+pytest==8.3.4
+pytest-asyncio==0.25.3
