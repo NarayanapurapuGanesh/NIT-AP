@@ -1,0 +1,84 @@
+{
+  "candidate_id": "db2c84d1-6337-4935-bb5b-db51e1ca0c2a",
+  "video_metadata": {
+    "format": "mp4",
+    "file_size_bytes": 49922320,
+    "file_size_mb": 47.61,
+    "duration_seconds": 395.13,
+    "width": 1920,
+    "height": 1080,
+    "fps": 30.0,
+    "video_codec": "h264",
+    "audio_codec": null,
+    "has_audio": true
+  },
+  "transcription": {
+    "full_text": "Welcome to today's lecture on computer science principles and algorithms. We will cover fundamental data structures, search trees, and step-by-step problem solving.",
+    "segments": [
+      {
+        "id": 1,
+        "start": 0.0,
+        "end": 15.0,
+        "text": "Welcome to today's lecture on computer science principles and algorithms."
+      },
+      {
+        "id": 2,
+        "start": 15.0,
+        "end": 35.0,
+        "text": "We will cover fundamental data structures, search trees, and step-by-step problem solving."
+      }
+    ],
+    "json_path": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\db2c84d1-6337-4935-bb5b-db51e1ca0c2a\\transcript.json",
+    "srt_path": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\db2c84d1-6337-4935-bb5b-db51e1ca0c2a\\transcript.srt",
+    "txt_path": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\db2c84d1-6337-4935-bb5b-db51e1ca0c2a\\transcript.txt"
+  },
+  "voice_analysis": {
+    "pitchMean": 1417.1,
+    "pitchVariance": 996.8,
+    "speechRate": 3.3,
+    "clarity": 89.5,
+    "confidence": 91.0,
+    "json_path": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\db2c84d1-6337-4935-bb5b-db51e1ca0c2a\\voice_analysis.json"
+  },
+  "scene_detection": {
+    "total_scenes": 0,
+    "total_keyframes": 0,
+    "scenes": [],
+    "timeline_path": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\db2c84d1-6337-4935-bb5b-db51e1ca0c2a\\scene_timeline.json"
+  },
+  "ocr": {
+    "total_pages": 0,
+    "average_confidence": 85.0,
+    "frame_results": [],
+    "json_path": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\db2c84d1-6337-4935-bb5b-db51e1ca0c2a\\ocr_results.json"
+  },
+  "face_analysis": {
+    "face_detected_percentage": 95.0,
+    "eye_contact_percentage": 88.0,
+    "head_movement_variability": 0.35,
+    "smile_ratio": 0.25
+  },
+  "pose_analysis": {
+    "upright_posture_percentage": 92.0,
+    "posture_quality": "Upright Standing",
+    "shoulder_alignment_score": 0.89
+  },
+  "gesture_analysis": {
+    "gesture_frequency": 12.5,
+    "open_hand_ratio": 0.78,
+    "pointing_ratio": 0.15
+  },
+  "teaching_analysis": {
+    "pedagogy_score": 86.0,
+    "structure_score": 88.0,
+    "engagement_score": 84.0,
+    "clarity_score": 87.0,
+    "insights": [
+      "Demonstrated clear structured progression between concept introduction and slide keyframes.",
+      "Maintained effective pace and high vocal clarity across teaching delivery.",
+      "Engaged with audience via consistent eye contact and open hand gestures."
+    ],
+    "json_path": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\db2c84d1-6337-4935-bb5b-db51e1ca0c2a\\teaching_analysis.json"
+  },
+  "evidence_json_path": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\db2c84d1-6337-4935-bb5b-db51e1ca0c2a\\evidence_packet.json"
+}

@@ -1,0 +1,12 @@
+{
+  "pedagogy_score": 50.0,
+  "structure_score": 80.0,
+  "engagement_score": 60.0,
+  "clarity_score": 90.0,
+  "insights": [
+    "Effective use of data structures",
+    "Importance of step-by-step problem solving",
+    "Understanding search trees"
+  ],
+  "json_path": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\ad665e61-286c-442d-819f-a520e0aaf853\\teaching_analysis.json"
+}

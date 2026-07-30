@@ -1,0 +1,8 @@
+1
+00:00:00,000 --> 00:00:15,000
+Welcome to today's lecture on computer science principles and algorithms.
+
+2
+00:00:15,000 --> 00:00:35,000
+We will cover fundamental data structures, search trees, and step-by-step problem solving.
+

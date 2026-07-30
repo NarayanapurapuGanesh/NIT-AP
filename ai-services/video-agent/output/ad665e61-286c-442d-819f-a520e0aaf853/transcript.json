@@ -1,0 +1,20 @@
+{
+  "full_text": "Welcome to today's lecture on computer science principles and algorithms. We will cover fundamental data structures, search trees, and step-by-step problem solving.",
+  "segments": [
+    {
+      "id": 1,
+      "start": 0.0,
+      "end": 15.0,
+      "text": "Welcome to today's lecture on computer science principles and algorithms."
+    },
+    {
+      "id": 2,
+      "start": 15.0,
+      "end": 35.0,
+      "text": "We will cover fundamental data structures, search trees, and step-by-step problem solving."
+    }
+  ],
+  "json_path": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\ad665e61-286c-442d-819f-a520e0aaf853\\transcript.json",
+  "srt_path": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\ad665e61-286c-442d-819f-a520e0aaf853\\transcript.srt",
+  "txt_path": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\ad665e61-286c-442d-819f-a520e0aaf853\\transcript.txt"
+}

@@ -1,0 +1,26 @@
+{
+  "job_id": "db2c84d1-6337-4935-bb5b-db51e1ca0c2a",
+  "overall_score": 88.8,
+  "scores": {
+    "clarity_and_delivery": 90.2,
+    "visual_and_engagement": 90.0,
+    "content_and_pedagogy": 85.6,
+    "overall_score": 88.8
+  },
+  "recommendation": {
+    "recommendation": "Recommend",
+    "confidence_level": 0.92,
+    "summary": "Demonstrates high teaching effectiveness, crisp vocal delivery, and clear visual engagement."
+  },
+  "strengths": [
+    "Clear vocal delivery and speech pacing.",
+    "Strong eye contact and professional upright posture.",
+    "Well-structured slide organization."
+  ],
+  "weaknesses": [
+    "Minor variation in hand gesture dynamics during transition."
+  ],
+  "html_report_path": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\db2c84d1-6337-4935-bb5b-db51e1ca0c2a\\evaluation_report.html",
+  "md_report_path": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\db2c84d1-6337-4935-bb5b-db51e1ca0c2a\\evaluation_report.md",
+  "json_report_path": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\db2c84d1-6337-4935-bb5b-db51e1ca0c2a\\evaluation_report.json"
+}

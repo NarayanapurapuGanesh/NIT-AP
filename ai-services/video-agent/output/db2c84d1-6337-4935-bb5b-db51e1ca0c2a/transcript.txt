@@ -1,0 +1,1 @@
+Welcome to today's lecture on computer science principles and algorithms. We will cover fundamental data structures, search trees, and step-by-step problem solving.
