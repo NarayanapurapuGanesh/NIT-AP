@@ -61,6 +61,13 @@ class SlideDTO(_CamelModel):
     ocr_text: Optional[str] = Field(
         None, description="OCR text from this slide"
     )
+    visual_type: str = Field(default="Slide")
+    contains_handwriting: bool = Field(default=False)
+    contains_diagram: bool = Field(default=False)
+    contains_flowchart: bool = Field(default=False)
+    contains_code: bool = Field(default=False)
+    contains_equation: bool = Field(default=False)
+    contains_table: bool = Field(default=False)
 
 
 class OCRDTO(_CamelModel):

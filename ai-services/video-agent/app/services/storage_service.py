@@ -39,33 +39,31 @@ class StorageService:
 
     def build_gallery(
         self,
-        scene_detection: Optional[SceneDetectionResult],
-        ocr: Optional[OCRResult],
+        visuals: Optional[list[SlideDTO]],
         output_path: str,
     ) -> SlideGallery:
-        """Builds a slide gallery JSON from scene detection and OCR data."""
+        """Builds a slide gallery JSON from extracted visuals."""
         items: list[SlideGalleryItem] = []
 
-        ocr_map: dict[str, str] = {}
-        if ocr:
-            for entry in ocr.entries:
-                ocr_map[entry.slide_id] = entry.cleaned_text
-
-        if scene_detection:
-            for scene in scene_detection.scenes:
-                for slide in scene.slides:
-                    if slide.is_duplicate:
-                        continue
-                    items.append(
-                        SlideGalleryItem(
-                            slide_id=slide.slide_id,
-                            timestamp=slide.timestamp,
-                            timestamp_formatted=format_timestamp(slide.timestamp),
-                            thumbnail=slide.thumbnail_path or slide.image_path,
-                            full_image=slide.image_path,
-                            ocr_text=ocr_map.get(slide.slide_id),
-                        )
+        if visuals:
+            for slide in visuals:
+                items.append(
+                    SlideGalleryItem(
+                        slide_id=slide.slide_id,
+                        timestamp=slide.timestamp,
+                        timestamp_formatted=slide.timestamp_formatted,
+                        thumbnail=slide.thumbnail_url,
+                        full_image=slide.full_image_url,
+                        ocr_text=slide.ocr_text,
+                        visual_type=slide.visual_type,
+                        contains_handwriting=slide.contains_handwriting,
+                        contains_diagram=slide.contains_diagram,
+                        contains_flowchart=slide.contains_flowchart,
+                        contains_code=slide.contains_code,
+                        contains_equation=slide.contains_equation,
+                        contains_table=slide.contains_table
                     )
+                )
 
         gallery = SlideGallery(
             total_slides=len(items),
@@ -80,8 +78,7 @@ class StorageService:
         job_id: str,
         metadata: Optional[VideoMetadata],
         transcription: Optional[TranscriptionResult],
-        scene_detection: Optional[SceneDetectionResult],
-        ocr: Optional[OCRResult],
+        visuals: Optional[list[SlideDTO]],
         timeline: Optional[Timeline],
         summary: Optional[TeachingSummary],
         voice: Optional[VoiceAnalysisResult],
@@ -112,36 +109,17 @@ class StorageService:
             duration_seconds=transcription.duration_seconds if transcription else 0.0,
         )
 
-        ocr_map: dict[str, str] = {}
-        if ocr:
-            for entry in ocr.entries:
-                ocr_map[entry.slide_id] = entry.cleaned_text
-
-        slide_dtos: list[SlideDTO] = []
-        if scene_detection:
-            for scene in scene_detection.scenes:
-                for slide in scene.slides:
-                    if not slide.is_duplicate:
-                        slide_dtos.append(
-                            SlideDTO(
-                                slide_id=slide.slide_id,
-                                timestamp=slide.timestamp,
-                                timestamp_formatted=format_timestamp(slide.timestamp),
-                                thumbnail_url=slide.thumbnail_path or slide.image_path,
-                                full_image_url=slide.image_path,
-                                ocr_text=ocr_map.get(slide.slide_id),
-                            )
-                        )
+        slide_dtos: list[SlideDTO] = visuals if visuals else []
 
         ocr_dtos: list[OCRDTO] = []
-        if ocr:
-            for entry in ocr.entries:
+        if visuals:
+            for slide in visuals:
                 ocr_dtos.append(
                     OCRDTO(
-                        slide_id=entry.slide_id,
-                        timestamp=entry.timestamp,
-                        text=entry.cleaned_text,
-                        confidence=entry.confidence,
+                        slide_id=slide.slide_id,
+                        timestamp=slide.timestamp,
+                        text=slide.ocr_text or "",
+                        confidence=0.0,
                     )
                 )
 

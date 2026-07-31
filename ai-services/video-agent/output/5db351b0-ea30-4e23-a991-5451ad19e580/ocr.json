@@ -1,0 +1,31 @@
+{
+  "total_slides": 1,
+  "average_confidence": 51.31,
+  "entries": [
+    {
+      "slide_id": "slide_001",
+      "timestamp": 197.56,
+      "image_path": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\5db351b0-ea30-4e23-a991-5451ad19e580\\slides\\slide_001.jpg",
+      "raw_text": "Rokcieval - Avs mented Ge eneration\n=\nO. olen’? Th KH ar\nO| apse” Rat. LL Radel UsSer~\nLL Cg \\unres i - .\n|. No sevece ; Ss ;\nNASA =\n",
+      "cleaned_text": "Rokcieval - Avs mented Ge eneration = O. olen? Th KH ar O| apse Rat. LL Radel UsSer~ LL Cg \\unres i - . |. No sevece ; Ss ; NASA =",
+      "confidence": 51.31,
+      "titles": [
+        "Rokcieval - Avs mented Ge eneration",
+        "=",
+        "O. olen’? Th KH ar"
+      ],
+      "paragraphs": [],
+      "bullets": [],
+      "tables": [],
+      "equations": [
+        "=",
+        "NASA ="
+      ],
+      "code_blocks": [],
+      "algorithms": [],
+      "diagrams": []
+    }
+  ],
+  "json_path": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\5db351b0-ea30-4e23-a991-5451ad19e580\\ocr.json",
+  "txt_path": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\5db351b0-ea30-4e23-a991-5451ad19e580\\ocr.txt"
+}

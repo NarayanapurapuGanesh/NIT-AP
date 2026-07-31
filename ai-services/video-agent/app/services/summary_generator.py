@@ -10,10 +10,13 @@ from collections import Counter
 from typing import List, Optional, Set
 
 from app.core.logging import get_module_logger
-from app.models.ocr import OCRResult
 from app.models.summary import TeachingSummary
 from app.models.transcription import TranscriptionResult
 from app.utils.file_utils import write_json
+from app.services.ollama_client import OllamaClient
+from app.models.dtos import SlideDTO
+from app.utils.file_utils import write_json
+from app.services.ollama_client import OllamaClient
 
 log = get_module_logger("summary")
 
@@ -80,27 +83,24 @@ class SummaryGenerator:
     def generate(
         self,
         transcription: Optional[TranscriptionResult],
-        ocr: Optional[OCRResult],
+        visuals: Optional[List[SlideDTO]],
         output_path: str,
+        visuals_count: int = 0
     ) -> TeachingSummary:
         """Generates a teaching summary from transcript and OCR text."""
         log.info("Generating teaching summary from extracted evidence...")
 
         transcript_text = transcription.full_text if transcription else ""
-        ocr_text = self._collect_ocr_text(ocr) if ocr else ""
+        ocr_text = self._collect_ocr_text(visuals) if visuals else ""
         combined_text = f"{transcript_text} {ocr_text}".strip()
 
         if not combined_text:
-            log.warning("No text evidence available for summary generation.")
-            return TeachingSummary(
-                short_summary="No text evidence was extracted from the video.",
-                json_path=output_path,
-            )
+            log.warning("No text evidence available. Proceeding to summary generator with empty context.")
 
         words = self._tokenize(combined_text)
         sentences = self._split_sentences(combined_text)
 
-        short_summary = self._generate_short_summary(sentences)
+        short_summary = self._generate_short_summary(combined_text, len(transcript_text), len(ocr_text), visuals_count)
         topics = self._extract_topics(words, sentences)
         concepts = self._extract_concepts(words, combined_text)
         keywords = self._extract_keywords(words)
@@ -129,9 +129,9 @@ class SummaryGenerator:
         )
         return summary
 
-    def _collect_ocr_text(self, ocr: OCRResult) -> str:
+    def _collect_ocr_text(self, visuals: List[SlideDTO]) -> str:
         """Collects all OCR text from entries."""
-        return " ".join(e.cleaned_text for e in ocr.entries if e.cleaned_text)
+        return " ".join(v.ocr_text for v in visuals if v.ocr_text)
 
     def _tokenize(self, text: str) -> List[str]:
         """Tokenizes text into lowercase words."""
@@ -142,11 +142,42 @@ class SummaryGenerator:
         sentences = re.split(r"[.!?]+", text)
         return [s.strip() for s in sentences if len(s.strip()) > 20]
 
-    def _generate_short_summary(self, sentences: List[str]) -> str:
-        """Generates a 2-3 sentence summary using extractive summarization."""
-        if not sentences:
-            return "Teaching demonstration video processed."
+    def _generate_short_summary(self, combined_text: str, transcript_len: int, ocr_len: int, visuals_count: int) -> str:
+        """Generates a 2-3 sentence summary using the AI Orchestrator or fallback extraction."""
+        if not combined_text and visuals_count == 0:
+            return "No evidence extracted from video."
+            
+        try:
+            client = OllamaClient()
+            prompt = (
+                "Summarize the following teaching demonstration transcript and OCR text into exactly 2-3 concise sentences. "
+                "Focus on the main topics taught and the overall teaching style.\n\n"
+                f"Evidence: {combined_text[:3000]}"
+            )
+            system_prompt = "You are a professional educational evaluator."
+            prompt_size = len(prompt) + len(system_prompt)
+            
+            log.info(
+                f"[PRE-OLLAMA] Agent: video | Prompt Size: {prompt_size} chars | "
+                f"Transcript Len: {transcript_len} | OCR Len: {ocr_len} | Visuals: {visuals_count}"
+            )
+            
+            response_data = client.chat(agent_name="video", prompt=prompt, system=system_prompt)
+            summary_text = response_data.get("response", "")
+            
+            log.info(
+                f"[POST-OLLAMA] Model: {response_data.get('model_used')} | "
+                f"Time: {response_data.get('inference_time_seconds', 0):.2f}s | "
+                f"Tokens: {response_data.get('tokens_generated', 0)}"
+            )
+            
+            if summary_text:
+                return summary_text.strip()
+        except Exception as e:
+            log.error(f"Failed to generate summary with Orchestrator: {e}. Falling back to offline extraction.")
 
+        # Fallback to offline extraction
+        sentences = self._split_sentences(combined_text)
         scored = []
         for sent in sentences:
             words = self._tokenize(sent)

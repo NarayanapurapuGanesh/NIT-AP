@@ -1,0 +1,20 @@
+gpu:
+  enabled: true
+  preferred_device: cuda
+  memory_limit_mb: 3500
+  auto_detect: true
+  cpu_fallback: true
+  max_parallel_gpu_jobs: 1
+  whisper_gpu: true
+  paddleocr_gpu: true
+  ollama_gpu: true
+  ffmpeg_gpu: true
+
+performance:
+  mode: maximum
+  preload_models: true
+  keep_whisper_loaded: true
+  keep_ollama_loaded: true
+  keep_paddleocr_loaded: true
+  persistent_gpu_context: true
+  warmup_on_startup: true

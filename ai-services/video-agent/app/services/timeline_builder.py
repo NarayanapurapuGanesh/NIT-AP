@@ -8,10 +8,10 @@ chronological teaching timeline.
 from typing import List, Optional
 
 from app.core.logging import get_module_logger
-from app.models.ocr import OCREntry, OCRResult
-from app.models.scene import SceneDetectionResult, SlideImage
 from app.models.timeline import Timeline, TimelineEntry
 from app.models.transcription import TranscriptionResult
+from app.utils.file_utils import format_timestamp, write_json
+from app.models.dtos import SlideDTO
 from app.utils.file_utils import format_timestamp, write_json
 
 log = get_module_logger("timeline")
@@ -23,8 +23,7 @@ class TimelineBuilder:
     def build(
         self,
         transcription: Optional[TranscriptionResult],
-        scene_detection: Optional[SceneDetectionResult],
-        ocr: Optional[OCRResult],
+        visuals: Optional[List[SlideDTO]],
         output_path: str,
         duration_seconds: float = 0.0,
     ) -> Timeline:
@@ -33,32 +32,19 @@ class TimelineBuilder:
 
         entries: List[TimelineEntry] = []
 
-        slide_map: dict[str, SlideImage] = {}
-        ocr_map: dict[str, OCREntry] = {}
-
-        if scene_detection:
-            for scene in scene_detection.scenes:
-                for slide in scene.slides:
-                    if not slide.is_duplicate:
-                        slide_map[slide.slide_id] = slide
-
-        if ocr:
-            for entry in ocr.entries:
-                ocr_map[entry.slide_id] = entry
-
-        for slide_id, slide in slide_map.items():
-            ocr_entry = ocr_map.get(slide_id)
-            entries.append(
-                TimelineEntry(
-                    timestamp=slide.timestamp,
-                    timestamp_formatted=format_timestamp(slide.timestamp),
-                    event_type="slide",
-                    slide_id=slide_id,
-                    slide_image_path=slide.image_path,
-                    transcript_text=None,
-                    ocr_text=ocr_entry.cleaned_text if ocr_entry else None,
+        if visuals:
+            for slide in visuals:
+                entries.append(
+                    TimelineEntry(
+                        timestamp=slide.timestamp,
+                        timestamp_formatted=slide.timestamp_formatted,
+                        event_type="slide",
+                        slide_id=slide.slide_id,
+                        slide_image_path=slide.full_image_url,
+                        transcript_text=None,
+                        ocr_text=slide.ocr_text,
+                    )
                 )
-            )
 
         if transcription:
             for seg in transcription.segments:

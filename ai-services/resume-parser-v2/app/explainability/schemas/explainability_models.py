@@ -29,7 +29,7 @@ class AuditRecord(BaseModel):
     timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     config_hash: str = "v2.0.0-sha256"
     prompt_version: str = "v1.0"
-    llm_model: str = "llama3.2"
+    llm_model: str = "qwen2.5"
     rag_sources_count: int = 3
     evidence_citation_ids: List[str] = Field(default_factory=list)
 

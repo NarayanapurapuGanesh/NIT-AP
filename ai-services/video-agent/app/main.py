@@ -15,6 +15,7 @@ from app.config.settings import settings
 from app.core.exceptions import VideoAgentError
 from app.core.logging import setup_logging
 from app.utils.file_utils import ensure_directory
+from app.db.validate import validate_schema
 
 
 @asynccontextmanager
@@ -30,6 +31,8 @@ async def lifespan(app: FastAPI):
     ensure_directory(settings.base_dir / settings.storage.output_dir)
     ensure_directory(settings.base_dir / settings.storage.temp_dir)
     ensure_directory(settings.base_dir / settings.storage.uploads_dir)
+
+    validate_schema()
 
     yield
 
@@ -49,13 +52,16 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origin_regex=".*",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 app.include_router(api_router)
+
+from app.visual_extractor.api import router as visual_router
+app.include_router(visual_router)
 
 output_dir = settings.base_dir / settings.storage.output_dir
 if output_dir.exists():

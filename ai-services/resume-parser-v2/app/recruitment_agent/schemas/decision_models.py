@@ -12,7 +12,7 @@ from app.matching.schemas.match_models import CandidateMatchReport
 class DecisionRequest(BaseModel):
     match_report: CandidateMatchReport
     department_name: Optional[str] = Field(default="Computer Science & Engineering")
-    preferred_model: str = Field(default="llama3.2")
+    preferred_model: str = Field(default="qwen2.5")
     temperature: float = Field(default=0.1, ge=0.0, le=1.0)
 
 

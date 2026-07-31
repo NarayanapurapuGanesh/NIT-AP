@@ -1,0 +1,27 @@
+{
+  "total_scenes": 1,
+  "total_slides": 1,
+  "scenes": [
+    {
+      "scene_id": 1,
+      "start_time": 0.0,
+      "end_time": 395.13,
+      "duration": 395.13,
+      "scene_type": "slide_change",
+      "slides": [
+        {
+          "slide_id": "slide_001",
+          "scene_id": 1,
+          "timestamp": 197.56,
+          "frame_number": 5921,
+          "image_path": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\052c8cd3-f1c4-41cf-a6e0-3d2a451e05cd\\slides\\slide_001.jpg",
+          "thumbnail_path": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\052c8cd3-f1c4-41cf-a6e0-3d2a451e05cd\\slides\\slide_001_thumb.jpg",
+          "phash": "93666c4c9299b23f",
+          "is_duplicate": false
+        }
+      ]
+    }
+  ],
+  "slides_dir": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\052c8cd3-f1c4-41cf-a6e0-3d2a451e05cd\\slides",
+  "json_path": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\052c8cd3-f1c4-41cf-a6e0-3d2a451e05cd\\scenes.json"
+}

@@ -1,0 +1,9 @@
+{
+  "full_text": "test",
+  "segments": [],
+  "language": "en",
+  "model_used": "small",
+  "duration_seconds": 0.0,
+  "json_path": "t.json",
+  "txt_path": "t.txt"
+}

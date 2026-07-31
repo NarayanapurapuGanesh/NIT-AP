@@ -16,8 +16,10 @@ import {
   FileVideo,
   Layers,
   FileText,
-  ListOrdered
+  ListOrdered,
+  Image as ImageIcon
 } from 'lucide-react';
+import { TeachingVisualsGallery } from './TeachingVisualsGallery';
 
 interface ProcessingStep {
   module_name: string;
@@ -66,7 +68,7 @@ export default function VideoAgentPage() {
   const [jobStatus, setJobStatus] = useState<JobResponse | null>(null);
   const [report, setReport] = useState<FullReportDTO | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<'status' | 'summary' | 'timeline' | 'ocr'>('status');
+  const [activeTab, setActiveTab] = useState<'status' | 'summary' | 'timeline' | 'visuals'>('status');
 
   const processVideoFile = async (uploadedFile: File) => {
     setAnalyzing(true);
@@ -187,28 +189,30 @@ export default function VideoAgentPage() {
       </div>
 
       {/* Video Upload Dropzone */}
-      <div
-        onDrop={handleDrop}
-        onDragOver={handleDragOver}
-        onClick={() => fileInputRef.current?.click()}
-        className="group relative cursor-pointer rounded-2xl border-2 border-dashed border-indigo-500/30 hover:border-indigo-500/60 bg-gradient-to-b from-indigo-950/20 via-slate-900/60 to-slate-950/80 p-8 text-center transition-all shadow-xl hover:shadow-indigo-500/10"
-      >
-        <div className="flex flex-col items-center justify-center space-y-3">
-          <div className="h-16 w-16 rounded-2xl bg-indigo-600/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 group-hover:scale-110 transition-transform">
-            {analyzing ? (
-              <RotateCw className="h-8 w-8 animate-spin text-indigo-400" />
-            ) : (
-              <FileVideo className="h-8 w-8" />
-            )}
-          </div>
+      <div className="flex flex-col gap-6">
+        <div
+          onDrop={handleDrop}
+          onDragOver={handleDragOver}
+          onClick={() => fileInputRef.current?.click()}
+          className="w-full group relative cursor-pointer rounded-2xl border-2 border-dashed border-indigo-500/30 hover:border-indigo-500/60 bg-gradient-to-b from-indigo-950/20 via-slate-900/60 to-slate-950/80 p-8 text-center transition-all shadow-xl hover:shadow-indigo-500/10"
+        >
+          <div className="flex flex-col items-center justify-center space-y-3">
+            <div className="h-16 w-16 rounded-2xl bg-indigo-600/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 group-hover:scale-110 transition-transform">
+              {analyzing ? (
+                <RotateCw className="h-8 w-8 animate-spin text-indigo-400" />
+              ) : (
+                <FileVideo className="h-8 w-8" />
+              )}
+            </div>
 
-          <div className="space-y-1">
-            <h3 className="text-base font-bold text-white">
-              {file ? file.name : 'Drag & drop demo teaching video here, or click to browse'}
-            </h3>
-            <p className="text-xs text-slate-400">
-              Supported Formats: MP4, MOV, AVI, MKV, WEBM (Max 500MB)
-            </p>
+            <div className="space-y-1">
+              <h3 className="text-base font-bold text-white">
+                {file ? file.name : 'Drag & drop demo teaching video here, or click to browse'}
+              </h3>
+              <p className="text-xs text-slate-400">
+                Supported Formats: MP4, MOV, AVI, MKV, WEBM (Max 500MB)
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -294,6 +298,13 @@ export default function VideoAgentPage() {
                 >
                   <ListOrdered className="h-3.5 w-3.5 inline mr-1" /> Timeline
                 </button>
+                <button
+                  onClick={() => setActiveTab('visuals')}
+                  disabled={!report}
+                  className={`px-3 py-1 rounded-md transition-colors ${!report ? 'opacity-50 cursor-not-allowed' : ''} ${activeTab === 'visuals' ? 'bg-indigo-600 text-white font-medium' : 'text-slate-400 hover:text-white'}`}
+                >
+                  <ImageIcon className="h-3.5 w-3.5 inline mr-1" /> Visuals
+                </button>
               </div>
             </CardHeader>
 
@@ -301,23 +312,68 @@ export default function VideoAgentPage() {
               {activeTab === 'status' && (
                 <div className="space-y-4">
                   {jobStatus ? (
-                    <div className="space-y-3">
-                      <div className="text-xs font-semibold text-white mb-2">
-                        Pipeline Status: <span className="text-indigo-400">{jobStatus.status}</span>
-                      </div>
-                      {jobStatus.steps.map((step) => (
-                        <div key={step.module_name} className="p-3 rounded-xl bg-slate-950/50 border border-slate-800 flex justify-between items-center">
-                          <span className="text-xs font-medium text-slate-300 uppercase">{step.module_name.replace('_', ' ')}</span>
-                          <span className={`text-[10px] px-2 py-1 rounded-full font-bold
-                            ${step.status === 'COMPLETED' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 
-                              step.status === 'RUNNING' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30 animate-pulse' : 
-                              step.status === 'FAILED' ? 'bg-red-500/20 text-red-400 border border-red-500/30' : 
-                              'bg-slate-800 text-slate-500'}`}
-                          >
-                            {step.status} {step.duration_seconds ? `(${step.duration_seconds}s)` : ''}
-                          </span>
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+                        <div className="text-sm font-bold text-white">Pipeline Diagnostics Dashboard</div>
+                        <div className="text-xs font-semibold px-2 py-1 bg-slate-900 rounded-md border border-slate-700">
+                          Status: <span className="text-indigo-400">{jobStatus.status}</span>
                         </div>
-                      ))}
+                      </div>
+                      
+                      <div className="overflow-hidden rounded-xl border border-slate-800 bg-slate-950/50">
+                        <table className="w-full text-left text-xs text-slate-300">
+                          <thead className="bg-slate-900/80 text-slate-400 border-b border-slate-800">
+                            <tr>
+                              <th className="px-4 py-3 font-semibold">Stage</th>
+                              <th className="px-4 py-3 font-semibold">Status</th>
+                              <th className="px-4 py-3 font-semibold text-right">Duration</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-slate-800">
+                            {jobStatus.steps.map((step) => {
+                              const getStatusIcon = (status: string) => {
+                                switch (status) {
+                                  case 'COMPLETED': return '✅';
+                                  case 'RUNNING': return '⏳';
+                                  case 'FAILED': return '❌';
+                                  case 'SKIPPED': return '⚠️';
+                                  default: return '⚪';
+                                }
+                              };
+                              
+                              const getStatusClass = (status: string) => {
+                                switch (status) {
+                                  case 'COMPLETED': return 'text-emerald-400';
+                                  case 'RUNNING': return 'text-amber-400 animate-pulse';
+                                  case 'FAILED': return 'text-red-400';
+                                  case 'SKIPPED': return 'text-orange-400';
+                                  default: return 'text-slate-500';
+                                }
+                              };
+
+                              return (
+                                <tr key={step.module_name} className="hover:bg-slate-900/50 transition-colors">
+                                  <td className="px-4 py-3 font-medium capitalize">{step.module_name.replace(/_/g, ' ')}</td>
+                                  <td className="px-4 py-3">
+                                    <span className={`inline-flex items-center space-x-1.5 ${getStatusClass(step.status)}`}>
+                                      <span>{getStatusIcon(step.status)}</span>
+                                      <span className="font-semibold">{step.status}</span>
+                                    </span>
+                                    {step.error && (
+                                      <div className="mt-1 text-[10px] text-red-400/80 max-w-xs truncate" title={step.error}>
+                                        {step.error}
+                                      </div>
+                                    )}
+                                  </td>
+                                  <td className="px-4 py-3 text-right font-mono text-slate-400">
+                                    {step.duration_seconds !== undefined ? `${step.duration_seconds} s` : '-'}
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   ) : (
                     <div className="py-8 text-center text-slate-500 text-xs">
@@ -362,7 +418,7 @@ export default function VideoAgentPage() {
               
               {activeTab === 'timeline' && report && (
                 <div className="space-y-4 max-h-96 overflow-y-auto pr-2 custom-scrollbar">
-                  {report.timeline.entries.map((entry, idx) => (
+                  {report.timeline.entries.map((entry: any, idx: number) => (
                     <div key={idx} className="flex gap-4 p-3 rounded-lg bg-slate-900/50 border border-slate-800">
                       <div className="text-xs font-mono text-indigo-400 shrink-0">
                         {entry.timestampFormatted || `${Math.floor(entry.timestamp)}s`}
@@ -384,6 +440,10 @@ export default function VideoAgentPage() {
                     </div>
                   ))}
                 </div>
+              )}
+
+              {activeTab === 'visuals' && report && (
+                <TeachingVisualsGallery jobId={jobStatus?.job_id || ""} />
               )}
             </CardContent>
           </Card>

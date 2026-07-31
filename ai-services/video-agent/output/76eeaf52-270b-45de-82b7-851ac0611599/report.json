@@ -1,0 +1,535 @@
+{
+  "duration": "00:06:35",
+  "frames": [
+    {
+      "time": "00:00:00",
+      "image": "",
+      "text": "Large language models, they are everywhere."
+    },
+    {
+      "time": "00:00:02",
+      "image": "",
+      "text": "They get some things amazingly right and other things very interestingly wrong."
+    },
+    {
+      "time": "00:00:08",
+      "image": "",
+      "text": "My name is Marina Denilevsky."
+    },
+    {
+      "time": "00:00:09",
+      "image": "",
+      "text": "I am a senior research scientist here at IBM Research,"
+    },
+    {
+      "time": "00:00:12",
+      "image": "",
+      "text": "and I want to tell you about a framework to help large language models"
+    },
+    {
+      "time": "00:00:16",
+      "image": "",
+      "text": "be more accurate and more up to date."
+    },
+    {
+      "time": "00:00:18",
+      "image": "",
+      "text": "Retrieval Augmented Generation or RAG."
+    },
+    {
+      "time": "00:00:22",
+      "image": "",
+      "text": "Let's just talk about the generation part for a minute."
+    },
+    {
+      "time": "00:00:24",
+      "image": "",
+      "text": "So forget the retrieval augmented."
+    },
+    {
+      "time": "00:00:26",
+      "image": "",
+      "text": "So the generation, this refers to large language models or LLMs"
+    },
+    {
+      "time": "00:00:30",
+      "image": "",
+      "text": "that generate text in response to a user query referred to as a prompt."
+    },
+    {
+      "time": "00:00:36",
+      "image": "",
+      "text": "These models can have some undesirable behavior."
+    },
+    {
+      "time": "00:00:38",
+      "image": "",
+      "text": "I want to tell you an anecdote to illustrate this."
+    },
+    {
+      "time": "00:00:41",
+      "image": "",
+      "text": "So my kids, they recently asked me this question in our solar system,"
+    },
+    {
+      "time": "00:00:45",
+      "image": "",
+      "text": "what planet has the most moons?"
+    },
+    {
+      "time": "00:00:49",
+      "image": "",
+      "text": "And my response was, oh, that's really great that you're asking this question."
+    },
+    {
+      "time": "00:00:53",
+      "image": "",
+      "text": "I loved space when I was your age."
+    },
+    {
+      "time": "00:00:55",
+      "image": "",
+      "text": "Of course, that was like 30 years ago."
+    },
+    {
+      "time": "00:00:58",
+      "image": "",
+      "text": "But I know this."
+    },
+    {
+      "time": "00:00:59",
+      "image": "",
+      "text": "I read an article and the article said that it was Jupiter and 88 moons."
+    },
+    {
+      "time": "00:01:05",
+      "image": "",
+      "text": "So that's the answer."
+    },
+    {
+      "time": "00:01:06",
+      "image": "",
+      "text": "Now, actually, there's a couple of things wrong with my answer."
+    },
+    {
+      "time": "00:01:10",
+      "image": "",
+      "text": "First of all, I have no source to support what I'm saying."
+    },
+    {
+      "time": "00:01:14",
+      "image": "",
+      "text": "So even though I confidently said I read an article, I know the answer."
+    },
+    {
+      "time": "00:01:17",
+      "image": "",
+      "text": "I'm not sourcing it."
+    },
+    {
+      "time": "00:01:18",
+      "image": "",
+      "text": "I'm giving the answer off the top of my head."
+    },
+    {
+      "time": "00:01:20",
+      "image": "",
+      "text": "And also, I actually haven't kept up with this for a while."
+    },
+    {
+      "time": "00:01:23",
+      "image": "",
+      "text": "And my answer is out of date."
+    },
+    {
+      "time": "00:01:25",
+      "image": "",
+      "text": "So we have two problems here."
+    },
+    {
+      "time": "00:01:27",
+      "image": "",
+      "text": "One is no source."
+    },
+    {
+      "time": "00:01:30",
+      "image": "",
+      "text": "And the second problem is that I am out of date."
+    },
+    {
+      "time": "00:01:35",
+      "image": "",
+      "text": "And these, in fact, are two behaviors that are often observed as problematic"
+    },
+    {
+      "time": "00:01:41",
+      "image": "",
+      "text": "when interacting with large language models."
+    },
+    {
+      "time": "00:01:44",
+      "image": "",
+      "text": "They are LLM challenges."
+    },
+    {
+      "time": "00:01:46",
+      "image": "",
+      "text": "Now, what would have happened if I'd taken a beat and first gone and looked up the answer"
+    },
+    {
+      "time": "00:01:51",
+      "image": "",
+      "text": "on a reputable source like NASA?"
+    },
+    {
+      "time": "00:01:55",
+      "image": "",
+      "text": "Well, then I would have been able to say, ah, OK, so the answer is Saturn with 146 moons."
+    },
+    {
+      "time": "00:02:03",
+      "image": "",
+      "text": "And in fact, this keeps changing because scientists keep on discovering more and more"
+    },
+    {
+      "time": "00:02:07",
+      "image": "",
+      "text": "moots."
+    },
+    {
+      "time": "00:02:08",
+      "image": "",
+      "text": "So I have now grounded my answer in something more believable."
+    },
+    {
+      "time": "00:02:11",
+      "image": "",
+      "text": "I have not hallucinated or made up an answer on, by the way, I didn't leak personal information"
+    },
+    {
+      "time": "00:02:15",
+      "image": "",
+      "text": "about how long ago it's been since I was obsessed with space."
+    },
+    {
+      "time": "00:02:18",
+      "image": "",
+      "text": "All right."
+    },
+    {
+      "time": "00:02:19",
+      "image": "",
+      "text": "So what does this have to do with largely language models?"
+    },
+    {
+      "time": "00:02:22",
+      "image": "",
+      "text": "Well, how would a large language model be?"
+    },
+    {
+      "time": "00:02:23",
+      "image": "",
+      "text": "A large language model had answered this question."
+    },
+    {
+      "time": "00:02:26",
+      "image": "",
+      "text": "So let's say that I have a user asking this question about moons."
+    },
+    {
+      "time": "00:02:32",
+      "image": "",
+      "text": "A large language model would constantly say, OK, I have been trained."
+    },
+    {
+      "time": "00:02:40",
+      "image": "",
+      "text": "And from what I know in my parameters during my training, the answer is Jupiter."
+    },
+    {
+      "time": "00:02:46",
+      "image": "",
+      "text": "The answer is wrong."
+    },
+    {
+      "time": "00:02:47",
+      "image": "",
+      "text": "But, you know, we don't know."
+    },
+    {
+      "time": "00:02:50",
+      "image": "",
+      "text": "The large language model is very confident in what it answered."
+    },
+    {
+      "time": "00:02:53",
+      "image": "",
+      "text": "Now, what happens when you add this retrieval augmented part here?"
+    },
+    {
+      "time": "00:02:58",
+      "image": "",
+      "text": "What does that mean?"
+    },
+    {
+      "time": "00:02:59",
+      "image": "",
+      "text": "That means that now instead of just relying on what the LLM knows, we are adding a content store."
+    },
+    {
+      "time": "00:03:05",
+      "image": "",
+      "text": "This could be open like the internet."
+    },
+    {
+      "time": "00:03:07",
+      "image": "",
+      "text": "This could be closed like some collection of documents, collection of policies, whatever."
+    },
+    {
+      "time": "00:03:14",
+      "image": "",
+      "text": "The point, though, now is that the LLM first goes and talks to the content store and says,"
+    },
+    {
+      "time": "00:03:17",
+      "image": "http://localhost:8005/video/slides/76eeaf52-270b-45de-82b7-851ac0611599/images/slide_001",
+      "text": "hey, can you retrieve from me information that is relevant to what the user's query was?"
+    },
+    {
+      "time": "00:03:26",
+      "image": "",
+      "text": "And now, with this retriever augmented answer, it's not Jupiter anymore."
+    },
+    {
+      "time": "00:03:31",
+      "image": "",
+      "text": "We know that it is Saturn."
+    },
+    {
+      "time": "00:03:34",
+      "image": "",
+      "text": "What does this look like?"
+    },
+    {
+      "time": "00:03:36",
+      "image": "",
+      "text": "Well, first, user prompts the LLM with their question."
+    },
+    {
+      "time": "00:03:46",
+      "image": "",
+      "text": "They say this is what my question was."
+    },
+    {
+      "time": "00:03:48",
+      "image": "",
+      "text": "And originally, if we're just talking to a generative model,"
+    },
+    {
+      "time": "00:03:52",
+      "image": "",
+      "text": "the generative model says, oh, okay, I know the response."
+    },
+    {
+      "time": "00:03:55",
+      "image": "",
+      "text": "Here it is."
+    },
+    {
+      "time": "00:03:56",
+      "image": "",
+      "text": "Here's my response."
+    },
+    {
+      "time": "00:03:57",
+      "image": "",
+      "text": "But now, in the RAM framework, the generative model actually has an instruction that says,"
+    },
+    {
+      "time": "00:04:03",
+      "image": "",
+      "text": "no, no, no."
+    },
+    {
+      "time": "00:04:04",
+      "image": "",
+      "text": "First, go and retrieve relevant content."
+    },
+    {
+      "time": "00:04:08",
+      "image": "",
+      "text": "Combine that with the user's question and only then generate the answer."
+    },
+    {
+      "time": "00:04:13",
+      "image": "",
+      "text": "So, the prompt now has three parts."
+    },
+    {
+      "time": "00:04:17",
+      "image": "",
+      "text": "The instruction to pay attention to the retrieved content,"
+    },
+    {
+      "time": "00:04:21",
+      "image": "",
+      "text": "together with the user's question, now give a response."
+    },
+    {
+      "time": "00:04:24",
+      "image": "",
+      "text": "And in fact, now you can give evidence for why your response was what it was."
+    },
+    {
+      "time": "00:04:29",
+      "image": "",
+      "text": "So now hopefully you can see how does RAG help the 2LM challenges that I had mentioned before."
+    },
+    {
+      "time": "00:04:36",
+      "image": "",
+      "text": "So, first of all, I'll start with the out of date part."
+    },
+    {
+      "time": "00:04:38",
+      "image": "",
+      "text": "Now, instead of having to retrain your model, if new information comes up like, hey,"
+    },
+    {
+      "time": "00:04:43",
+      "image": "",
+      "text": "we found some more moves."
+    },
+    {
+      "time": "00:04:45",
+      "image": "",
+      "text": "Now, to Jupyter again, maybe it'll be Saturday again in the future."
+    },
+    {
+      "time": "00:04:48",
+      "image": "",
+      "text": "All you have to do is you augment your data store with new information,"
+    },
+    {
+      "time": "00:04:52",
+      "image": "",
+      "text": "updated information."
+    },
+    {
+      "time": "00:04:53",
+      "image": "",
+      "text": "So now the next time that a user comes and asks the question, we're ready."
+    },
+    {
+      "time": "00:04:57",
+      "image": "",
+      "text": "We just go ahead and retrieve the most up to date information."
+    },
+    {
+      "time": "00:05:00",
+      "image": "",
+      "text": "The second problem, source."
+    },
+    {
+      "time": "00:05:02",
+      "image": "",
+      "text": "Well, the language language model is now being instructed to pay attention to primary source"
+    },
+    {
+      "time": "00:05:08",
+      "image": "",
+      "text": "data before giving its response."
+    },
+    {
+      "time": "00:05:11",
+      "image": "",
+      "text": "And in fact, now being able to give evidence."
+    },
+    {
+      "time": "00:05:13",
+      "image": "",
+      "text": "This makes it less likely to hallucinate or to leak data because it is less likely to"
+    },
+    {
+      "time": "00:05:18",
+      "image": "",
+      "text": "rely only on information that I learned during training."
+    },
+    {
+      "time": "00:05:21",
+      "image": "",
+      "text": "It also allows us to get the model to have a behavior that can be very positive,"
+    },
+    {
+      "time": "00:05:26",
+      "image": "",
+      "text": "which is knowing when to say, I don't know."
+    },
+    {
+      "time": "00:05:29",
+      "image": "",
+      "text": "If the user's question cannot be reliably answered based on your data store,"
+    },
+    {
+      "time": "00:05:35",
+      "image": "",
+      "text": "the model should say, I don't know, instead of making up something that is believable"
+    },
+    {
+      "time": "00:05:39",
+      "image": "",
+      "text": "and may mislead the user."
+    },
+    {
+      "time": "00:05:42",
+      "image": "",
+      "text": "This can have a negative effect as well, though, because if the retriever is not"
+    },
+    {
+      "time": "00:05:45",
+      "image": "",
+      "text": "sufficiently good to give the large language model the best, most highest quality"
+    },
+    {
+      "time": "00:05:51",
+      "image": "",
+      "text": "grounding information, then maybe the user's query that is answerable doesn't get an answer."
+    },
+    {
+      "time": "00:05:57",
+      "image": "",
+      "text": "So this is actually why lots of folks, including many of us here at IBM,"
+    },
+    {
+      "time": "00:06:01",
+      "image": "",
+      "text": "are working the problem on both sides."
+    },
+    {
+      "time": "00:06:03",
+      "image": "",
+      "text": "We are both working to improve the retriever to give the large language model the best quality"
+    },
+    {
+      "time": "00:06:10",
+      "image": "",
+      "text": "data on which to ground its response and also the generative part so that the LLM can give"
+    },
+    {
+      "time": "00:06:16",
+      "image": "",
+      "text": "the richest best response finally to the user when it generates the answer."
+    },
+    {
+      "time": "00:06:20",
+      "image": "",
+      "text": "Thank you for learning more about RAG and like and subscribe to the channel."
+    },
+    {
+      "time": "00:06:25",
+      "image": "",
+      "text": "Thank you."
+    }
+  ]
+}

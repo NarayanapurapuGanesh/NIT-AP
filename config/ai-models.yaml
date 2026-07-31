@@ -1,0 +1,13 @@
+models:
+  resume:
+    primary: qwen2.5:3b
+  video:
+    primary: llama3.2:3b
+  coding:
+    primary: qwen2.5-coder:3b
+  interview:
+    primary: llama3.2:3b
+  bloom:
+    primary: llama3.2:3b
+  decision:
+    primary: qwen2.5:3b

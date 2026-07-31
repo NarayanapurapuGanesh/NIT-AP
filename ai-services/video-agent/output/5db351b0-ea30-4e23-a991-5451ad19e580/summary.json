@@ -1,0 +1,47 @@
+{
+  "short_summary": "This can have a negative effect as well, though, because if the retriever is not sufficiently good to give the large language model the best, most highest quality grounding information, then maybe the user's query that is answerable doesn't get an answer. We are both working to improve the retriever to give the large language model the best quality data on which to ground its response and also the generative part so that the LLM can give the richest best response finally to the user when it g...",
+  "topics_covered": [
+    "Large Language",
+    "Language Model",
+    "Language Models",
+    "Retrieval Augmented",
+    "User Query",
+    "Generative Model",
+    "User Question",
+    "Second Problem",
+    "Content Store",
+    "Pay Attention"
+  ],
+  "concepts": [],
+  "keywords": [
+    "answer",
+    "language",
+    "model",
+    "user",
+    "large",
+    "question",
+    "response",
+    "information",
+    "models",
+    "first",
+    "give",
+    "date",
+    "source",
+    "data",
+    "augmented",
+    "part",
+    "moons",
+    "fact",
+    "content",
+    "store"
+  ],
+  "technical_terms": [],
+  "programming_languages": [
+    "GO"
+  ],
+  "algorithms": [
+    "Prim"
+  ],
+  "subjects": [],
+  "json_path": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\5db351b0-ea30-4e23-a991-5451ad19e580\\summary.json"
+}

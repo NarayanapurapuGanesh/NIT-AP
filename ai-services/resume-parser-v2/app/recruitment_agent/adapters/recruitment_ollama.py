@@ -18,7 +18,7 @@ class RecruitmentOllamaAdapter:
         self.base_url = base_url
 
     async def generate_decision(
-        self, prompt: str, model_name: str = "llama3.2"
+        self, prompt: str, model_name: str = "qwen2.5"
     ) -> Dict[str, Any]:
         try:
             async with httpx.AsyncClient(timeout=10.0) as client:

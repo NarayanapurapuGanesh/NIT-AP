@@ -13,8 +13,17 @@ class AgentAnalysisRequest(BaseModel):
     intelligence_report: CandidateIntelligenceReport
     job_description: Optional[str] = Field(default=None, description="Target Faculty Job Description text")
     department_name: Optional[str] = Field(default="Computer Science & Engineering", description="Academic Department")
-    preferred_model: str = Field(default="llama3.2", description="Ollama model name (llama3.2, qwen2.5, gemma, phi)")
-    temperature: float = Field(default=0.1, ge=0.0, le=1.0)
+    preferred_model: str = Field(default="qwen2.5", description="Ollama model name (llama3.2, qwen2.5, gemma, phi)")
+    
+    # Optional parameters
+    temperature: float = 0.1
+    max_tokens: int = 1500
+    
+class AgentReasoningStep(BaseModel):
+    """Reasoning process log"""
+    step: str
+    description: str
+    confidence: float
 
 
 class EvidenceCitation(BaseModel):
@@ -34,11 +43,12 @@ class ReasoningHighlights(BaseModel):
 
 
 class TokenMetrics(BaseModel):
+    """LLM execution metrics"""
     prompt_tokens: int = 0
     completion_tokens: int = 0
     total_tokens: int = 0
     latency_ms: float = 0.0
-    model_name: str = "llama3.2"
+    model_name: str = "qwen2.5"
 
 
 class AIResumeIntelligenceReport(BaseModel):

@@ -1,0 +1,47 @@
+{
+  "short_summary": "Here is a concise summary of the teaching demonstration transcript and OCR text in 2-3 sentences:\n\nThe presenter introduces Retrieval Augmented Generation (RAG), a framework to improve large language models' accuracy and update them with new information. She uses an anecdote about answering her children's question about the planet with the most moons to illustrate two common problems with LLMs: generating answers without sources and providing outdated information. By incorporating a retrieval component, RAG aims to leverage a content store (such as the internet) to verify and update model responses, addressing these limitations.",
+  "topics_covered": [
+    "Large Language",
+    "Language Model",
+    "Language Models",
+    "Retrieval Augmented",
+    "User Query",
+    "Generative Model",
+    "User Question",
+    "Second Problem",
+    "Content Store",
+    "Pay Attention"
+  ],
+  "concepts": [],
+  "keywords": [
+    "answer",
+    "language",
+    "model",
+    "user",
+    "large",
+    "question",
+    "response",
+    "information",
+    "models",
+    "first",
+    "give",
+    "date",
+    "source",
+    "data",
+    "augmented",
+    "part",
+    "moons",
+    "fact",
+    "content",
+    "store"
+  ],
+  "technical_terms": [],
+  "programming_languages": [
+    "GO"
+  ],
+  "algorithms": [
+    "Prim"
+  ],
+  "subjects": [],
+  "json_path": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\494ac6b5-091f-4221-a234-d949ad6930af\\summary.json"
+}

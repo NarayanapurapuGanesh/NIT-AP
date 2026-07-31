@@ -21,7 +21,7 @@ class OllamaAdapter:
         self.base_url = base_url
 
     async def generate_reasoning(
-        self, prompt: str, model_name: str = "llama3.2", temperature: float = 0.1
+        self, prompt: str, model_name: str = "qwen2.5", temperature: float = 0.1
     ) -> Tuple[Dict[str, Any], TokenMetrics]:
         start_time = time.perf_counter()
 
