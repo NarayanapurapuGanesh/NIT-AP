@@ -116,6 +116,10 @@ export default function VideoAgentPage() {
       }
 
       if (currentJob.status === 'FAILED') {
+        const validationFailed = currentJob.steps.find((s: ProcessingStep) => s.module_name === 'validation' && s.status === 'FAILED');
+        if (validationFailed) {
+          throw new Error('This video does not meet the requirements for a teaching demonstration. Please re-upload a valid teaching video (ensure it has an active audio stream and meets the length requirements).');
+        }
         throw new Error(currentJob.message || 'Pipeline processing failed.');
       }
 
