@@ -7,10 +7,12 @@ from sqlalchemy.orm import Session
 from loguru import logger
 import sys
 from app.db.session import Base, engine, SessionLocal
-from app.db.models import VideoVisual
+from app.db.models import VideoVisual, VisualOCR, VisualMetadata, VisualTopics, VisualTimeline
 
 def check_for_duplicates(db: Session) -> bool:
     """Checks for existing duplicate records that violate unique constraints."""
+    
+    is_valid = True
     
     duplicates = db.query(
         VideoVisual.video_id, 
@@ -22,11 +24,34 @@ def check_for_duplicates(db: Session) -> bool:
     ).having(func.count('*') > 1).all()
     
     if duplicates:
-        logger.error("Found {} duplicate (video_id, filename) pairs in VideoVisual!", len(duplicates))
+        logger.error(f"Found {len(duplicates)} duplicate (video_id, filename) pairs in VideoVisual!")
         for d in duplicates:
             logger.error(f"Duplicate found: video_id={d[0]}, filename={d[1]}, count={d[2]}")
-        return False
-    return True
+        is_valid = False
+        
+    # Check child tables for duplicate visual_id
+    child_tables = [
+        (VisualOCR, "VisualOCR"),
+        (VisualMetadata, "VisualMetadata"),
+        (VisualTopics, "VisualTopics"),
+        (VisualTimeline, "VisualTimeline")
+    ]
+    
+    for model, name in child_tables:
+        child_dups = db.query(
+            model.visual_id,
+            func.count('*').label('count')
+        ).group_by(
+            model.visual_id
+        ).having(func.count('*') > 1).all()
+        
+        if child_dups:
+            logger.error(f"Found {len(child_dups)} duplicate visual_id records in {name}!")
+            for d in child_dups:
+                logger.error(f"Duplicate found in {name}: visual_id={d[0]}, count={d[1]}")
+            is_valid = False
+
+    return is_valid
 
 def validate_schema() -> None:
     """

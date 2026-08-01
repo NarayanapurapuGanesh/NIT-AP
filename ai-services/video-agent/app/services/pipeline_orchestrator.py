@@ -182,6 +182,12 @@ class PipelineOrchestrator:
             gallery_path = str(workspace / "gallery.json")
             self._storage.build_gallery(visuals, gallery_path)
 
+            gallery_zip_path = None
+            gallery_pdf_path = None
+            if visuals:
+                gallery_zip_path = self._storage.export_gallery_zip(visuals, str(workspace / "gallery.zip"))
+                gallery_pdf_path = self._storage.export_gallery_pdf(visuals, str(workspace / "gallery.pdf"))
+
             report_path = str(workspace / "report.json")
             report = self._storage.build_full_report(
                 job_id=j_id,
@@ -205,6 +211,8 @@ class PipelineOrchestrator:
                 timeline_json=timeline.json_path if timeline else None,
                 summary_json=summary.json_path if summary else None,
                 gallery_json=gallery_path,
+                gallery_pdf=gallery_pdf_path,
+                gallery_zip=gallery_zip_path,
                 voice_json=voice_result.json_path if voice_result else None,
                 report_json=report_path,
             )

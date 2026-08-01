@@ -5,8 +5,11 @@ Manages output directory structure and file persistence for all pipeline outputs
 """
 
 import json
+import zipfile
 from pathlib import Path
 from typing import Optional, Union
+
+from fpdf import FPDF
 
 from app.config.settings import settings
 from app.core.logging import get_module_logger
@@ -72,6 +75,39 @@ class StorageService:
         )
         write_json(output_path, gallery)
         return gallery
+
+    def export_gallery_zip(self, visuals: list[SlideDTO], output_path: str) -> Optional[str]:
+        """Exports the visuals to a ZIP archive."""
+        if not visuals:
+            return None
+        try:
+            with zipfile.ZipFile(output_path, 'w', zipfile.ZIP_DEFLATED) as zf:
+                for slide in visuals:
+                    if slide.full_image_url and Path(slide.full_image_url).exists():
+                        # We use the filename as the archive name
+                        arcname = Path(slide.full_image_url).name
+                        zf.write(slide.full_image_url, arcname)
+            return output_path
+        except Exception as e:
+            log.error(f"Failed to export ZIP gallery: {e}")
+            return None
+
+    def export_gallery_pdf(self, visuals: list[SlideDTO], output_path: str) -> Optional[str]:
+        """Exports the visuals to a PDF document."""
+        if not visuals:
+            return None
+        try:
+            pdf = FPDF(orientation="landscape", unit="mm", format="A4")
+            for slide in visuals:
+                if slide.full_image_url and Path(slide.full_image_url).exists():
+                    pdf.add_page()
+                    # A4 Landscape is 297 x 210 mm
+                    pdf.image(slide.full_image_url, x=0, y=0, w=297, h=210)
+            pdf.output(output_path)
+            return output_path
+        except Exception as e:
+            log.error(f"Failed to export PDF gallery: {e}")
+            return None
 
     def build_full_report(
         self,

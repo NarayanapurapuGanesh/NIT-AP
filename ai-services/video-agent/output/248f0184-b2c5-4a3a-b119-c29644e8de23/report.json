@@ -1,0 +1,1874 @@
+{
+  "jobId": "248f0184-b2c5-4a3a-b119-c29644e8de23",
+  "video": {
+    "filename": "248f0184_What is Retrieval-Augmented Generation (RAG)_.mp4",
+    "format": "mp4",
+    "durationSeconds": 395.13,
+    "resolution": "1920x1080",
+    "fps": 29.97,
+    "fileSizeMb": 47.61,
+    "hasAudio": true,
+    "videoCodec": "aac",
+    "audioCodec": null
+  },
+  "transcript": {
+    "fullText": "Large language models, they are everywhere. They get some things amazingly right and other things very interestingly wrong. My name is Marina Denilevsky. I am a senior research scientist here at IBM Research, and I want to tell you about a framework to help large language models be more accurate and more up to date. Retrieval Augmented Generation or RAG. Let's just talk about the generation part for a minute. So forget the retrieval augmented. So the generation, this refers to large language models or LLMs that generate text in response to a user query referred to as a prompt. These models can have some undesirable behavior. I want to tell you an anecdote to illustrate this. So my kids, they recently asked me this question in our solar system, what planet has the most moons? And my response was, oh, that's really great that you're asking this question. I loved space when I was your age. Of course, that was like 30 years ago. But I know this. I read an article and the article said that it was Jupiter and 88 moons. So that's the answer. Now, actually, there's a couple of things wrong with my answer. First of all, I have no source to support what I'm saying. So even though I confidently said I read an article, I know the answer. I'm not sourcing it. I'm giving the answer off the top of my head. And also, I actually haven't kept up with this for a while. And my answer is out of date. So we have two problems here. One is no source. And the second problem is that I am out of date. And these, in fact, are two behaviors that are often observed as problematic when interacting with large language models. They are LLM challenges. Now, what would have happened if I'd taken a beat and first gone and looked up the answer on a reputable source like NASA? Well, then I would have been able to say, ah, OK, so the answer is Saturn with 146 moons. And in fact, this keeps changing because scientists keep on discovering more and more moots. So I have now grounded my answer in something more believable. I have not hallucinated or made up an answer on, by the way, I didn't leak personal information about how long ago it's been since I was obsessed with space. All right. So what does this have to do with largely language models? Well, how would a large language model be? A large language model had answered this question. So let's say that I have a user asking this question about moons. A large language model would constantly say, OK, I have been trained. And from what I know in my parameters during my training, the answer is Jupiter. The answer is wrong. But, you know, we don't know. The large language model is very confident in what it answered. Now, what happens when you add this retrieval augmented part here? What does that mean? That means that now instead of just relying on what the LLM knows, we are adding a content store. This could be open like the internet. This could be closed like some collection of documents, collection of policies, whatever. The point, though, now is that the LLM first goes and talks to the content store and says, hey, can you retrieve from me information that is relevant to what the user's query was? And now, with this retriever augmented answer, it's not Jupiter anymore. We know that it is Saturn. What does this look like? Well, first, user prompts the LLM with their question. They say this is what my question was. And originally, if we're just talking to a generative model, the generative model says, oh, okay, I know the response. Here it is. Here's my response. But now, in the RAM framework, the generative model actually has an instruction that says, no, no, no. First, go and retrieve relevant content. Combine that with the user's question and only then generate the answer. So, the prompt now has three parts. The instruction to pay attention to the retrieved content, together with the user's question, now give a response. And in fact, now you can give evidence for why your response was what it was. So now hopefully you can see how does RAG help the 2LM challenges that I had mentioned before. So, first of all, I'll start with the out of date part. Now, instead of having to retrain your model, if new information comes up like, hey, we found some more moves. Now, to Jupyter again, maybe it'll be Saturday again in the future. All you have to do is you augment your data store with new information, updated information. So now the next time that a user comes and asks the question, we're ready. We just go ahead and retrieve the most up to date information. The second problem, source. Well, the language language model is now being instructed to pay attention to primary source data before giving its response. And in fact, now being able to give evidence. This makes it less likely to hallucinate or to leak data because it is less likely to rely only on information that I learned during training. It also allows us to get the model to have a behavior that can be very positive, which is knowing when to say, I don't know. If the user's question cannot be reliably answered based on your data store, the model should say, I don't know, instead of making up something that is believable and may mislead the user. This can have a negative effect as well, though, because if the retriever is not sufficiently good to give the large language model the best, most highest quality grounding information, then maybe the user's query that is answerable doesn't get an answer. So this is actually why lots of folks, including many of us here at IBM, are working the problem on both sides. We are both working to improve the retriever to give the large language model the best quality data on which to ground its response and also the generative part so that the LLM can give the richest best response finally to the user when it generates the answer. Thank you for learning more about RAG and like and subscribe to the channel. Thank you.",
+    "segments": [
+      {
+        "timestamp": 0.0,
+        "start": 0.0,
+        "end": 2.34,
+        "text": "Large language models, they are everywhere."
+      },
+      {
+        "timestamp": 2.86,
+        "start": 2.86,
+        "end": 7.24,
+        "text": "They get some things amazingly right and other things very interestingly wrong."
+      },
+      {
+        "timestamp": 8.1,
+        "start": 8.1,
+        "end": 9.28,
+        "text": "My name is Marina Denilevsky."
+      },
+      {
+        "timestamp": 9.56,
+        "start": 9.56,
+        "end": 11.88,
+        "text": "I am a senior research scientist here at IBM Research,"
+      },
+      {
+        "timestamp": 12.16,
+        "start": 12.16,
+        "end": 16.12,
+        "text": "and I want to tell you about a framework to help large language models"
+      },
+      {
+        "timestamp": 16.12,
+        "start": 16.12,
+        "end": 18.24,
+        "text": "be more accurate and more up to date."
+      },
+      {
+        "timestamp": 18.72,
+        "start": 18.72,
+        "end": 21.82,
+        "text": "Retrieval Augmented Generation or RAG."
+      },
+      {
+        "timestamp": 22.52,
+        "start": 22.52,
+        "end": 24.66,
+        "text": "Let's just talk about the generation part for a minute."
+      },
+      {
+        "timestamp": 24.86,
+        "start": 24.86,
+        "end": 26.42,
+        "text": "So forget the retrieval augmented."
+      },
+      {
+        "timestamp": 26.42,
+        "start": 26.42,
+        "end": 30.84,
+        "text": "So the generation, this refers to large language models or LLMs"
+      },
+      {
+        "timestamp": 30.84,
+        "start": 30.84,
+        "end": 35.38,
+        "text": "that generate text in response to a user query referred to as a prompt."
+      },
+      {
+        "timestamp": 36.0,
+        "start": 36.0,
+        "end": 37.98,
+        "text": "These models can have some undesirable behavior."
+      },
+      {
+        "timestamp": 38.28,
+        "start": 38.28,
+        "end": 41.06,
+        "text": "I want to tell you an anecdote to illustrate this."
+      },
+      {
+        "timestamp": 41.66,
+        "start": 41.66,
+        "end": 45.66,
+        "text": "So my kids, they recently asked me this question in our solar system,"
+      },
+      {
+        "timestamp": 45.94,
+        "start": 45.94,
+        "end": 47.98,
+        "text": "what planet has the most moons?"
+      },
+      {
+        "timestamp": 49.06,
+        "start": 49.06,
+        "end": 53.5,
+        "text": "And my response was, oh, that's really great that you're asking this question."
+      },
+      {
+        "timestamp": 53.64,
+        "start": 53.64,
+        "end": 55.7,
+        "text": "I loved space when I was your age."
+      },
+      {
+        "timestamp": 55.7,
+        "start": 55.7,
+        "end": 57.58,
+        "text": "Of course, that was like 30 years ago."
+      },
+      {
+        "timestamp": 58.06,
+        "start": 58.06,
+        "end": 59.16,
+        "text": "But I know this."
+      },
+      {
+        "timestamp": 59.38,
+        "start": 59.38,
+        "end": 65.08,
+        "text": "I read an article and the article said that it was Jupiter and 88 moons."
+      },
+      {
+        "timestamp": 65.3,
+        "start": 65.3,
+        "end": 65.94,
+        "text": "So that's the answer."
+      },
+      {
+        "timestamp": 66.54,
+        "start": 66.54,
+        "end": 69.64,
+        "text": "Now, actually, there's a couple of things wrong with my answer."
+      },
+      {
+        "timestamp": 70.48,
+        "start": 70.48,
+        "end": 73.9,
+        "text": "First of all, I have no source to support what I'm saying."
+      },
+      {
+        "timestamp": 74.06,
+        "start": 74.06,
+        "end": 77.06,
+        "text": "So even though I confidently said I read an article, I know the answer."
+      },
+      {
+        "timestamp": 77.58,
+        "start": 77.58,
+        "end": 78.36,
+        "text": "I'm not sourcing it."
+      },
+      {
+        "timestamp": 78.46,
+        "start": 78.46,
+        "end": 80.1,
+        "text": "I'm giving the answer off the top of my head."
+      },
+      {
+        "timestamp": 80.6,
+        "start": 80.6,
+        "end": 83.26,
+        "text": "And also, I actually haven't kept up with this for a while."
+      },
+      {
+        "timestamp": 83.42,
+        "start": 83.42,
+        "end": 85.2,
+        "text": "And my answer is out of date."
+      },
+      {
+        "timestamp": 85.86,
+        "start": 85.86,
+        "end": 87.5,
+        "text": "So we have two problems here."
+      },
+      {
+        "timestamp": 87.88,
+        "start": 87.88,
+        "end": 88.98,
+        "text": "One is no source."
+      },
+      {
+        "timestamp": 90.22,
+        "start": 90.22,
+        "end": 92.86,
+        "text": "And the second problem is that I am out of date."
+      },
+      {
+        "timestamp": 95.28,
+        "start": 95.28,
+        "end": 101.52,
+        "text": "And these, in fact, are two behaviors that are often observed as problematic"
+      },
+      {
+        "timestamp": 101.52,
+        "start": 101.52,
+        "end": 103.9,
+        "text": "when interacting with large language models."
+      },
+      {
+        "timestamp": 104.7,
+        "start": 104.7,
+        "end": 105.88,
+        "text": "They are LLM challenges."
+      },
+      {
+        "timestamp": 106.56,
+        "start": 106.56,
+        "end": 111.84,
+        "text": "Now, what would have happened if I'd taken a beat and first gone and looked up the answer"
+      },
+      {
+        "timestamp": 111.84,
+        "start": 111.84,
+        "end": 113.9,
+        "text": "on a reputable source like NASA?"
+      },
+      {
+        "timestamp": 115.18,
+        "start": 115.18,
+        "end": 123.18,
+        "text": "Well, then I would have been able to say, ah, OK, so the answer is Saturn with 146 moons."
+      },
+      {
+        "timestamp": 123.32,
+        "start": 123.32,
+        "end": 127.62,
+        "text": "And in fact, this keeps changing because scientists keep on discovering more and more"
+      },
+      {
+        "timestamp": 127.62,
+        "start": 127.62,
+        "end": 127.94,
+        "text": "moots."
+      },
+      {
+        "timestamp": 128.24,
+        "start": 128.24,
+        "end": 130.66,
+        "text": "So I have now grounded my answer in something more believable."
+      },
+      {
+        "timestamp": 131.02,
+        "start": 131.02,
+        "end": 135.16,
+        "text": "I have not hallucinated or made up an answer on, by the way, I didn't leak personal information"
+      },
+      {
+        "timestamp": 135.16,
+        "start": 135.16,
+        "end": 138.12,
+        "text": "about how long ago it's been since I was obsessed with space."
+      },
+      {
+        "timestamp": 138.82,
+        "start": 138.82,
+        "end": 139.24,
+        "text": "All right."
+      },
+      {
+        "timestamp": 139.28,
+        "start": 139.28,
+        "end": 141.74,
+        "text": "So what does this have to do with largely language models?"
+      },
+      {
+        "timestamp": 142.04,
+        "start": 142.04,
+        "end": 143.88,
+        "text": "Well, how would a large language model be?"
+      },
+      {
+        "timestamp": 143.88,
+        "start": 143.88,
+        "end": 146.4,
+        "text": "A large language model had answered this question."
+      },
+      {
+        "timestamp": 146.52,
+        "start": 146.52,
+        "end": 151.26,
+        "text": "So let's say that I have a user asking this question about moons."
+      },
+      {
+        "timestamp": 152.22,
+        "start": 152.22,
+        "end": 159.88,
+        "text": "A large language model would constantly say, OK, I have been trained."
+      },
+      {
+        "timestamp": 160.26,
+        "start": 160.26,
+        "end": 164.66,
+        "text": "And from what I know in my parameters during my training, the answer is Jupiter."
+      },
+      {
+        "timestamp": 166.44,
+        "start": 166.44,
+        "end": 167.56,
+        "text": "The answer is wrong."
+      },
+      {
+        "timestamp": 167.86,
+        "start": 167.86,
+        "end": 170.16,
+        "text": "But, you know, we don't know."
+      },
+      {
+        "timestamp": 170.3,
+        "start": 170.3,
+        "end": 172.44,
+        "text": "The large language model is very confident in what it answered."
+      },
+      {
+        "timestamp": 173.0,
+        "start": 173.0,
+        "end": 178.04,
+        "text": "Now, what happens when you add this retrieval augmented part here?"
+      },
+      {
+        "timestamp": 178.48,
+        "start": 178.48,
+        "end": 178.98,
+        "text": "What does that mean?"
+      },
+      {
+        "timestamp": 179.3,
+        "start": 179.3,
+        "end": 185.08,
+        "text": "That means that now instead of just relying on what the LLM knows, we are adding a content store."
+      },
+      {
+        "timestamp": 185.76,
+        "start": 185.76,
+        "end": 187.34,
+        "text": "This could be open like the internet."
+      },
+      {
+        "timestamp": 187.84,
+        "start": 187.84,
+        "end": 193.64,
+        "text": "This could be closed like some collection of documents, collection of policies, whatever."
+      },
+      {
+        "timestamp": 194.28,
+        "start": 194.28,
+        "end": 199.3,
+        "text": "The point, though, now is that the LLM first goes and talks to the content store and says,"
+      },
+      {
+        "timestamp": 199.3,
+        "start": 199.3,
+        "end": 205.38,
+        "text": "hey, can you retrieve from me information that is relevant to what the user's query was?"
+      },
+      {
+        "timestamp": 206.04,
+        "start": 206.04,
+        "end": 211.64,
+        "text": "And now, with this retriever augmented answer, it's not Jupiter anymore."
+      },
+      {
+        "timestamp": 211.92,
+        "start": 211.92,
+        "end": 213.34,
+        "text": "We know that it is Saturn."
+      },
+      {
+        "timestamp": 214.16,
+        "start": 214.16,
+        "end": 215.26,
+        "text": "What does this look like?"
+      },
+      {
+        "timestamp": 216.0,
+        "start": 216.0,
+        "end": 225.98,
+        "text": "Well, first, user prompts the LLM with their question."
+      },
+      {
+        "timestamp": 226.74,
+        "start": 226.74,
+        "end": 228.04,
+        "text": "They say this is what my question was."
+      },
+      {
+        "timestamp": 228.04,
+        "start": 228.04,
+        "end": 231.56,
+        "text": "And originally, if we're just talking to a generative model,"
+      },
+      {
+        "timestamp": 232.48,
+        "start": 232.48,
+        "end": 234.84,
+        "text": "the generative model says, oh, okay, I know the response."
+      },
+      {
+        "timestamp": 235.58,
+        "start": 235.58,
+        "end": 235.96,
+        "text": "Here it is."
+      },
+      {
+        "timestamp": 236.08,
+        "start": 236.08,
+        "end": 236.58,
+        "text": "Here's my response."
+      },
+      {
+        "timestamp": 237.52,
+        "start": 237.52,
+        "end": 243.5,
+        "text": "But now, in the RAM framework, the generative model actually has an instruction that says,"
+      },
+      {
+        "timestamp": 243.68,
+        "start": 243.68,
+        "end": 244.04,
+        "text": "no, no, no."
+      },
+      {
+        "timestamp": 244.36,
+        "start": 244.36,
+        "end": 247.84,
+        "text": "First, go and retrieve relevant content."
+      },
+      {
+        "timestamp": 248.76,
+        "start": 248.76,
+        "end": 253.0,
+        "text": "Combine that with the user's question and only then generate the answer."
+      },
+      {
+        "timestamp": 253.58,
+        "start": 253.58,
+        "end": 257.22,
+        "text": "So, the prompt now has three parts."
+      },
+      {
+        "timestamp": 257.22,
+        "start": 257.22,
+        "end": 261.14,
+        "text": "The instruction to pay attention to the retrieved content,"
+      },
+      {
+        "timestamp": 261.4,
+        "start": 261.4,
+        "end": 264.08,
+        "text": "together with the user's question, now give a response."
+      },
+      {
+        "timestamp": 264.46,
+        "start": 264.46,
+        "end": 268.88,
+        "text": "And in fact, now you can give evidence for why your response was what it was."
+      },
+      {
+        "timestamp": 269.78,
+        "start": 269.78,
+        "end": 275.22,
+        "text": "So now hopefully you can see how does RAG help the 2LM challenges that I had mentioned before."
+      },
+      {
+        "timestamp": 276.08,
+        "start": 276.08,
+        "end": 278.12,
+        "text": "So, first of all, I'll start with the out of date part."
+      },
+      {
+        "timestamp": 278.62,
+        "start": 278.62,
+        "end": 283.78,
+        "text": "Now, instead of having to retrain your model, if new information comes up like, hey,"
+      },
+      {
+        "timestamp": 283.78,
+        "start": 283.78,
+        "end": 284.94,
+        "text": "we found some more moves."
+      },
+      {
+        "timestamp": 285.2,
+        "start": 285.2,
+        "end": 287.68,
+        "text": "Now, to Jupyter again, maybe it'll be Saturday again in the future."
+      },
+      {
+        "timestamp": 288.32,
+        "start": 288.32,
+        "end": 292.28,
+        "text": "All you have to do is you augment your data store with new information,"
+      },
+      {
+        "timestamp": 292.44,
+        "start": 292.44,
+        "end": 293.12,
+        "text": "updated information."
+      },
+      {
+        "timestamp": 293.38,
+        "start": 293.38,
+        "end": 297.44,
+        "text": "So now the next time that a user comes and asks the question, we're ready."
+      },
+      {
+        "timestamp": 297.72,
+        "start": 297.72,
+        "end": 299.64,
+        "text": "We just go ahead and retrieve the most up to date information."
+      },
+      {
+        "timestamp": 300.42,
+        "start": 300.42,
+        "end": 301.68,
+        "text": "The second problem, source."
+      },
+      {
+        "timestamp": 302.36,
+        "start": 302.36,
+        "end": 308.94,
+        "text": "Well, the language language model is now being instructed to pay attention to primary source"
+      },
+      {
+        "timestamp": 308.94,
+        "start": 308.94,
+        "end": 310.92,
+        "text": "data before giving its response."
+      },
+      {
+        "timestamp": 311.1,
+        "start": 311.1,
+        "end": 313.18,
+        "text": "And in fact, now being able to give evidence."
+      },
+      {
+        "timestamp": 313.78,
+        "start": 313.78,
+        "end": 318.36,
+        "text": "This makes it less likely to hallucinate or to leak data because it is less likely to"
+      },
+      {
+        "timestamp": 318.36,
+        "start": 318.36,
+        "end": 321.22,
+        "text": "rely only on information that I learned during training."
+      },
+      {
+        "timestamp": 321.84,
+        "start": 321.84,
+        "end": 326.46,
+        "text": "It also allows us to get the model to have a behavior that can be very positive,"
+      },
+      {
+        "timestamp": 326.46,
+        "start": 326.46,
+        "end": 328.9,
+        "text": "which is knowing when to say, I don't know."
+      },
+      {
+        "timestamp": 329.62,
+        "start": 329.62,
+        "end": 334.9,
+        "text": "If the user's question cannot be reliably answered based on your data store,"
+      },
+      {
+        "timestamp": 335.4,
+        "start": 335.4,
+        "end": 339.36,
+        "text": "the model should say, I don't know, instead of making up something that is believable"
+      },
+      {
+        "timestamp": 339.36,
+        "start": 339.36,
+        "end": 341.26,
+        "text": "and may mislead the user."
+      },
+      {
+        "timestamp": 342.06,
+        "start": 342.06,
+        "end": 345.92,
+        "text": "This can have a negative effect as well, though, because if the retriever is not"
+      },
+      {
+        "timestamp": 345.92,
+        "start": 345.92,
+        "end": 351.48,
+        "text": "sufficiently good to give the large language model the best, most highest quality"
+      },
+      {
+        "timestamp": 351.48,
+        "start": 351.48,
+        "end": 356.84,
+        "text": "grounding information, then maybe the user's query that is answerable doesn't get an answer."
+      },
+      {
+        "timestamp": 357.36,
+        "start": 357.36,
+        "end": 361.02,
+        "text": "So this is actually why lots of folks, including many of us here at IBM,"
+      },
+      {
+        "timestamp": 361.6,
+        "start": 361.6,
+        "end": 363.24,
+        "text": "are working the problem on both sides."
+      },
+      {
+        "timestamp": 363.58,
+        "start": 363.58,
+        "end": 370.52,
+        "text": "We are both working to improve the retriever to give the large language model the best quality"
+      },
+      {
+        "timestamp": 370.52,
+        "start": 370.52,
+        "end": 376.02,
+        "text": "data on which to ground its response and also the generative part so that the LLM can give"
+      },
+      {
+        "timestamp": 376.02,
+        "start": 376.02,
+        "end": 380.58,
+        "text": "the richest best response finally to the user when it generates the answer."
+      },
+      {
+        "timestamp": 380.9,
+        "start": 380.9,
+        "end": 385.5,
+        "text": "Thank you for learning more about RAG and like and subscribe to the channel."
+      },
+      {
+        "timestamp": 385.66,
+        "start": 385.66,
+        "end": 386.06,
+        "text": "Thank you."
+      }
+    ],
+    "language": "en",
+    "durationSeconds": 386.06
+  },
+  "slides": [
+    {
+      "slideId": "slide_001",
+      "timestamp": 0.0,
+      "timestampFormatted": "00:00",
+      "thumbnailUrl": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\248f0184-b2c5-4a3a-b119-c29644e8de23\\visuals\\thumb_248f0184-b2c5-4a3a-b119-c29644e8de23_0.0.jpg",
+      "fullImageUrl": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\248f0184-b2c5-4a3a-b119-c29644e8de23\\visuals\\248f0184-b2c5-4a3a-b119-c29644e8de23_0.0.jpg",
+      "ocrText": "IBM Technology",
+      "visualType": "Code Editor",
+      "containsHandwriting": false,
+      "containsDiagram": false,
+      "containsFlowchart": false,
+      "containsCode": true,
+      "containsEquation": false,
+      "containsTable": false
+    },
+    {
+      "slideId": "slide_002",
+      "timestamp": 30.363666666666667,
+      "timestampFormatted": "00:30",
+      "thumbnailUrl": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\248f0184-b2c5-4a3a-b119-c29644e8de23\\visuals\\thumb_248f0184-b2c5-4a3a-b119-c29644e8de23_30.4.jpg",
+      "fullImageUrl": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\248f0184-b2c5-4a3a-b119-c29644e8de23\\visuals\\248f0184-b2c5-4a3a-b119-c29644e8de23_30.4.jpg",
+      "ocrText": "akcreval - A ugmenied a",
+      "visualType": "Code Editor",
+      "containsHandwriting": false,
+      "containsDiagram": true,
+      "containsFlowchart": true,
+      "containsCode": true,
+      "containsEquation": false,
+      "containsTable": false
+    },
+    {
+      "slideId": "slide_003",
+      "timestamp": 60.727333333333334,
+      "timestampFormatted": "01:00",
+      "thumbnailUrl": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\248f0184-b2c5-4a3a-b119-c29644e8de23\\visuals\\thumb_248f0184-b2c5-4a3a-b119-c29644e8de23_60.7.jpg",
+      "fullImageUrl": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\248f0184-b2c5-4a3a-b119-c29644e8de23\\visuals\\248f0184-b2c5-4a3a-b119-c29644e8de23_60.7.jpg",
+      "ocrText": "Retrieval -Avsmant CT C\\eVG - vg menic O be 2A AGS",
+      "visualType": "Code Editor",
+      "containsHandwriting": false,
+      "containsDiagram": true,
+      "containsFlowchart": true,
+      "containsCode": true,
+      "containsEquation": false,
+      "containsTable": false
+    },
+    {
+      "slideId": "slide_004",
+      "timestamp": 91.09100000000001,
+      "timestampFormatted": "01:31",
+      "thumbnailUrl": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\248f0184-b2c5-4a3a-b119-c29644e8de23\\visuals\\thumb_248f0184-b2c5-4a3a-b119-c29644e8de23_91.1.jpg",
+      "fullImageUrl": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\248f0184-b2c5-4a3a-b119-c29644e8de23\\visuals\\248f0184-b2c5-4a3a-b119-c29644e8de23_91.1.jpg",
+      "ocrText": "Rekceval - Aue mente: AT O\\EVG “\\u9 venice go “4 * ‘ ? '",
+      "visualType": "Code Editor",
+      "containsHandwriting": false,
+      "containsDiagram": true,
+      "containsFlowchart": true,
+      "containsCode": true,
+      "containsEquation": false,
+      "containsTable": false
+    },
+    {
+      "slideId": "slide_005",
+      "timestamp": 121.45466666666667,
+      "timestampFormatted": "02:01",
+      "thumbnailUrl": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\248f0184-b2c5-4a3a-b119-c29644e8de23\\visuals\\thumb_248f0184-b2c5-4a3a-b119-c29644e8de23_121.5.jpg",
+      "fullImageUrl": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\248f0184-b2c5-4a3a-b119-c29644e8de23\\visuals\\248f0184-b2c5-4a3a-b119-c29644e8de23_121.5.jpg",
+      "ocrText": "il \\ Rokcieval - Avs mented NASA, ‘ v vy’",
+      "visualType": "Code Editor",
+      "containsHandwriting": false,
+      "containsDiagram": true,
+      "containsFlowchart": true,
+      "containsCode": true,
+      "containsEquation": false,
+      "containsTable": false
+    },
+    {
+      "slideId": "slide_006",
+      "timestamp": 151.81833333333333,
+      "timestampFormatted": "02:31",
+      "thumbnailUrl": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\248f0184-b2c5-4a3a-b119-c29644e8de23\\visuals\\thumb_248f0184-b2c5-4a3a-b119-c29644e8de23_151.8.jpg",
+      "fullImageUrl": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\248f0184-b2c5-4a3a-b119-c29644e8de23\\visuals\\248f0184-b2c5-4a3a-b119-c29644e8de23_151.8.jpg",
+      "ocrText": "Rohcieval - “Avs mone Lb NASA,",
+      "visualType": "Code Editor",
+      "containsHandwriting": false,
+      "containsDiagram": true,
+      "containsFlowchart": true,
+      "containsCode": true,
+      "containsEquation": false,
+      "containsTable": false
+    },
+    {
+      "slideId": "slide_007",
+      "timestamp": 182.18200000000002,
+      "timestampFormatted": "03:02",
+      "thumbnailUrl": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\248f0184-b2c5-4a3a-b119-c29644e8de23\\visuals\\thumb_248f0184-b2c5-4a3a-b119-c29644e8de23_182.2.jpg",
+      "fullImageUrl": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\248f0184-b2c5-4a3a-b119-c29644e8de23\\visuals\\248f0184-b2c5-4a3a-b119-c29644e8de23_182.2.jpg",
+      "ocrText": "2 hove \\-A fet eves Va va memed — a f",
+      "visualType": "Code Editor",
+      "containsHandwriting": false,
+      "containsDiagram": true,
+      "containsFlowchart": true,
+      "containsCode": true,
+      "containsEquation": false,
+      "containsTable": false
+    },
+    {
+      "slideId": "slide_008",
+      "timestamp": 212.54566666666668,
+      "timestampFormatted": "03:32",
+      "thumbnailUrl": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\248f0184-b2c5-4a3a-b119-c29644e8de23\\visuals\\thumb_248f0184-b2c5-4a3a-b119-c29644e8de23_212.5.jpg",
+      "fullImageUrl": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\248f0184-b2c5-4a3a-b119-c29644e8de23\\visuals\\248f0184-b2c5-4a3a-b119-c29644e8de23_212.5.jpg",
+      "ocrText": "r f- \\ IQ, cieval - Avg mented ee ~~ — NASA",
+      "visualType": "Code Editor",
+      "containsHandwriting": false,
+      "containsDiagram": true,
+      "containsFlowchart": true,
+      "containsCode": true,
+      "containsEquation": false,
+      "containsTable": false
+    },
+    {
+      "slideId": "slide_009",
+      "timestamp": 242.90933333333334,
+      "timestampFormatted": "04:02",
+      "thumbnailUrl": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\248f0184-b2c5-4a3a-b119-c29644e8de23\\visuals\\thumb_248f0184-b2c5-4a3a-b119-c29644e8de23_242.9.jpg",
+      "fullImageUrl": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\248f0184-b2c5-4a3a-b119-c29644e8de23\\visuals\\248f0184-b2c5-4a3a-b119-c29644e8de23_242.9.jpg",
+      "ocrText": "Rokrieval “Pug mente’ \\ NASA ci cs \\:",
+      "visualType": "Code Editor",
+      "containsHandwriting": false,
+      "containsDiagram": true,
+      "containsFlowchart": true,
+      "containsCode": true,
+      "containsEquation": false,
+      "containsTable": false
+    },
+    {
+      "slideId": "slide_010",
+      "timestamp": 273.273,
+      "timestampFormatted": "04:33",
+      "thumbnailUrl": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\248f0184-b2c5-4a3a-b119-c29644e8de23\\visuals\\thumb_248f0184-b2c5-4a3a-b119-c29644e8de23_273.3.jpg",
+      "fullImageUrl": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\248f0184-b2c5-4a3a-b119-c29644e8de23\\visuals\\248f0184-b2c5-4a3a-b119-c29644e8de23_273.3.jpg",
+      "ocrText": "Rokcieval ~ Avg ment OD \\ \\ P-” c —",
+      "visualType": "Code Editor",
+      "containsHandwriting": false,
+      "containsDiagram": true,
+      "containsFlowchart": true,
+      "containsCode": true,
+      "containsEquation": false,
+      "containsTable": false
+    },
+    {
+      "slideId": "slide_011",
+      "timestamp": 303.63666666666666,
+      "timestampFormatted": "05:03",
+      "thumbnailUrl": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\248f0184-b2c5-4a3a-b119-c29644e8de23\\visuals\\thumb_248f0184-b2c5-4a3a-b119-c29644e8de23_303.6.jpg",
+      "fullImageUrl": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\248f0184-b2c5-4a3a-b119-c29644e8de23\\visuals\\248f0184-b2c5-4a3a-b119-c29644e8de23_303.6.jpg",
+      "ocrText": "Robcev aN enn NASA, L\\ -Au wears i vq Memes §",
+      "visualType": "Code Editor",
+      "containsHandwriting": false,
+      "containsDiagram": true,
+      "containsFlowchart": true,
+      "containsCode": true,
+      "containsEquation": false,
+      "containsTable": false
+    },
+    {
+      "slideId": "slide_012",
+      "timestamp": 334.00033333333334,
+      "timestampFormatted": "05:34",
+      "thumbnailUrl": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\248f0184-b2c5-4a3a-b119-c29644e8de23\\visuals\\thumb_248f0184-b2c5-4a3a-b119-c29644e8de23_334.0.jpg",
+      "fullImageUrl": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\248f0184-b2c5-4a3a-b119-c29644e8de23\\visuals\\248f0184-b2c5-4a3a-b119-c29644e8de23_334.0.jpg",
+      "ocrText": "Robceval — Ll \\ “Av enie & “Pug mente’",
+      "visualType": "Code Editor",
+      "containsHandwriting": false,
+      "containsDiagram": true,
+      "containsFlowchart": false,
+      "containsCode": true,
+      "containsEquation": false,
+      "containsTable": true
+    },
+    {
+      "slideId": "slide_013",
+      "timestamp": 364.36400000000003,
+      "timestampFormatted": "06:04",
+      "thumbnailUrl": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\248f0184-b2c5-4a3a-b119-c29644e8de23\\visuals\\thumb_248f0184-b2c5-4a3a-b119-c29644e8de23_364.4.jpg",
+      "fullImageUrl": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\248f0184-b2c5-4a3a-b119-c29644e8de23\\visuals\\248f0184-b2c5-4a3a-b119-c29644e8de23_364.4.jpg",
+      "ocrText": "Rekcieval \\ \\ - AN menic &",
+      "visualType": "Code Editor",
+      "containsHandwriting": false,
+      "containsDiagram": true,
+      "containsFlowchart": true,
+      "containsCode": true,
+      "containsEquation": false,
+      "containsTable": false
+    },
+    {
+      "slideId": "slide_014",
+      "timestamp": 379.7794,
+      "timestampFormatted": "06:19",
+      "thumbnailUrl": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\248f0184-b2c5-4a3a-b119-c29644e8de23\\visuals\\thumb_248f0184-b2c5-4a3a-b119-c29644e8de23_379.8.jpg",
+      "fullImageUrl": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\248f0184-b2c5-4a3a-b119-c29644e8de23\\visuals\\248f0184-b2c5-4a3a-b119-c29644e8de23_379.8.jpg",
+      "ocrText": "Co . \\ Ros ceval . Avg mented ee eee",
+      "visualType": "Slide",
+      "containsHandwriting": false,
+      "containsDiagram": true,
+      "containsFlowchart": true,
+      "containsCode": false,
+      "containsEquation": false,
+      "containsTable": false
+    }
+  ],
+  "ocr": [
+    {
+      "slideId": "slide_001",
+      "timestamp": 0.0,
+      "text": "IBM Technology",
+      "confidence": 0.0
+    },
+    {
+      "slideId": "slide_002",
+      "timestamp": 30.363666666666667,
+      "text": "akcreval - A ugmenied a",
+      "confidence": 0.0
+    },
+    {
+      "slideId": "slide_003",
+      "timestamp": 60.727333333333334,
+      "text": "Retrieval -Avsmant CT C\\eVG - vg menic O be 2A AGS",
+      "confidence": 0.0
+    },
+    {
+      "slideId": "slide_004",
+      "timestamp": 91.09100000000001,
+      "text": "Rekceval - Aue mente: AT O\\EVG “\\u9 venice go “4 * ‘ ? '",
+      "confidence": 0.0
+    },
+    {
+      "slideId": "slide_005",
+      "timestamp": 121.45466666666667,
+      "text": "il \\ Rokcieval - Avs mented NASA, ‘ v vy’",
+      "confidence": 0.0
+    },
+    {
+      "slideId": "slide_006",
+      "timestamp": 151.81833333333333,
+      "text": "Rohcieval - “Avs mone Lb NASA,",
+      "confidence": 0.0
+    },
+    {
+      "slideId": "slide_007",
+      "timestamp": 182.18200000000002,
+      "text": "2 hove \\-A fet eves Va va memed — a f",
+      "confidence": 0.0
+    },
+    {
+      "slideId": "slide_008",
+      "timestamp": 212.54566666666668,
+      "text": "r f- \\ IQ, cieval - Avg mented ee ~~ — NASA",
+      "confidence": 0.0
+    },
+    {
+      "slideId": "slide_009",
+      "timestamp": 242.90933333333334,
+      "text": "Rokrieval “Pug mente’ \\ NASA ci cs \\:",
+      "confidence": 0.0
+    },
+    {
+      "slideId": "slide_010",
+      "timestamp": 273.273,
+      "text": "Rokcieval ~ Avg ment OD \\ \\ P-” c —",
+      "confidence": 0.0
+    },
+    {
+      "slideId": "slide_011",
+      "timestamp": 303.63666666666666,
+      "text": "Robcev aN enn NASA, L\\ -Au wears i vq Memes §",
+      "confidence": 0.0
+    },
+    {
+      "slideId": "slide_012",
+      "timestamp": 334.00033333333334,
+      "text": "Robceval — Ll \\ “Av enie & “Pug mente’",
+      "confidence": 0.0
+    },
+    {
+      "slideId": "slide_013",
+      "timestamp": 364.36400000000003,
+      "text": "Rekcieval \\ \\ - AN menic &",
+      "confidence": 0.0
+    },
+    {
+      "slideId": "slide_014",
+      "timestamp": 379.7794,
+      "text": "Co . \\ Ros ceval . Avg mented ee eee",
+      "confidence": 0.0
+    }
+  ],
+  "timeline": {
+    "totalEntries": 108,
+    "durationSeconds": 395.13,
+    "entries": [
+      {
+        "timestamp": 0.0,
+        "timestampFormatted": "00:00",
+        "slideId": "slide_001",
+        "slideImageUrl": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\248f0184-b2c5-4a3a-b119-c29644e8de23\\visuals\\248f0184-b2c5-4a3a-b119-c29644e8de23_0.0.jpg",
+        "transcriptText": "Large language models, they are everywhere.",
+        "ocrText": "IBM Technology"
+      },
+      {
+        "timestamp": 2.86,
+        "timestampFormatted": "00:00:02",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "They get some things amazingly right and other things very interestingly wrong.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 8.1,
+        "timestampFormatted": "00:00:08",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "My name is Marina Denilevsky.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 9.56,
+        "timestampFormatted": "00:00:09",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "I am a senior research scientist here at IBM Research,",
+        "ocrText": null
+      },
+      {
+        "timestamp": 12.16,
+        "timestampFormatted": "00:00:12",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "and I want to tell you about a framework to help large language models",
+        "ocrText": null
+      },
+      {
+        "timestamp": 16.12,
+        "timestampFormatted": "00:00:16",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "be more accurate and more up to date.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 18.72,
+        "timestampFormatted": "00:00:18",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "Retrieval Augmented Generation or RAG.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 22.52,
+        "timestampFormatted": "00:00:22",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "Let's just talk about the generation part for a minute.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 24.86,
+        "timestampFormatted": "00:00:24",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "So forget the retrieval augmented.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 26.42,
+        "timestampFormatted": "00:00:26",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "So the generation, this refers to large language models or LLMs",
+        "ocrText": null
+      },
+      {
+        "timestamp": 30.363666666666667,
+        "timestampFormatted": "00:30",
+        "slideId": "slide_002",
+        "slideImageUrl": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\248f0184-b2c5-4a3a-b119-c29644e8de23\\visuals\\248f0184-b2c5-4a3a-b119-c29644e8de23_30.4.jpg",
+        "transcriptText": "that generate text in response to a user query referred to as a prompt.",
+        "ocrText": "akcreval - A ugmenied a"
+      },
+      {
+        "timestamp": 36.0,
+        "timestampFormatted": "00:00:36",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "These models can have some undesirable behavior.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 38.28,
+        "timestampFormatted": "00:00:38",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "I want to tell you an anecdote to illustrate this.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 41.66,
+        "timestampFormatted": "00:00:41",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "So my kids, they recently asked me this question in our solar system,",
+        "ocrText": null
+      },
+      {
+        "timestamp": 45.94,
+        "timestampFormatted": "00:00:45",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "what planet has the most moons?",
+        "ocrText": null
+      },
+      {
+        "timestamp": 49.06,
+        "timestampFormatted": "00:00:49",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "And my response was, oh, that's really great that you're asking this question.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 53.64,
+        "timestampFormatted": "00:00:53",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "I loved space when I was your age.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 55.7,
+        "timestampFormatted": "00:00:55",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "Of course, that was like 30 years ago.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 58.06,
+        "timestampFormatted": "00:00:58",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "But I know this.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 60.727333333333334,
+        "timestampFormatted": "01:00",
+        "slideId": "slide_003",
+        "slideImageUrl": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\248f0184-b2c5-4a3a-b119-c29644e8de23\\visuals\\248f0184-b2c5-4a3a-b119-c29644e8de23_60.7.jpg",
+        "transcriptText": "I read an article and the article said that it was Jupiter and 88 moons.",
+        "ocrText": "Retrieval -Avsmant CT C\\eVG - vg menic O be 2A AGS"
+      },
+      {
+        "timestamp": 65.3,
+        "timestampFormatted": "00:01:05",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "So that's the answer.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 66.54,
+        "timestampFormatted": "00:01:06",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "Now, actually, there's a couple of things wrong with my answer.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 70.48,
+        "timestampFormatted": "00:01:10",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "First of all, I have no source to support what I'm saying.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 74.06,
+        "timestampFormatted": "00:01:14",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "So even though I confidently said I read an article, I know the answer.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 77.58,
+        "timestampFormatted": "00:01:17",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "I'm not sourcing it.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 78.46,
+        "timestampFormatted": "00:01:18",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "I'm giving the answer off the top of my head.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 80.6,
+        "timestampFormatted": "00:01:20",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "And also, I actually haven't kept up with this for a while.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 83.42,
+        "timestampFormatted": "00:01:23",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "And my answer is out of date.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 85.86,
+        "timestampFormatted": "00:01:25",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "So we have two problems here.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 87.88,
+        "timestampFormatted": "00:01:27",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "One is no source.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 91.09100000000001,
+        "timestampFormatted": "01:31",
+        "slideId": "slide_004",
+        "slideImageUrl": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\248f0184-b2c5-4a3a-b119-c29644e8de23\\visuals\\248f0184-b2c5-4a3a-b119-c29644e8de23_91.1.jpg",
+        "transcriptText": "And the second problem is that I am out of date.",
+        "ocrText": "Rekceval - Aue mente: AT O\\EVG “\\u9 venice go “4 * ‘ ? '"
+      },
+      {
+        "timestamp": 95.28,
+        "timestampFormatted": "00:01:35",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "And these, in fact, are two behaviors that are often observed as problematic",
+        "ocrText": null
+      },
+      {
+        "timestamp": 101.52,
+        "timestampFormatted": "00:01:41",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "when interacting with large language models.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 104.7,
+        "timestampFormatted": "00:01:44",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "They are LLM challenges.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 106.56,
+        "timestampFormatted": "00:01:46",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "Now, what would have happened if I'd taken a beat and first gone and looked up the answer",
+        "ocrText": null
+      },
+      {
+        "timestamp": 111.84,
+        "timestampFormatted": "00:01:51",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "on a reputable source like NASA?",
+        "ocrText": null
+      },
+      {
+        "timestamp": 115.18,
+        "timestampFormatted": "00:01:55",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "Well, then I would have been able to say, ah, OK, so the answer is Saturn with 146 moons.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 121.45466666666667,
+        "timestampFormatted": "02:01",
+        "slideId": "slide_005",
+        "slideImageUrl": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\248f0184-b2c5-4a3a-b119-c29644e8de23\\visuals\\248f0184-b2c5-4a3a-b119-c29644e8de23_121.5.jpg",
+        "transcriptText": "And in fact, this keeps changing because scientists keep on discovering more and more",
+        "ocrText": "il \\ Rokcieval - Avs mented NASA, ‘ v vy’"
+      },
+      {
+        "timestamp": 127.62,
+        "timestampFormatted": "00:02:07",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "moots.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 128.24,
+        "timestampFormatted": "00:02:08",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "So I have now grounded my answer in something more believable.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 131.02,
+        "timestampFormatted": "00:02:11",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "I have not hallucinated or made up an answer on, by the way, I didn't leak personal information",
+        "ocrText": null
+      },
+      {
+        "timestamp": 135.16,
+        "timestampFormatted": "00:02:15",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "about how long ago it's been since I was obsessed with space.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 138.82,
+        "timestampFormatted": "00:02:18",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "All right.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 139.28,
+        "timestampFormatted": "00:02:19",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "So what does this have to do with largely language models?",
+        "ocrText": null
+      },
+      {
+        "timestamp": 142.04,
+        "timestampFormatted": "00:02:22",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "Well, how would a large language model be?",
+        "ocrText": null
+      },
+      {
+        "timestamp": 143.88,
+        "timestampFormatted": "00:02:23",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "A large language model had answered this question.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 146.52,
+        "timestampFormatted": "00:02:26",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "So let's say that I have a user asking this question about moons.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 151.81833333333333,
+        "timestampFormatted": "02:31",
+        "slideId": "slide_006",
+        "slideImageUrl": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\248f0184-b2c5-4a3a-b119-c29644e8de23\\visuals\\248f0184-b2c5-4a3a-b119-c29644e8de23_151.8.jpg",
+        "transcriptText": "A large language model would constantly say, OK, I have been trained.",
+        "ocrText": "Rohcieval - “Avs mone Lb NASA,"
+      },
+      {
+        "timestamp": 160.26,
+        "timestampFormatted": "00:02:40",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "And from what I know in my parameters during my training, the answer is Jupiter.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 166.44,
+        "timestampFormatted": "00:02:46",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "The answer is wrong.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 167.86,
+        "timestampFormatted": "00:02:47",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "But, you know, we don't know.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 170.3,
+        "timestampFormatted": "00:02:50",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "The large language model is very confident in what it answered.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 173.0,
+        "timestampFormatted": "00:02:53",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "Now, what happens when you add this retrieval augmented part here?",
+        "ocrText": null
+      },
+      {
+        "timestamp": 178.48,
+        "timestampFormatted": "00:02:58",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "What does that mean?",
+        "ocrText": null
+      },
+      {
+        "timestamp": 179.3,
+        "timestampFormatted": "00:02:59",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "That means that now instead of just relying on what the LLM knows, we are adding a content store.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 182.18200000000002,
+        "timestampFormatted": "03:02",
+        "slideId": "slide_007",
+        "slideImageUrl": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\248f0184-b2c5-4a3a-b119-c29644e8de23\\visuals\\248f0184-b2c5-4a3a-b119-c29644e8de23_182.2.jpg",
+        "transcriptText": null,
+        "ocrText": "2 hove \\-A fet eves Va va memed — a f"
+      },
+      {
+        "timestamp": 185.76,
+        "timestampFormatted": "00:03:05",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "This could be open like the internet.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 187.84,
+        "timestampFormatted": "00:03:07",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "This could be closed like some collection of documents, collection of policies, whatever.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 194.28,
+        "timestampFormatted": "00:03:14",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "The point, though, now is that the LLM first goes and talks to the content store and says,",
+        "ocrText": null
+      },
+      {
+        "timestamp": 199.3,
+        "timestampFormatted": "00:03:19",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "hey, can you retrieve from me information that is relevant to what the user's query was?",
+        "ocrText": null
+      },
+      {
+        "timestamp": 206.04,
+        "timestampFormatted": "00:03:26",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "And now, with this retriever augmented answer, it's not Jupiter anymore.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 212.54566666666668,
+        "timestampFormatted": "03:32",
+        "slideId": "slide_008",
+        "slideImageUrl": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\248f0184-b2c5-4a3a-b119-c29644e8de23\\visuals\\248f0184-b2c5-4a3a-b119-c29644e8de23_212.5.jpg",
+        "transcriptText": "We know that it is Saturn.",
+        "ocrText": "r f- \\ IQ, cieval - Avg mented ee ~~ — NASA"
+      },
+      {
+        "timestamp": 214.16,
+        "timestampFormatted": "00:03:34",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "What does this look like?",
+        "ocrText": null
+      },
+      {
+        "timestamp": 216.0,
+        "timestampFormatted": "00:03:36",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "Well, first, user prompts the LLM with their question.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 226.74,
+        "timestampFormatted": "00:03:46",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "They say this is what my question was.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 228.04,
+        "timestampFormatted": "00:03:48",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "And originally, if we're just talking to a generative model,",
+        "ocrText": null
+      },
+      {
+        "timestamp": 232.48,
+        "timestampFormatted": "00:03:52",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "the generative model says, oh, okay, I know the response.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 235.58,
+        "timestampFormatted": "00:03:55",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "Here it is.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 236.08,
+        "timestampFormatted": "00:03:56",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "Here's my response.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 237.52,
+        "timestampFormatted": "00:03:57",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "But now, in the RAM framework, the generative model actually has an instruction that says,",
+        "ocrText": null
+      },
+      {
+        "timestamp": 242.90933333333334,
+        "timestampFormatted": "04:02",
+        "slideId": "slide_009",
+        "slideImageUrl": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\248f0184-b2c5-4a3a-b119-c29644e8de23\\visuals\\248f0184-b2c5-4a3a-b119-c29644e8de23_242.9.jpg",
+        "transcriptText": "no, no, no.",
+        "ocrText": "Rokrieval “Pug mente’ \\ NASA ci cs \\:"
+      },
+      {
+        "timestamp": 244.36,
+        "timestampFormatted": "00:04:04",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "First, go and retrieve relevant content.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 248.76,
+        "timestampFormatted": "00:04:08",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "Combine that with the user's question and only then generate the answer.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 253.58,
+        "timestampFormatted": "00:04:13",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "So, the prompt now has three parts.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 257.22,
+        "timestampFormatted": "00:04:17",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "The instruction to pay attention to the retrieved content,",
+        "ocrText": null
+      },
+      {
+        "timestamp": 261.4,
+        "timestampFormatted": "00:04:21",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "together with the user's question, now give a response.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 264.46,
+        "timestampFormatted": "00:04:24",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "And in fact, now you can give evidence for why your response was what it was.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 269.78,
+        "timestampFormatted": "00:04:29",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "So now hopefully you can see how does RAG help the 2LM challenges that I had mentioned before.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 273.273,
+        "timestampFormatted": "04:33",
+        "slideId": "slide_010",
+        "slideImageUrl": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\248f0184-b2c5-4a3a-b119-c29644e8de23\\visuals\\248f0184-b2c5-4a3a-b119-c29644e8de23_273.3.jpg",
+        "transcriptText": null,
+        "ocrText": "Rokcieval ~ Avg ment OD \\ \\ P-” c —"
+      },
+      {
+        "timestamp": 276.08,
+        "timestampFormatted": "00:04:36",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "So, first of all, I'll start with the out of date part.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 278.62,
+        "timestampFormatted": "00:04:38",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "Now, instead of having to retrain your model, if new information comes up like, hey,",
+        "ocrText": null
+      },
+      {
+        "timestamp": 283.78,
+        "timestampFormatted": "00:04:43",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "we found some more moves.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 285.2,
+        "timestampFormatted": "00:04:45",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "Now, to Jupyter again, maybe it'll be Saturday again in the future.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 288.32,
+        "timestampFormatted": "00:04:48",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "All you have to do is you augment your data store with new information,",
+        "ocrText": null
+      },
+      {
+        "timestamp": 292.44,
+        "timestampFormatted": "00:04:52",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "updated information.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 293.38,
+        "timestampFormatted": "00:04:53",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "So now the next time that a user comes and asks the question, we're ready.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 297.72,
+        "timestampFormatted": "00:04:57",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "We just go ahead and retrieve the most up to date information.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 300.42,
+        "timestampFormatted": "00:05:00",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "The second problem, source.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 303.63666666666666,
+        "timestampFormatted": "05:03",
+        "slideId": "slide_011",
+        "slideImageUrl": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\248f0184-b2c5-4a3a-b119-c29644e8de23\\visuals\\248f0184-b2c5-4a3a-b119-c29644e8de23_303.6.jpg",
+        "transcriptText": "Well, the language language model is now being instructed to pay attention to primary source",
+        "ocrText": "Robcev aN enn NASA, L\\ -Au wears i vq Memes §"
+      },
+      {
+        "timestamp": 308.94,
+        "timestampFormatted": "00:05:08",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "data before giving its response.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 311.1,
+        "timestampFormatted": "00:05:11",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "And in fact, now being able to give evidence.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 313.78,
+        "timestampFormatted": "00:05:13",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "This makes it less likely to hallucinate or to leak data because it is less likely to",
+        "ocrText": null
+      },
+      {
+        "timestamp": 318.36,
+        "timestampFormatted": "00:05:18",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "rely only on information that I learned during training.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 321.84,
+        "timestampFormatted": "00:05:21",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "It also allows us to get the model to have a behavior that can be very positive,",
+        "ocrText": null
+      },
+      {
+        "timestamp": 326.46,
+        "timestampFormatted": "00:05:26",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "which is knowing when to say, I don't know.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 329.62,
+        "timestampFormatted": "00:05:29",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "If the user's question cannot be reliably answered based on your data store,",
+        "ocrText": null
+      },
+      {
+        "timestamp": 334.00033333333334,
+        "timestampFormatted": "05:34",
+        "slideId": "slide_012",
+        "slideImageUrl": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\248f0184-b2c5-4a3a-b119-c29644e8de23\\visuals\\248f0184-b2c5-4a3a-b119-c29644e8de23_334.0.jpg",
+        "transcriptText": "the model should say, I don't know, instead of making up something that is believable",
+        "ocrText": "Robceval — Ll \\ “Av enie & “Pug mente’"
+      },
+      {
+        "timestamp": 339.36,
+        "timestampFormatted": "00:05:39",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "and may mislead the user.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 342.06,
+        "timestampFormatted": "00:05:42",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "This can have a negative effect as well, though, because if the retriever is not",
+        "ocrText": null
+      },
+      {
+        "timestamp": 345.92,
+        "timestampFormatted": "00:05:45",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "sufficiently good to give the large language model the best, most highest quality",
+        "ocrText": null
+      },
+      {
+        "timestamp": 351.48,
+        "timestampFormatted": "00:05:51",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "grounding information, then maybe the user's query that is answerable doesn't get an answer.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 357.36,
+        "timestampFormatted": "00:05:57",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "So this is actually why lots of folks, including many of us here at IBM,",
+        "ocrText": null
+      },
+      {
+        "timestamp": 361.6,
+        "timestampFormatted": "00:06:01",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "are working the problem on both sides.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 364.36400000000003,
+        "timestampFormatted": "06:04",
+        "slideId": "slide_013",
+        "slideImageUrl": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\248f0184-b2c5-4a3a-b119-c29644e8de23\\visuals\\248f0184-b2c5-4a3a-b119-c29644e8de23_364.4.jpg",
+        "transcriptText": "We are both working to improve the retriever to give the large language model the best quality",
+        "ocrText": "Rekcieval \\ \\ - AN menic &"
+      },
+      {
+        "timestamp": 370.52,
+        "timestampFormatted": "00:06:10",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "data on which to ground its response and also the generative part so that the LLM can give",
+        "ocrText": null
+      },
+      {
+        "timestamp": 376.02,
+        "timestampFormatted": "00:06:16",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "the richest best response finally to the user when it generates the answer.",
+        "ocrText": null
+      },
+      {
+        "timestamp": 379.7794,
+        "timestampFormatted": "06:19",
+        "slideId": "slide_014",
+        "slideImageUrl": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\248f0184-b2c5-4a3a-b119-c29644e8de23\\visuals\\248f0184-b2c5-4a3a-b119-c29644e8de23_379.8.jpg",
+        "transcriptText": "Thank you for learning more about RAG and like and subscribe to the channel.",
+        "ocrText": "Co . \\ Ros ceval . Avg mented ee eee"
+      },
+      {
+        "timestamp": 385.66,
+        "timestampFormatted": "00:06:25",
+        "slideId": null,
+        "slideImageUrl": null,
+        "transcriptText": "Thank you.",
+        "ocrText": null
+      }
+    ]
+  },
+  "summary": {
+    "shortSummary": "Here is a summary of the teaching demonstration transcript in exactly 2-3 concise sentences:\n\nThe presenter discusses Retrieval Augmented Generation (RAG) and its application to large language models (LLMs), aiming to improve their accuracy and timeliness. The presentation illustrates LLM challenges, such as generating answers without sources or staying up-to-date with outdated information, which can lead to inaccurate responses. The retrieval augmented part of RAG adds a content store, potentially incorporating external knowledge sources like the internet, to provide more reliable and informed answers.",
+    "topicsCovered": [
+      "Large Language",
+      "Language Model",
+      "Language Models",
+      "Retrieval Augmented",
+      "User Query",
+      "Generative Model",
+      "User Question",
+      "Second Problem",
+      "Content Store",
+      "Pay Attention"
+    ],
+    "concepts": [],
+    "keywords": [
+      "answer",
+      "language",
+      "model",
+      "user",
+      "large",
+      "question",
+      "response",
+      "information",
+      "models",
+      "first",
+      "nasa",
+      "give",
+      "date",
+      "source",
+      "data",
+      "retrieval",
+      "augmented",
+      "part",
+      "moons",
+      "fact"
+    ],
+    "technicalTerms": [],
+    "programmingLanguages": [
+      "C",
+      "GO",
+      "R"
+    ],
+    "algorithms": [
+      "Prim"
+    ],
+    "subjects": []
+  },
+  "voiceMetrics": null
+}

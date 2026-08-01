@@ -62,6 +62,8 @@ class JobOutputPaths(BaseModel):
     timeline_json: Optional[str] = None
     summary_json: Optional[str] = None
     gallery_json: Optional[str] = None
+    gallery_pdf: Optional[str] = None
+    gallery_zip: Optional[str] = None
     voice_json: Optional[str] = None
     report_json: Optional[str] = None
 

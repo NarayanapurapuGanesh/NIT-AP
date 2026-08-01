@@ -204,7 +204,7 @@ async def download_visuals_pdf(video_id: str, db: Session = Depends(get_db)):
             "timestamp_str": v.timestamp_str,
             "ocr": v.ocr.raw_text if v.ocr else "",
             "topic": v.topics.primary_topic if v.topics else "General",
-            "diagram_type": v.metadata_.diagram_type if v.metadata_ else "None"
+            "diagram_type": v.metadata_.visual_type if v.metadata_ else "None"
         })
         
     output_pdf = str(settings.base_dir / settings.storage.output_dir / video_id / "Teaching_Visuals_Report.pdf")
@@ -226,7 +226,7 @@ async def download_visuals_zip(video_id: str, db: Session = Depends(get_db)):
             "timestamp_str": v.timestamp_str,
             "ocr": v.ocr.raw_text if v.ocr else "",
             "topic": v.topics.primary_topic if v.topics else "General",
-            "diagram_type": v.metadata_.diagram_type if v.metadata_ else "None",
+            "diagram_type": v.metadata_.visual_type if v.metadata_ else "None",
             "linked_transcript_id": v.timeline.transcript_segment_id if v.timeline else None
         })
         
