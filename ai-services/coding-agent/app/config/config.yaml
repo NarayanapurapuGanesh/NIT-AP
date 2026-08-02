@@ -1,0 +1,50 @@
+# ==============================================================================
+# FacultyIQ Coding Intelligence Agent — Configuration
+# ==============================================================================
+
+server:
+  host: "0.0.0.0"
+  port: 8015
+  workers: 1
+  reload: true
+
+app:
+  name: "FacultyIQ Coding Intelligence Agent"
+  version: "1.0.0"
+  environment: "development"
+
+storage:
+  temp_dir: "temp"
+  output_dir: "output"
+  logs_dir: "logs"
+  uploads_dir: "temp/uploads"
+
+sandbox:
+  mode: "auto"                  # auto | docker | subprocess
+  timeout_seconds: 15
+  memory_limit_mb: 256
+  cpu_limit: 1.0
+  max_output_bytes: 65536
+  cleanup_containers: true
+
+ollama:
+  orchestrator_url: "http://localhost:8010"
+  agent_name: "coding"
+  timeout_seconds: 120
+
+pipeline:
+  max_questions_per_session: 10
+  default_difficulty: "medium"
+  adaptive_enabled: true
+  explanation_weight: 0.15
+  viva_weight: 0.10
+  correctness_weight: 0.35
+  complexity_weight: 0.15
+  quality_weight: 0.10
+  debugging_weight: 0.15
+
+logging:
+  level: "DEBUG"
+  rotation: "10 MB"
+  retention: "14 days"
+  enable_module_logs: true
