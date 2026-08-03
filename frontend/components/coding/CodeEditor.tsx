@@ -25,21 +25,19 @@ export default function CodeEditor({
   const monaco = useMonaco();
   const editorRef = useRef<any>(null);
 
-  useEffect(() => {
-    if (monaco) {
-      monaco.editor.defineTheme("premium-dark", {
-        base: "vs-dark",
-        inherit: true,
-        rules: [],
-        colors: {
-          "editor.background": "#1C1C1E",
-          "editor.lineHighlightBackground": "#2C2C2E",
-          "editorLineNumber.foreground": "#5C5C5E",
-          "editorIndentGuide.background": "#2C2C2E",
-        },
-      });
-    }
-  }, [monaco]);
+  const handleEditorWillMount = (monaco: any) => {
+    monaco.editor.defineTheme("premium-dark", {
+      base: "vs-dark",
+      inherit: true,
+      rules: [],
+      colors: {
+        "editor.background": "#1C1C1E",
+        "editor.lineHighlightBackground": "#2C2C2E",
+        "editorLineNumber.foreground": "#5C5C5E",
+        "editorIndentGuide.background": "#2C2C2E",
+      },
+    });
+  };
 
   const mapLanguage = (lang: string) => {
     switch (lang.toLowerCase()) {
@@ -68,6 +66,7 @@ export default function CodeEditor({
         value={value}
         onChange={onChange}
         theme={theme === "vs-dark" ? "premium-dark" : "vs-light"}
+        beforeMount={handleEditorWillMount}
         onMount={handleEditorDidMount}
         options={{
           minimap: { enabled: false },

@@ -1,4 +1,4 @@
-const API_BASE = "http://localhost:8015/coding";
+const API_BASE = "/api/coding";
 
 export interface SessionResponse {
   session_id: string;
@@ -6,7 +6,7 @@ export interface SessionResponse {
   candidate_name: string;
   programming_language: string;
   difficulty: string;
-  questions_answered: int;
+  questions_answered: number;
   max_questions: number;
   total_score: number;
   started_at: string;

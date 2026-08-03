@@ -1,0 +1,1 @@
+{"candidate_name": "John Doe", "session_id": "test_session_123", "report": {"overall_score": 85, "test_cases_passed": "18/20", "time_complexity": "O(N)", "summary": "Candidate solved problems efficiently but missed an edge case."}}

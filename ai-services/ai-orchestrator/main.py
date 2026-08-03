@@ -129,3 +129,85 @@ async def receive_coding_dossier(payload: DossierPayload):
         logger.error(f"[DOSSIER] Failed to save coding report: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+class DecisionResponse(BaseModel):
+    session_id: str
+    decision_report: str
+    model_used: str
+
+@app.post("/api/dossier/evaluate/{session_id}", response_model=DecisionResponse)
+async def evaluate_candidate(session_id: str):
+    """Evaluate candidate across all available dossiers (Coding, Video, Resume)."""
+    import json
+    import glob
+    import os
+    
+    dossier_dir = os.path.join(os.path.dirname(__file__), "dossiers")
+    if not os.path.exists(dossier_dir):
+        raise HTTPException(status_code=404, detail="No dossiers found.")
+        
+    pattern = os.path.join(dossier_dir, f"{session_id}_*.json")
+    files = glob.glob(pattern)
+    
+    # Filter out decision file itself if it exists
+    files = [f for f in files if not f.endswith("_decision.json")]
+    
+    if not files:
+        raise HTTPException(status_code=404, detail=f"No dossiers found for session {session_id}")
+        
+    compiled_evidence = {}
+    for f_path in files:
+        with open(f_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+            # The filename is something like sessionID_coding.json
+            name_part = os.path.basename(f_path).replace(f"{session_id}_", "").replace(".json", "")
+            compiled_evidence[name_part] = data
+            
+    # Prepare the prompt for the decision agent
+    system_prompt = (
+        "You are the Final Decision Agent for FacultyIQ. You evaluate candidate evidence across multiple modalities "
+        "including coding assessments, video analysis, and resume parsing. Provide a final 'Hire' or 'No Hire' recommendation, "
+        "along with a detailed summary of strengths, weaknesses, and reasoning based strictly on the provided JSON data."
+    )
+    user_prompt = f"Candidate Evidence (JSON format):\n\n{json.dumps(compiled_evidence, indent=2)}\n\nPlease provide your final recommendation."
+    
+    # Fetch the correct model for decision
+    model = model_service.getModel("decision")
+    
+    # Generate the response
+    url = "http://localhost:11434/api/generate"
+    payload = {
+        "model": model,
+        "prompt": user_prompt,
+        "system": system_prompt,
+        "stream": False
+    }
+    
+    logger.info(f"[DECISION AGENT] Generating final evaluation for session {session_id} using {model}...")
+    
+    try:
+        async with httpx.AsyncClient(timeout=180.0) as client:
+            response = await client.post(url, json=payload)
+            response.raise_for_status()
+            data = response.json()
+            
+        decision_text = data.get("response", "")
+        
+        # Save the final decision
+        decision_path = os.path.join(dossier_dir, f"{session_id}_decision.json")
+        final_doc = {
+            "session_id": session_id,
+            "decision": decision_text,
+            "evidence_used": list(compiled_evidence.keys()),
+            "model": model
+        }
+        with open(decision_path, "w", encoding="utf-8") as f:
+            json.dump(final_doc, f, indent=4)
+            
+        return DecisionResponse(
+            session_id=session_id,
+            decision_report=decision_text,
+            model_used=model
+        )
+    except Exception as e:
+        logger.error(f"[DECISION AGENT] Failed to generate decision: {e}")
+        raise HTTPException(status_code=500, detail=str(e))

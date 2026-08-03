@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Clock, ChevronRight } from "lucide-react";
-import { Panel, Group as PanelGroup, Separator as PanelResizeHandle } from "react-resizable-panels";
+import { Panel, Group as PanelGroup, Separator as PanelResizeHandle } from "react-resizable-panels"; // force reload
 import { getSession, getNextQuestion, completeSession, runCode, submitCode, QuestionResponse, SessionResponse } from "@/lib/api/coding";
 import CodeEditor from "@/components/coding/CodeEditor";
 import ProblemDescription from "@/components/coding/ProblemDescription";
