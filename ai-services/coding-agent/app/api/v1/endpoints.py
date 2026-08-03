@@ -176,6 +176,40 @@ def get_session(session_id: str, db: Session = Depends(get_db)):
     )
 
 
+@router.post("/session/{session_id}/complete")
+def complete_session(session_id: str, db: Session = Depends(get_db)):
+    """Mark session as completed and generate final evidence report."""
+    import httpx
+    from datetime import datetime, timezone
+
+    session = db.query(SessionORM).filter(SessionORM.id == session_id).first()
+    if not session:
+        raise HTTPException(status_code=404, detail="Session not found")
+    
+    if session.status != "completed":
+        session.status = "completed"
+        session.completed_at = datetime.now(timezone.utc)
+        db.commit()
+
+    # Generate full evidence report (this also saves it to session.evidence_json)
+    report = get_report(session_id, db)
+    
+    # Try to send it to the Orchestrator
+    try:
+        orchestrator_url = "http://localhost:8010/api/dossier/coding"
+        payload = {
+            "candidate_name": session.candidate_name,
+            "session_id": session.id,
+            "report": report
+        }
+        # Fire and forget / background task would be better here in prod
+        httpx.post(orchestrator_url, json=payload, timeout=5.0)
+    except Exception as e:
+        log.warning(f"Could not send dossier to orchestrator: {e}")
+
+    return {"status": "success", "message": "Session completed and report generated.", "report_summary": report.get("overall_score")}
+
+
 @router.post("/question/next")
 def next_question(req: NextQuestionRequest, db: Session = Depends(get_db)):
     """Get the next adaptive question for the session."""

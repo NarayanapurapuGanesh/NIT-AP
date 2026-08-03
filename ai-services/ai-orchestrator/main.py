@@ -98,3 +98,34 @@ async def generate(req: GenerateRequest):
 async def reload_config():
     model_service.reloadConfiguration()
     return {"status": "success", "message": "Configuration reloaded."}
+
+class DossierPayload(BaseModel):
+    candidate_name: str
+    session_id: str
+    report: Dict[str, Any]
+
+@app.post("/api/dossier/coding")
+async def receive_coding_dossier(payload: DossierPayload):
+    """Receive the final evidence report from the Coding Agent."""
+    logger.info(f"[DOSSIER] Received coding report for candidate {payload.candidate_name} (Session: {payload.session_id})")
+    
+    # In a full implementation, this would save to a shared database or trigger the Decision Agent.
+    # For now, we will save it to a local JSON file for the Decision Agent to pick up later.
+    try:
+        import json
+        import os
+        
+        # Ensure the dossiers directory exists
+        dossier_dir = os.path.join(os.path.dirname(__file__), "dossiers")
+        os.makedirs(dossier_dir, exist_ok=True)
+        
+        file_path = os.path.join(dossier_dir, f"{payload.session_id}_coding.json")
+        with open(file_path, "w", encoding="utf-8") as f:
+            json.dump(payload.dict(), f, indent=4)
+            
+        logger.info(f"[DOSSIER] Saved coding report to {file_path}")
+        return {"status": "success"}
+    except Exception as e:
+        logger.error(f"[DOSSIER] Failed to save coding report: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+

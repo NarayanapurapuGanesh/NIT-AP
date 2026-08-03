@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Clock, ChevronRight } from "lucide-react";
 import { Panel, Group as PanelGroup, Separator as PanelResizeHandle } from "react-resizable-panels";
-import { getSession, getNextQuestion, runCode, submitCode, QuestionResponse, SessionResponse } from "@/lib/api/coding";
+import { getSession, getNextQuestion, completeSession, runCode, submitCode, QuestionResponse, SessionResponse } from "@/lib/api/coding";
 import CodeEditor from "@/components/coding/CodeEditor";
 import ProblemDescription from "@/components/coding/ProblemDescription";
 import ConsolePanel from "@/components/coding/ConsolePanel";
@@ -71,13 +71,18 @@ export default function CodingArena() {
     const startTime = new Date(session.started_at + "Z").getTime();
     const duration = 45 * 60 * 1000;
     
-    const updateTimer = () => {
+    const updateTimer = async () => {
       const now = new Date().getTime();
       const diff = Math.max(0, Math.floor((duration - (now - startTime)) / 1000));
       setTimeLeft(diff);
       if (diff <= 0) {
         clearInterval(timerId);
-        alert("Time is up! The session has ended.");
+        alert("Time is up! Compiling final dossier and ending session...");
+        try {
+          await completeSession(sessionId);
+        } catch (e) {
+          console.error(e);
+        }
         router.push("/dashboard/coding-agent");
       }
     };
@@ -172,9 +177,15 @@ export default function CodingArena() {
         setCode(defaultCode);
         setCodeCache({ [language]: defaultCode });
       }
-    } catch (err) {
+    } catch (err: any) {
       const sess = await getSession(sessionId);
-      if (sess.status === "completed") {
+      if (sess.status === "completed" || err.message?.includes("Maximum questions reached") || err.message?.includes("No more questions")) {
+        alert("Assessment complete! Compiling your final dossier...");
+        try {
+           await completeSession(sessionId);
+        } catch(e) {
+           console.error(e);
+        }
         router.push("/dashboard/coding-agent");
       }
     } finally {

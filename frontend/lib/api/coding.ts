@@ -83,6 +83,14 @@ export async function getSession(sessionId: string): Promise<SessionResponse> {
   return res.json();
 }
 
+export async function completeSession(sessionId: string): Promise<any> {
+  const res = await fetch(`${API_BASE}/session/${sessionId}/complete`, {
+    method: "POST"
+  });
+  if (!res.ok) throw new Error("Failed to complete session");
+  return res.json();
+}
+
 export async function getNextQuestion(sessionId: string): Promise<QuestionResponse> {
   const res = await fetch(`${API_BASE}/question/next`, {
     method: "POST",
