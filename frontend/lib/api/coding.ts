@@ -6,7 +6,7 @@ export interface SessionResponse {
   candidate_name: string;
   programming_language: string;
   difficulty: string;
-  questions_answered: int;
+  questions_answered: number; // <-- Fixed
   max_questions: number;
   total_score: number;
   started_at: string;
@@ -85,7 +85,7 @@ export async function getSession(sessionId: string): Promise<SessionResponse> {
 
 export async function completeSession(sessionId: string): Promise<any> {
   const res = await fetch(`${API_BASE}/session/${sessionId}/complete`, {
-    method: "POST"
+    method: "POST",
   });
   if (!res.ok) throw new Error("Failed to complete session");
   return res.json();
@@ -101,7 +101,11 @@ export async function getNextQuestion(sessionId: string): Promise<QuestionRespon
   return res.json();
 }
 
-export async function runCode(data: { source_code: string; language: string; stdin: string }): Promise<RunCodeResponse> {
+export async function runCode(data: {
+  source_code: string;
+  language: string;
+  stdin: string;
+}): Promise<RunCodeResponse> {
   const res = await fetch(`${API_BASE}/run`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -111,7 +115,12 @@ export async function runCode(data: { source_code: string; language: string; std
   return res.json();
 }
 
-export async function submitCode(data: { session_id: string; question_id: string; source_code: string; language: string }): Promise<SubmitResponse> {
+export async function submitCode(data: {
+  session_id: string;
+  question_id: string;
+  source_code: string;
+  language: string;
+}): Promise<SubmitResponse> {
   const res = await fetch(`${API_BASE}/submit`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
