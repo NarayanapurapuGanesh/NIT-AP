@@ -4,6 +4,7 @@ import { Play, Send, RotateCcw, AlignLeft, Settings } from "lucide-react";
 
 interface EditorToolbarProps {
   language: string;
+  setLanguage: (lang: string) => void;
   theme: string;
   setTheme: (theme: string) => void;
   fontSize: number;
@@ -17,6 +18,7 @@ interface EditorToolbarProps {
 
 export default function EditorToolbar({
   language,
+  setLanguage,
   theme,
   setTheme,
   fontSize,
@@ -31,11 +33,16 @@ export default function EditorToolbar({
   return (
     <div className="flex items-center justify-between px-4 py-2 bg-[#1C1C1E] border-b border-[#2C2C2E]">
       <div className="flex items-center space-x-3">
-        {/* Language Display (Readonly for now as backend sets it per session) */}
-        <div className="text-xs font-semibold text-gray-300 bg-gray-800/50 px-3 py-1.5 rounded-md flex items-center">
-          {language.toUpperCase()}
-          <span className="ml-2 text-gray-500">▼</span>
-        </div>
+        {/* Language Selection */}
+        <select
+          value={language}
+          onChange={(e) => setLanguage(e.target.value)}
+          className="bg-transparent text-gray-300 font-semibold text-xs focus:outline-none hover:text-white cursor-pointer uppercase"
+        >
+          <option value="python" className="bg-[#1C1C1E] text-gray-200">PYTHON</option>
+          <option value="cpp" className="bg-[#1C1C1E] text-gray-200">C++</option>
+          <option value="java" className="bg-[#1C1C1E] text-gray-200">JAVA</option>
+        </select>
 
         {/* Theme */}
         <select
@@ -43,8 +50,8 @@ export default function EditorToolbar({
           onChange={(e) => setTheme(e.target.value)}
           className="bg-transparent text-gray-400 text-xs font-medium focus:outline-none hover:text-gray-200 cursor-pointer"
         >
-          <option value="vs-dark">Dark Theme</option>
-          <option value="light">Light Theme</option>
+          <option value="vs-dark" className="bg-[#1C1C1E] text-gray-200">Dark Theme</option>
+          <option value="vs-light" className="bg-[#1C1C1E] text-gray-200">Light Theme</option>
         </select>
 
         {/* Font Size */}
@@ -55,10 +62,10 @@ export default function EditorToolbar({
             onChange={(e) => setFontSize(Number(e.target.value))}
             className="bg-transparent font-medium focus:outline-none hover:text-gray-200 cursor-pointer"
           >
-            <option value="12">12px</option>
-            <option value="14">14px</option>
-            <option value="16">16px</option>
-            <option value="18">18px</option>
+            <option value="12" className="bg-[#1C1C1E] text-gray-200">12px</option>
+            <option value="14" className="bg-[#1C1C1E] text-gray-200">14px</option>
+            <option value="16" className="bg-[#1C1C1E] text-gray-200">16px</option>
+            <option value="18" className="bg-[#1C1C1E] text-gray-200">18px</option>
           </select>
         </div>
       </div>

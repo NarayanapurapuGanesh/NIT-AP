@@ -139,6 +139,12 @@ class SubprocessExecutor:
                 timeout=timeout,
                 cwd=str(work_dir),
             )
+        except FileNotFoundError as e:
+            return ExecutionResult(
+                status=ExecutionStatus.SANDBOX_ERROR,
+                stderr=f"Compiler not found. Please ensure {compile_cmd[0]} is installed and in PATH.\n[WinError 2] The system cannot find the file specified",
+                compiled_ok=False,
+            )
 
             if result.returncode != 0:
                 return ExecutionResult(
@@ -184,6 +190,13 @@ class SubprocessExecutor:
                 text=True,
                 timeout=request.timeout_seconds,
                 cwd=str(work_dir),
+            )
+        except FileNotFoundError as e:
+            return ExecutionResult(
+                status=ExecutionStatus.SANDBOX_ERROR,
+                stderr=f"Runtime not found. Please ensure {run_cmd[0]} is installed and in PATH.\n[WinError 2] The system cannot find the file specified",
+                exit_code=-1,
+                execution_time_ms=0,
             )
 
             elapsed_ms = (time.perf_counter() - start_time) * 1000

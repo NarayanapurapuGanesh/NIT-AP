@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { Clock } from "lucide-react";
+import { Clock, ChevronRight } from "lucide-react";
 import { Panel, Group as PanelGroup, Separator as PanelResizeHandle } from "react-resizable-panels";
 import { getSession, getNextQuestion, runCode, submitCode, QuestionResponse, SessionResponse } from "@/lib/api/coding";
 import CodeEditor from "@/components/coding/CodeEditor";
@@ -19,10 +19,14 @@ export default function CodingArena() {
   const [session, setSession] = useState<SessionResponse | null>(null);
   const [question, setQuestion] = useState<QuestionResponse | null>(null);
   const [code, setCode] = useState<string>("");
+  const [language, setLanguage] = useState<string>("python");
+  const [codeCache, setCodeCache] = useState<Record<string, string>>({});
+  const [timeLeft, setTimeLeft] = useState(45 * 60);
   
   const [isLoading, setIsLoading] = useState(true);
   const [isRunning, setIsRunning] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(1);
   
   const [runResult, setRunResult] = useState<any>(null);
   const [submitResult, setSubmitResult] = useState<any>(null);
@@ -46,10 +50,13 @@ export default function CodingArena() {
 
         const q = await getNextQuestion(sessionId);
         setQuestion(q);
+        setCurrentQuestionIndex(sess.questions_answered + 1);
         
         if (q.starter_code && q.starter_code[sess.programming_language]) {
           setCode(q.starter_code[sess.programming_language]);
+          setCodeCache({ [sess.programming_language]: q.starter_code[sess.programming_language] });
         }
+        setLanguage(sess.programming_language);
       } catch (err) {
         console.error("Failed to load arena:", err);
       } finally {
@@ -59,8 +66,39 @@ export default function CodingArena() {
     loadData();
   }, [sessionId]);
 
+  useEffect(() => {
+    if (!session || !session.started_at || session.status === "completed") return;
+    const startTime = new Date(session.started_at + "Z").getTime();
+    const duration = 45 * 60 * 1000;
+    
+    const updateTimer = () => {
+      const now = new Date().getTime();
+      const diff = Math.max(0, Math.floor((duration - (now - startTime)) / 1000));
+      setTimeLeft(diff);
+      if (diff <= 0) {
+        clearInterval(timerId);
+        alert("Time is up! The session has ended.");
+        router.push("/dashboard/coding-agent");
+      }
+    };
+    
+    updateTimer();
+    const timerId = setInterval(updateTimer, 1000);
+    return () => clearInterval(timerId);
+  }, [session, router]);
+
+  const formatTime = (seconds: number) => {
+    const m = Math.floor(seconds / 60);
+    const s = seconds % 60;
+    return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+  };
+
   const handleRun = useCallback(async () => {
     if (!question || !session || isRunning || isSubmitting) return;
+    if (!code.trim()) {
+      alert("Please write some code before running.");
+      return;
+    }
     setIsRunning(true);
     setActiveTab("console");
     setRunResult(null);
@@ -68,7 +106,7 @@ export default function CodingArena() {
       const stdin = question.public_test_cases?.[0]?.input || "";
       const result = await runCode({
         source_code: code,
-        language: session.programming_language,
+        language: language,
         stdin,
       });
       setRunResult(result);
@@ -81,6 +119,10 @@ export default function CodingArena() {
 
   const handleSubmit = useCallback(async () => {
     if (!question || !session || isRunning || isSubmitting) return;
+    if (!code.trim()) {
+      alert("Please write some code before submitting.");
+      return;
+    }
     setIsSubmitting(true);
     setActiveTab("result");
     setSubmitResult(null);
@@ -89,7 +131,7 @@ export default function CodingArena() {
         session_id: sessionId,
         question_id: question.id,
         source_code: code,
-        language: session.programming_language,
+        language: language,
       });
       setSubmitResult(result);
       
@@ -113,12 +155,22 @@ export default function CodingArena() {
     setRunResult(null);
     setActiveTab("testcase");
     try {
+      const sess = await getSession(sessionId);
       const q = await getNextQuestion(sessionId);
       setQuestion(q);
-      if (q.starter_code && session && q.starter_code[session.programming_language]) {
-        setCode(q.starter_code[session.programming_language]);
+      setCurrentQuestionIndex(sess.questions_answered + 1);
+      
+      
+      setCodeCache({});
+      if (q.starter_code && q.starter_code[language]) {
+        setCode(q.starter_code[language]);
+        setCodeCache({ [language]: q.starter_code[language] });
       } else {
-        setCode("");
+        const defaultCode = language === "python" ? "def solution():\n    pass" :
+                            language === "cpp" ? "#include <iostream>\n#include <vector>\nusing namespace std;\n\n// Your code here" :
+                            language === "java" ? "class Solution {\n    // Your code here\n}" : "// Your code here";
+        setCode(defaultCode);
+        setCodeCache({ [language]: defaultCode });
       }
     } catch (err) {
       const sess = await getSession(sessionId);
@@ -132,15 +184,40 @@ export default function CodingArena() {
 
   const handleReset = () => {
     if (confirm("Reset to starter code? Current changes will be lost.")) {
-      if (question?.starter_code && session) {
-        setCode(question.starter_code[session.programming_language] || "");
+      if (question?.starter_code) {
+        setCode(question.starter_code[language] || "");
       }
+    }
+  };
+
+  const handleLanguageChange = (newLang: string) => {
+    setCodeCache(prev => ({ ...prev, [language]: code }));
+    setLanguage(newLang);
+    
+    if (codeCache[newLang]) {
+      setCode(codeCache[newLang]);
+    } else if (question?.starter_code && question.starter_code[newLang]) {
+      setCode(question.starter_code[newLang]);
+    } else {
+      const defaultCode = newLang === "python" ? "def solution():\n    pass" :
+                          newLang === "cpp" ? "#include <iostream>\n#include <vector>\nusing namespace std;\n\n// Your code here" :
+                          newLang === "java" ? "class Solution {\n    // Your code here\n}" : "// Your code here";
+      setCode(defaultCode);
     }
   };
 
   const handleFormat = () => {
     if (editorRef.current && monacoRef.current) {
-      editorRef.current.getAction('editor.action.formatDocument').run();
+      if (session?.programming_language === 'python') {
+        alert("Native code formatting for Python is not supported in the browser. Please format your code manually.");
+        return;
+      }
+      const action = editorRef.current.getAction('editor.action.formatDocument');
+      if (action) {
+        action.run();
+      } else {
+        alert("Code formatting is not supported for this language.");
+      }
     }
   };
 
@@ -180,7 +257,7 @@ export default function CodingArena() {
           <div className="flex items-center space-x-3 text-sm">
             <span className="text-gray-400">Assessment:</span>
             <span className="text-gray-200 font-medium bg-[#2C2C2E] px-3 py-1 rounded-full">
-              Question {session.questions_answered + (isCompleted ? 0 : 1)} / {session.max_questions}
+              Question {currentQuestionIndex} / {session.max_questions}
             </span>
           </div>
         </div>
@@ -188,17 +265,25 @@ export default function CodingArena() {
         <div className="flex items-center space-x-6">
           {/* Progress Breakdown */}
           <div className="flex items-center space-x-3 text-sm">
-             <span className="flex items-center text-emerald-400"><span className="w-2 h-2 rounded-full bg-emerald-400 mr-1.5"/>Easy 1</span>
-             <span className="flex items-center text-orange-400"><span className="w-2 h-2 rounded-full bg-orange-400 mr-1.5"/>Med 0</span>
-             <span className="flex items-center text-red-400"><span className="w-2 h-2 rounded-full bg-red-400 mr-1.5"/>Hard 0</span>
+             <span className="flex items-center text-emerald-400"><span className="w-2 h-2 rounded-full bg-emerald-400 mr-1.5"/>2 Easy</span>
+             <span className="flex items-center text-orange-400"><span className="w-2 h-2 rounded-full bg-orange-400 mr-1.5"/>2 Med</span>
+             <span className="flex items-center text-red-400"><span className="w-2 h-2 rounded-full bg-red-400 mr-1.5"/>1 Hard</span>
           </div>
           
           <div className="w-px h-5 bg-gray-700" />
           
           <div className="flex items-center text-gray-300 font-mono bg-gray-800/50 px-3 py-1.5 rounded-md border border-gray-700/50">
              <Clock className="w-4 h-4 mr-2 text-gray-400" />
-             45:00
+             {formatTime(timeLeft)}
           </div>
+
+          <button
+            onClick={handleNextQuestion}
+            className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded-md font-medium text-sm transition-colors"
+          >
+            <span>Next Question</span>
+            <ChevronRight className="w-4 h-4" />
+          </button>
         </div>
       </header>
 
@@ -222,7 +307,8 @@ export default function CodingArena() {
               {/* Top Right: Monaco Editor */}
               <Panel defaultSize={65} minSize={20} className="rounded-xl overflow-hidden border border-[#2C2C2E] flex flex-col bg-[#1C1C1E]">
                 <EditorToolbar 
-                  language={session.programming_language}
+                  language={language}
+                  setLanguage={handleLanguageChange}
                   theme={theme}
                   setTheme={setTheme}
                   fontSize={fontSize}
@@ -235,10 +321,10 @@ export default function CodingArena() {
                 />
                 <div className="flex-1 min-h-0 relative">
                   <CodeEditor
-                    language={session.programming_language}
+                    language={language}
                     value={code}
                     onChange={(val) => setCode(val || "")}
-                    readOnly={isSubmitting || !!submitResult || isCompleted}
+                    readOnly={isSubmitting || isCompleted}
                     theme={theme}
                     fontSize={fontSize}
                     onMount={handleEditorMount}

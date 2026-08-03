@@ -2,13 +2,14 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Play, Code2, Cpu, Brain, Layers } from "lucide-react";
+import { Play, Code2, Cpu, Brain, Layers, AlertTriangle, CheckCircle2, Wifi, Video, Mic, MonitorOff } from "lucide-react";
 import { startSession } from "@/lib/api/coding";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function CodingAgentLanding() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [showGuidelines, setShowGuidelines] = useState(false);
   const [formData, setFormData] = useState({
     candidate_name: "John Doe",
     candidate_email: "john@example.com",
@@ -18,14 +19,16 @@ export default function CodingAgentLanding() {
     max_questions: 5,
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     setIsLoading(true);
     try {
+      // Request full screen
+      const elem = document.documentElement;
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen().catch(e => console.log("Fullscreen error:", e));
+      }
+      
       const session = await startSession({
         ...formData,
         max_questions: Number(formData.max_questions),
@@ -36,6 +39,83 @@ export default function CodingAgentLanding() {
       setIsLoading(false);
     }
   };
+
+  if (showGuidelines) {
+    return (
+      <div className="max-w-3xl mx-auto space-y-8 p-6 mt-10">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="bg-[#1C1C1E] border border-[#2C2C2E] rounded-xl p-8"
+        >
+          <div className="flex items-center space-x-4 mb-8 border-b border-[#2C2C2E] pb-6">
+            <div className="p-3 bg-orange-500/10 rounded-xl shrink-0">
+              <AlertTriangle className="w-8 h-8 text-orange-500" />
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold text-white">Pre-Assessment Guidelines</h2>
+              <p className="text-gray-400 mt-1">Please read carefully before starting your session.</p>
+            </div>
+          </div>
+
+          <div className="space-y-6 mb-10">
+            <div className="flex items-start space-x-4">
+              <div className="p-2 bg-[#2C2C2E] rounded-lg shrink-0 mt-1">
+                <Wifi className="w-5 h-5 text-blue-400" />
+              </div>
+              <div>
+                <h4 className="text-white font-medium text-lg">Stable Internet Connection</h4>
+                <p className="text-gray-400 text-sm mt-1">Ensure you have a continuous, stable Wi-Fi or wired connection. Disconnections may terminate your assessment.</p>
+              </div>
+            </div>
+
+            <div className="flex items-start space-x-4">
+              <div className="p-2 bg-[#2C2C2E] rounded-lg shrink-0 mt-1">
+                <Video className="w-5 h-5 text-emerald-400" />
+              </div>
+              <div>
+                <h4 className="text-white font-medium text-lg">Camera & Microphone Required</h4>
+                <p className="text-gray-400 text-sm mt-1">Your webcam and microphone must remain on throughout the entire duration of the assessment for proctoring purposes.</p>
+              </div>
+            </div>
+
+            <div className="flex items-start space-x-4">
+              <div className="p-2 bg-[#2C2C2E] rounded-lg shrink-0 mt-1">
+                <MonitorOff className="w-5 h-5 text-red-400" />
+              </div>
+              <div>
+                <h4 className="text-white font-medium text-lg">No Tab Switching</h4>
+                <p className="text-gray-400 text-sm mt-1">Navigating away from the assessment window, switching tabs, or opening other applications is strictly prohibited and will be flagged.</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex items-center justify-between pt-6 border-t border-[#2C2C2E]">
+            <button
+              onClick={() => setShowGuidelines(false)}
+              className="px-6 py-2.5 text-gray-400 hover:text-white transition-colors"
+            >
+              Back
+            </button>
+            <button
+              onClick={handleSubmit}
+              disabled={isLoading}
+              className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white font-medium px-8 py-2.5 rounded-lg transition-colors disabled:opacity-50"
+            >
+              {isLoading ? (
+                <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+              ) : (
+                <>
+                  <CheckCircle2 className="w-5 h-5" />
+                  <span>I Agree, Start Session</span>
+                </>
+              )}
+            </button>
+          </div>
+        </motion.div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-4xl mx-auto space-y-8 p-6">
@@ -60,103 +140,22 @@ export default function CodingAgentLanding() {
           animate={{ opacity: 1, y: 0 }}
           className="bg-[#1C1C1E] border border-[#2C2C2E] rounded-xl p-6"
         >
-          <h2 className="text-xl font-semibold text-white mb-6">Session Configuration</h2>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-400 mb-1">
-                Candidate Name
-              </label>
-              <input
-                type="text"
-                name="candidate_name"
-                value={formData.candidate_name}
-                onChange={handleChange}
-                className="w-full bg-[#2C2C2E] border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-blue-500"
-                required
-              />
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-gray-400 mb-1">
-                Candidate Email
-              </label>
-              <input
-                type="email"
-                name="candidate_email"
-                value={formData.candidate_email}
-                onChange={handleChange}
-                className="w-full bg-[#2C2C2E] border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-blue-500"
-                required
-              />
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-400 mb-1">
-                  Language
-                </label>
-                <select
-                  name="programming_language"
-                  value={formData.programming_language}
-                  onChange={handleChange}
-                  className="w-full bg-[#2C2C2E] border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-blue-500"
-                >
-                  <option value="python">Python</option>
-                  <option value="cpp">C++</option>
-                  <option value="java">Java</option>
-                  <option value="javascript">JavaScript</option>
-                  <option value="csharp">C#</option>
-                  <option value="c">C</option>
-                </select>
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-400 mb-1">
-                  Starting Difficulty
-                </label>
-                <select
-                  name="difficulty"
-                  value={formData.difficulty}
-                  onChange={handleChange}
-                  className="w-full bg-[#2C2C2E] border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-blue-500"
-                >
-                  <option value="easy">Easy</option>
-                  <option value="medium">Medium</option>
-                  <option value="hard">Hard</option>
-                </select>
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-400 mb-1">
-                Number of Questions
-              </label>
-              <input
-                type="number"
-                name="max_questions"
-                value={formData.max_questions}
-                onChange={handleChange}
-                min="1"
-                max="20"
-                className="w-full bg-[#2C2C2E] border border-gray-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-blue-500"
-              />
-            </div>
+          <h2 className="text-xl font-semibold text-white mb-6">Start Coding Assessment</h2>
+          <div className="space-y-4">
+            <p className="text-gray-400 text-sm mb-4">
+              Click the button below to instantly launch an adaptive coding assessment.
+            </p>
 
             <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full mt-6 flex items-center justify-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-lg transition-colors disabled:opacity-50"
+              onClick={() => setShowGuidelines(true)}
+              className="w-full mt-6 flex items-center justify-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-lg transition-colors"
             >
-              {isLoading ? (
-                <div className="w-6 h-6 border-2 border-white/20 border-t-white rounded-full animate-spin" />
-              ) : (
-                <>
-                  <Play className="w-5 h-5" />
-                  <span>Start Assessment Session</span>
-                </>
-              )}
+              <>
+                <Play className="w-5 h-5" />
+                <span>Start Assessment Session</span>
+              </>
             </button>
-          </form>
+          </div>
         </motion.div>
 
         {/* Info Section */}

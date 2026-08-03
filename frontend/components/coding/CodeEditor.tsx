@@ -61,13 +61,13 @@ export default function CodeEditor({
   };
 
   return (
-    <div className="w-full h-full bg-[#1C1C1E]">
+    <div className={`w-full h-full ${theme === "vs-light" ? "bg-[#fffffe]" : "bg-[#1C1C1E]"}`}>
       <Editor
         height="100%"
         language={mapLanguage(language)}
         value={value}
         onChange={onChange}
-        theme={theme === "vs-dark" ? "premium-dark" : "light"}
+        theme={theme === "vs-dark" ? "premium-dark" : "vs-light"}
         onMount={handleEditorDidMount}
         options={{
           minimap: { enabled: false },

@@ -50,7 +50,7 @@ class StartSessionRequest(BaseModel):
     department: str = ""
     programming_language: str = "python"
     difficulty: str = "medium"
-    max_questions: int = 10
+    max_questions: int = 5
 
 
 class SessionResponse(BaseModel):
@@ -294,10 +294,27 @@ def submit_code(req: SubmitCodeRequest, db: Session = Depends(get_db)):
 
     db.add(submission)
 
-    # Update session
-    session.questions_answered += 1
-    scores = [s.overall_score for s in session.submissions] + [overall]
-    session.total_score = sum(scores) / len(scores) if scores else 0
+    # Check if this is the first submission for this question
+    existing_submissions = db.query(SubmissionORM).filter(
+        SubmissionORM.session_id == session.id,
+        SubmissionORM.question_id == req.question_id
+    ).all()
+
+    if not existing_submissions:
+        session.questions_answered += 1
+
+    # To calculate total score, we should average the best score per unique question
+    all_subs = db.query(SubmissionORM).filter(SubmissionORM.session_id == session.id).all()
+    # Add current submission to the list of all subs for calculation purposes
+    all_subs.append(submission)
+    
+    best_scores = {}
+    for sub in all_subs:
+        if sub.question_id not in best_scores or sub.overall_score > best_scores[sub.question_id]:
+            best_scores[sub.question_id] = sub.overall_score
+            
+    session.total_score = sum(best_scores.values()) / len(best_scores) if best_scores else 0
+
 
     if session.questions_answered >= session.max_questions:
         session.status = "completed"

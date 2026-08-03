@@ -216,8 +216,16 @@ export default function ConsolePanel({
                         </div>
                         <div>
                           <span className="text-gray-500">Received:</span>
-                          <div className="text-red-300 whitespace-pre-wrap">{tc.actual_output ? (typeof tc.actual_output === 'object' ? JSON.stringify(tc.actual_output) : String(tc.actual_output)) : String(tc.error)}</div>
+                          <div className="text-red-300 whitespace-pre-wrap">
+                            {tc.actual_output ? (typeof tc.actual_output === 'object' ? JSON.stringify(tc.actual_output) : String(tc.actual_output)) : (tc.error ? "No output" : "")}
+                          </div>
                         </div>
+                        {tc.error && (
+                          <div className="mt-2 pt-2 border-t border-red-500/20">
+                            <span className="text-red-400 font-semibold mb-1 block">Error:</span>
+                            <div className="text-red-300 whitespace-pre-wrap text-xs">{String(tc.error)}</div>
+                          </div>
+                        )}
                       </>
                     ) : (
                       <div className="text-gray-400 italic">

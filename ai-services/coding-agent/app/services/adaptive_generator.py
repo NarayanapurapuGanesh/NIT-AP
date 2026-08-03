@@ -108,22 +108,13 @@ class AdaptiveQuestionGenerator:
     def _compute_difficulty(
         self, score: float, answered: int, default: str
     ) -> str:
-        """Escalates difficulty based on cumulative score."""
-        if answered == 0:
-            return default
-
-        avg_score = score / max(answered, 1)
-
-        if avg_score >= 80:
-            # Candidate is doing well — increase difficulty
-            idx = DIFFICULTY_LADDER.index(default) if default in DIFFICULTY_LADDER else 1
-            return DIFFICULTY_LADDER[min(idx + 1, len(DIFFICULTY_LADDER) - 1)]
-        elif avg_score < 40:
-            # Candidate is struggling — decrease difficulty
-            idx = DIFFICULTY_LADDER.index(default) if default in DIFFICULTY_LADDER else 1
-            return DIFFICULTY_LADDER[max(idx - 1, 0)]
+        """Fixed difficulty progression: 2 easy, 2 medium, 1 hard."""
+        if answered < 2:
+            return "easy"
+        elif answered < 4:
+            return "medium"
         else:
-            return default
+            return "hard"
 
     def _pick_category(self, answered_categories: List[str]) -> Optional[str]:
         """Picks the next untested category from the rotation."""
