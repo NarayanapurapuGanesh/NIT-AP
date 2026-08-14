@@ -21,13 +21,14 @@ builder.Services.AddCustomApiVersioning();
 builder.Services.AddCustomSwagger();
 builder.Services.AddCustomAuthentication(builder.Configuration);
 builder.Services.AddHealthChecks();
+builder.Services.AddSignalR();
 
 // Configure CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("http://localhost:3000", "https://localhost:3000")
+        policy.WithOrigins("http://localhost:3000", "https://localhost:3000", "http://localhost:3002", "https://localhost:3002")
               .AllowAnyHeader()
               .AllowAnyMethod()
               .AllowCredentials();
@@ -52,5 +53,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 app.MapHealthChecks("/health");
+app.MapHub<FacultyIQ.Api.Hubs.CodingHub>("/hubs/coding");
+app.MapHub<FacultyIQ.Api.Hubs.InteractionHub>("/hubs/interaction");
 
 app.Run();

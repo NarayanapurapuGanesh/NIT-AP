@@ -73,12 +73,12 @@ class SubmitCodeRequest(BaseModel):
     session_id: str
     question_id: str
     source_code: str
-    language: str = "python"
+    language: Optional[str] = None
 
 
 class RunCodeRequest(BaseModel):
     source_code: str
-    language: str = "python"
+    language: Optional[str] = None
     stdin: str = ""
 
 
@@ -207,7 +207,7 @@ def complete_session(session_id: str, db: Session = Depends(get_db)):
     except Exception as e:
         log.warning(f"Could not send dossier to orchestrator: {e}")
 
-    return {"status": "success", "message": "Session completed and report generated.", "report_summary": report.get("overall_score")}
+    return {"status": "success", "message": "Session completed and report generated.", "report": report}
 
 
 @router.post("/question/next")
@@ -272,27 +272,37 @@ def submit_code(req: SubmitCodeRequest, db: Session = Depends(get_db)):
     # Get ALL test cases (including hidden)
     all_test_cases = question_bank.get_test_cases(db, req.question_id, include_hidden=True)
 
+    lang = req.language or session.programming_language
+
     # Run tests
-    test_summary = test_runner.run_all(req.source_code, req.language, all_test_cases)
+    test_summary = test_runner.run_all(req.source_code, lang, all_test_cases)
 
     # Complexity analysis
     complexity_result = complexity_analyzer.analyze(
-        req.source_code, req.language,
+        req.source_code, lang,
         question.expected_time_complexity,
         question.expected_space_complexity,
     )
 
     # Static analysis
-    static_result = static_analyzer.analyze(req.source_code, req.language)
+    static_result = static_analyzer.analyze(req.source_code, lang)
 
     # Compute scores
     correctness_score = test_summary.pass_rate
-    complexity_score = complexity_result.confidence * 100
-    if complexity_result.matches_expected:
-        complexity_score = min(complexity_score + 30, 100)
-    quality_score = static_result.maintainability_score
+    
+    if correctness_score == 0:
+        complexity_score = 0
+        quality_score = 0
+        problem_solving_score = 0
+    else:
+        complexity_score = complexity_result.confidence * 100
+        if complexity_result.matches_expected:
+            complexity_score = min(complexity_score + 30, 100)
+        quality_score = static_result.maintainability_score
+        problem_solving_score = (correctness_score * 0.5) + (complexity_score * 0.5)
 
     overall = evidence_builder.compute_overall_score(
+        problem_solving_score=problem_solving_score,
         correctness_score=correctness_score,
         complexity_score=complexity_score,
         quality_score=quality_score,
@@ -303,7 +313,7 @@ def submit_code(req: SubmitCodeRequest, db: Session = Depends(get_db)):
         id=str(uuid.uuid4()),
         session_id=session.id,
         question_id=req.question_id,
-        language=req.language,
+        language=lang,
         source_code=req.source_code,
         compiled_ok=True,
         public_tests_passed=test_summary.public_passed,
@@ -315,6 +325,7 @@ def submit_code(req: SubmitCodeRequest, db: Session = Depends(get_db)):
         complexity_score=complexity_score,
         quality_score=quality_score,
         overall_score=overall,
+        problem_solving_score=problem_solving_score,
         estimated_time_complexity=complexity_result.estimated_time,
         estimated_space_complexity=complexity_result.estimated_space,
         complexity_confidence=complexity_result.confidence,
@@ -376,6 +387,7 @@ def submit_code(req: SubmitCodeRequest, db: Session = Depends(get_db)):
         "submission_id": submission.id,
         "session_status": session.status,
         "overall_score": overall,
+        "problem_solving_score": round(problem_solving_score, 1),
         "correctness_score": round(correctness_score, 1),
         "complexity_score": round(complexity_score, 1),
         "quality_score": round(quality_score, 1),
@@ -388,9 +400,10 @@ def submit_code(req: SubmitCodeRequest, db: Session = Depends(get_db)):
 @router.post("/run", response_model=RunCodeResponse)
 def run_code(req: RunCodeRequest):
     """Run code against custom input (no scoring, for candidate testing)."""
+    lang = req.language or "python"
     result = compilation_engine.compile_and_run(
         source_code=req.source_code,
-        language=req.language,
+        language=lang,
         stdin=req.stdin,
     )
 
@@ -419,8 +432,8 @@ def get_result(submission_id: str, db: Session = Depends(get_db)):
         "correctness_score": sub.correctness_score,
         "complexity_score": sub.complexity_score,
         "quality_score": sub.quality_score,
-        "explanation_score": sub.explanation_score,
-        "viva_score": sub.viva_score,
+        "problem_solving_score": sub.problem_solving_score,
+        "teaching_score": sub.teaching_score,
         "overall_score": sub.overall_score,
         "test_results": sub.test_results_json,
         "static_analysis": sub.static_analysis_json,
@@ -449,16 +462,16 @@ async def submit_explanation(req: SubmitExplanationRequest, db: Session = Depend
 
     # Update submission
     sub.explanation_text = req.explanation
-    sub.explanation_score = score.overall_score
+    sub.teaching_score = score.overall_score
     sub.explanation_eval_json = score.to_dict()
 
     # Recompute overall
     sub.overall_score = evidence_builder.compute_overall_score(
+        problem_solving_score=sub.problem_solving_score, 
         correctness_score=sub.correctness_score,
         complexity_score=sub.complexity_score,
         quality_score=sub.quality_score,
-        explanation_score=sub.explanation_score,
-        viva_score=sub.viva_score,
+        teaching_score=sub.teaching_score,
     )
 
     db.commit()
@@ -515,11 +528,11 @@ async def answer_viva(req: AnswerVivaRequest, db: Session = Depends(get_db)):
     sub.viva_score = sum(viva_scores) / len(viva_scores)
 
     sub.overall_score = evidence_builder.compute_overall_score(
+        problem_solving_score=sub.problem_solving_score,
         correctness_score=sub.correctness_score,
         complexity_score=sub.complexity_score,
         quality_score=sub.quality_score,
-        explanation_score=sub.explanation_score,
-        viva_score=sub.viva_score,
+        teaching_score=sub.teaching_score,
     )
 
     db.commit()
@@ -568,6 +581,8 @@ def get_report(session_id: str, db: Session = Depends(get_db)):
                 "confidence": sub.complexity_confidence,
             },
             static_analysis_data=sub.static_analysis_json or {},
+            problem_solving_score=sub.problem_solving_score,
+            teaching_score=sub.teaching_score,
             explanation_data=sub.explanation_eval_json,
             viva_data=sub.viva_json,
         )

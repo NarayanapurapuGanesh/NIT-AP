@@ -11,3 +11,10 @@ models:
     primary: llama3.2:3b
   decision:
     primary: qwen2.5:3b
+  interaction:
+    primary: llama3.2:3b
+    purpose: "Student simulation - conversational persona"
+  teaching_eval:
+    primary: qwen2.5:3b
+    purpose: "Teaching quality evaluation - structured reasoning"
+

@@ -17,7 +17,8 @@ import {
   PlayCircle,
   User,
   CheckSquare,
-  Code2
+  Code2,
+  MessageSquareMore
 } from 'lucide-react';
 import { useAuth } from '@/lib/auth-context';
 
@@ -41,6 +42,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     { label: 'Overview Hub', href: '/dashboard', icon: LayoutDashboard },
     { label: 'Start Interview Session', href: '/dashboard/evaluation-session', icon: PlayCircle, badge: 'Active Workflow' },
     { label: 'Coding Assessment', href: '/dashboard/coding-agent', icon: Code2, badge: 'Interactive' },
+    { label: 'Teaching Interaction', href: '/dashboard/interaction', icon: MessageSquareMore, badge: 'AI Agent' },
   ];
 
   const agentResultsNav = [

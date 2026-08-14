@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using FacultyIQ.Application.Abstractions.Data;
 using FacultyIQ.Domain.Abstractions;
 using FacultyIQ.Domain.Entities.Identity;
+using FacultyIQ.Domain.Entities.Interaction;
 
 namespace FacultyIQ.Persistence.Context;
 
@@ -20,6 +21,19 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext, IUnitOfWor
     public DbSet<UserRole> UserRoles => Set<UserRole>();
     public DbSet<RolePermission> RolePermissions => Set<RolePermission>();
     public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
+
+    public DbSet<FacultyIQ.Domain.Entities.CodingAssessment.Question> Questions => Set<FacultyIQ.Domain.Entities.CodingAssessment.Question>();
+    public DbSet<FacultyIQ.Domain.Entities.CodingAssessment.Submission> Submissions => Set<FacultyIQ.Domain.Entities.CodingAssessment.Submission>();
+    public DbSet<FacultyIQ.Domain.Entities.CodingAssessment.ExecutionResult> ExecutionResults => Set<FacultyIQ.Domain.Entities.CodingAssessment.ExecutionResult>();
+    public DbSet<FacultyIQ.Domain.Entities.CodingAssessment.AiEvaluation> AiEvaluations => Set<FacultyIQ.Domain.Entities.CodingAssessment.AiEvaluation>();
+    public DbSet<FacultyIQ.Domain.Entities.CodingAssessment.StaticAnalysisMetrics> StaticAnalysisMetrics => Set<FacultyIQ.Domain.Entities.CodingAssessment.StaticAnalysisMetrics>();
+
+    // Interaction Intelligence Agent
+    public DbSet<InteractionSession> InteractionSessions => Set<InteractionSession>();
+    public DbSet<ConversationTurn> ConversationTurns => Set<ConversationTurn>();
+    public DbSet<EvidencePacket> EvidencePackets => Set<EvidencePacket>();
+    public DbSet<BloomProgressEntry> BloomProgressEntries => Set<BloomProgressEntry>();
+    public DbSet<MisconceptionRecord> MisconceptionRecords => Set<MisconceptionRecord>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

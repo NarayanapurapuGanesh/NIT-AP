@@ -19,31 +19,28 @@ class EvidenceBuilder:
 
     def __init__(self):
         self.weights = {
-            "correctness": settings.pipeline.correctness_weight,
-            "complexity": settings.pipeline.complexity_weight,
-            "quality": settings.pipeline.quality_weight,
-            "explanation": settings.pipeline.explanation_weight,
-            "viva": settings.pipeline.viva_weight,
-            "debugging": settings.pipeline.debugging_weight,
+            "Problem Solving & Algorithmic Thinking": settings.pipeline.problem_solving_weight,
+            "Code Correctness & Reliability": settings.pipeline.correctness_weight,
+            "Code Quality & Software Engineering": settings.pipeline.quality_weight,
+            "Optimization & Complexity": settings.pipeline.complexity_weight,
+            "Explanation & Teaching Ability": settings.pipeline.teaching_weight,
         }
 
     def compute_overall_score(
         self,
+        problem_solving_score: float = 0.0,
         correctness_score: float = 0.0,
         complexity_score: float = 0.0,
         quality_score: float = 0.0,
-        explanation_score: float = 0.0,
-        viva_score: float = 0.0,
-        debugging_score: float = 0.0,
+        teaching_score: float = 0.0,
     ) -> float:
         """Computes weighted overall score (0-100)."""
         overall = (
-            correctness_score * self.weights["correctness"]
-            + complexity_score * self.weights["complexity"]
-            + quality_score * self.weights["quality"]
-            + explanation_score * self.weights["explanation"]
-            + viva_score * self.weights["viva"]
-            + debugging_score * self.weights["debugging"]
+            problem_solving_score * self.weights["Problem Solving & Algorithmic Thinking"]
+            + correctness_score * self.weights["Code Correctness & Reliability"]
+            + quality_score * self.weights["Code Quality & Software Engineering"]
+            + complexity_score * self.weights["Optimization & Complexity"]
+            + teaching_score * self.weights["Explanation & Teaching Ability"]
         )
         return round(min(max(overall, 0), 100), 2)
 
@@ -54,6 +51,8 @@ class EvidenceBuilder:
         test_results: dict,
         complexity_data: dict,
         static_analysis_data: dict,
+        problem_solving_score: float = 0.0,
+        teaching_score: float = 0.0,
         explanation_data: Optional[dict] = None,
         viva_data: Optional[dict] = None,
     ) -> dict:
@@ -63,18 +62,18 @@ class EvidenceBuilder:
         if complexity_data.get("matches_expected"):
             complexity_score = min(complexity_score + 30, 100)
         quality_score = static_analysis_data.get("maintainability_score", 0)
-        explanation_score = (explanation_data or {}).get("overall_score", 0)
-        viva_score = 0
-        if viva_data and isinstance(viva_data, list):
-            scores = [v.get("score", 0) for v in viva_data if isinstance(v, dict)]
-            viva_score = sum(scores) / len(scores) if scores else 0
+        
+        # Override if correctness is 0 (skeleton)
+        if correctness_score == 0:
+            complexity_score = 0
+            quality_score = 0
 
         overall = self.compute_overall_score(
+            problem_solving_score=problem_solving_score,
             correctness_score=correctness_score,
             complexity_score=complexity_score,
             quality_score=quality_score,
-            explanation_score=explanation_score,
-            viva_score=viva_score,
+            teaching_score=teaching_score,
         )
 
         return {
@@ -96,11 +95,11 @@ class EvidenceBuilder:
             "explanation_evaluation": explanation_data,
             "viva_evaluation": viva_data,
             "scores": {
-                "correctness": round(correctness_score, 1),
-                "complexity": round(complexity_score, 1),
-                "quality": round(quality_score, 1),
-                "explanation": round(explanation_score, 1),
-                "viva": round(viva_score, 1),
+                "Problem Solving & Algorithmic Thinking": round(problem_solving_score, 1),
+                "Code Correctness & Reliability": round(correctness_score, 1),
+                "Code Quality & Software Engineering": round(quality_score, 1),
+                "Optimization & Complexity": round(complexity_score, 1),
+                "Explanation & Teaching Ability": round(teaching_score, 1),
                 "overall": overall,
             },
         }

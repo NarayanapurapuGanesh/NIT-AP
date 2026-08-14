@@ -120,7 +120,7 @@ export async function submitCode(data: {
   question_id: string;
   source_code: string;
   language: string;
-}): Promise<SubmitResponse> {
+}): Promise<{ submission_id: string }> {
   const res = await fetch(`${API_BASE}/submit`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },

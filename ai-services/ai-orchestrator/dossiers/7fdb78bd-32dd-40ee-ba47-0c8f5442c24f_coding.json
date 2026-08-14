@@ -1,0 +1,470 @@
+{
+    "candidate_name": "John Doe",
+    "session_id": "7fdb78bd-32dd-40ee-ba47-0c8f5442c24f",
+    "report": {
+        "session": {
+            "id": "7fdb78bd-32dd-40ee-ba47-0c8f5442c24f",
+            "candidate_name": "John Doe",
+            "candidate_email": "john@example.com",
+            "department": "Software Engineering",
+            "programming_language": "python",
+            "difficulty": "medium",
+            "status": "completed",
+            "started_at": "2026-08-05T02:19:12.221594",
+            "completed_at": "2026-08-05T02:19:45.298149"
+        },
+        "submissions": [
+            {
+                "question": {
+                    "id": "arr-003",
+                    "title": "Merge Sorted Arrays",
+                    "category": "arrays",
+                    "difficulty": "easy",
+                    "bloom_level": "Apply"
+                },
+                "submission": {
+                    "language": "java",
+                    "code_length": 40,
+                    "submitted_at": "2026-08-05T02:19:21.665902"
+                },
+                "test_results": {
+                    "total": 4,
+                    "passed": 0,
+                    "failed": 4,
+                    "pass_rate": 0.0,
+                    "public_passed": 0,
+                    "public_total": 2,
+                    "hidden_passed": 0,
+                    "hidden_total": 2,
+                    "results": [
+                        {
+                            "description": "Interleaved",
+                            "input": "1 3 5\n2 4 6",
+                            "expected_output": "1 2 3 4 5 6",
+                            "actual_output": "",
+                            "verdict": "wrong_answer",
+                            "execution_time_ms": 0.0,
+                            "is_hidden": false,
+                            "is_stress": false,
+                            "is_edge_case": false,
+                            "error": ""
+                        },
+                        {
+                            "description": "Single elements",
+                            "input": "1\n2",
+                            "expected_output": "1 2",
+                            "actual_output": "",
+                            "verdict": "wrong_answer",
+                            "execution_time_ms": 0.0,
+                            "is_hidden": false,
+                            "is_stress": false,
+                            "is_edge_case": false,
+                            "error": ""
+                        },
+                        {
+                            "description": "Empty first array",
+                            "input": "\n1 2 3",
+                            "expected_output": "1 2 3",
+                            "actual_output": "",
+                            "verdict": "wrong_answer",
+                            "execution_time_ms": 0.0,
+                            "is_hidden": true,
+                            "is_stress": false,
+                            "is_edge_case": true,
+                            "error": ""
+                        },
+                        {
+                            "description": "Empty second array",
+                            "input": "1 2 3\n",
+                            "expected_output": "1 2 3",
+                            "actual_output": "",
+                            "verdict": "wrong_answer",
+                            "execution_time_ms": 0.0,
+                            "is_hidden": true,
+                            "is_stress": false,
+                            "is_edge_case": true,
+                            "error": ""
+                        }
+                    ]
+                },
+                "complexity_analysis": {
+                    "estimated_time_complexity": "O(n)",
+                    "estimated_space_complexity": "O(1)",
+                    "confidence": 0.55
+                },
+                "static_analysis": {
+                    "maintainability_score": 100.0,
+                    "total_issues": 0,
+                    "errors": 0,
+                    "warnings": 0,
+                    "info": 0,
+                    "metrics": {
+                        "total_lines": 3,
+                        "code_lines": 3,
+                        "blank_lines": 0,
+                        "comment_lines": 0,
+                        "cyclomatic_complexity": 1
+                    },
+                    "issues": []
+                },
+                "explanation_evaluation": null,
+                "viva_evaluation": null,
+                "scores": {
+                    "correctness": 0.0,
+                    "complexity": 55.0,
+                    "quality": 100.0,
+                    "explanation": 0,
+                    "viva": 0,
+                    "overall": 18.25
+                }
+            },
+            {
+                "question": {
+                    "id": "str-001",
+                    "title": "Valid Anagram",
+                    "category": "strings",
+                    "difficulty": "easy",
+                    "bloom_level": "Apply"
+                },
+                "submission": {
+                    "language": "java",
+                    "code_length": 40,
+                    "submitted_at": "2026-08-05T02:19:24.182389"
+                },
+                "test_results": {
+                    "total": 3,
+                    "passed": 0,
+                    "failed": 3,
+                    "pass_rate": 0.0,
+                    "public_passed": 0,
+                    "public_total": 2,
+                    "hidden_passed": 0,
+                    "hidden_total": 1,
+                    "results": [
+                        {
+                            "description": "Valid anagram",
+                            "input": "anagram\nnagaram",
+                            "expected_output": "true",
+                            "actual_output": "",
+                            "verdict": "wrong_answer",
+                            "execution_time_ms": 0.0,
+                            "is_hidden": false,
+                            "is_stress": false,
+                            "is_edge_case": false,
+                            "error": ""
+                        },
+                        {
+                            "description": "Not anagram",
+                            "input": "rat\ncar",
+                            "expected_output": "false",
+                            "actual_output": "",
+                            "verdict": "wrong_answer",
+                            "execution_time_ms": 0.0,
+                            "is_hidden": false,
+                            "is_stress": false,
+                            "is_edge_case": false,
+                            "error": ""
+                        },
+                        {
+                            "description": "Single char",
+                            "input": "a\na",
+                            "expected_output": "true",
+                            "actual_output": "",
+                            "verdict": "wrong_answer",
+                            "execution_time_ms": 0.0,
+                            "is_hidden": true,
+                            "is_stress": false,
+                            "is_edge_case": true,
+                            "error": ""
+                        }
+                    ]
+                },
+                "complexity_analysis": {
+                    "estimated_time_complexity": "O(n)",
+                    "estimated_space_complexity": "O(1)",
+                    "confidence": 0.55
+                },
+                "static_analysis": {
+                    "maintainability_score": 100.0,
+                    "total_issues": 0,
+                    "errors": 0,
+                    "warnings": 0,
+                    "info": 0,
+                    "metrics": {
+                        "total_lines": 3,
+                        "code_lines": 3,
+                        "blank_lines": 0,
+                        "comment_lines": 0,
+                        "cyclomatic_complexity": 1
+                    },
+                    "issues": []
+                },
+                "explanation_evaluation": null,
+                "viva_evaluation": null,
+                "scores": {
+                    "correctness": 0.0,
+                    "complexity": 55.0,
+                    "quality": 100.0,
+                    "explanation": 0,
+                    "viva": 0,
+                    "overall": 18.25
+                }
+            },
+            {
+                "question": {
+                    "id": "ll-002",
+                    "title": "Detect Cycle in Linked List",
+                    "category": "linked_list",
+                    "difficulty": "medium",
+                    "bloom_level": "Apply"
+                },
+                "submission": {
+                    "language": "java",
+                    "code_length": 40,
+                    "submitted_at": "2026-08-05T02:19:26.207748"
+                },
+                "test_results": {
+                    "total": 3,
+                    "passed": 0,
+                    "failed": 3,
+                    "pass_rate": 0.0,
+                    "public_passed": 0,
+                    "public_total": 2,
+                    "hidden_passed": 0,
+                    "hidden_total": 1,
+                    "results": [
+                        {
+                            "description": "Cycle at pos 1",
+                            "input": "3 2 0 -4\n1",
+                            "expected_output": "true",
+                            "actual_output": "",
+                            "verdict": "wrong_answer",
+                            "execution_time_ms": 0.0,
+                            "is_hidden": false,
+                            "is_stress": false,
+                            "is_edge_case": false,
+                            "error": ""
+                        },
+                        {
+                            "description": "No cycle",
+                            "input": "1 2\n-1",
+                            "expected_output": "false",
+                            "actual_output": "",
+                            "verdict": "wrong_answer",
+                            "execution_time_ms": 0.0,
+                            "is_hidden": false,
+                            "is_stress": false,
+                            "is_edge_case": false,
+                            "error": ""
+                        },
+                        {
+                            "description": "Single node no cycle",
+                            "input": "1\n-1",
+                            "expected_output": "false",
+                            "actual_output": "",
+                            "verdict": "wrong_answer",
+                            "execution_time_ms": 0.0,
+                            "is_hidden": true,
+                            "is_stress": false,
+                            "is_edge_case": true,
+                            "error": ""
+                        }
+                    ]
+                },
+                "complexity_analysis": {
+                    "estimated_time_complexity": "O(n)",
+                    "estimated_space_complexity": "O(1)",
+                    "confidence": 0.55
+                },
+                "static_analysis": {
+                    "maintainability_score": 100.0,
+                    "total_issues": 0,
+                    "errors": 0,
+                    "warnings": 0,
+                    "info": 0,
+                    "metrics": {
+                        "total_lines": 3,
+                        "code_lines": 3,
+                        "blank_lines": 0,
+                        "comment_lines": 0,
+                        "cyclomatic_complexity": 1
+                    },
+                    "issues": []
+                },
+                "explanation_evaluation": null,
+                "viva_evaluation": null,
+                "scores": {
+                    "correctness": 0.0,
+                    "complexity": 55.0,
+                    "quality": 100.0,
+                    "explanation": 0,
+                    "viva": 0,
+                    "overall": 18.25
+                }
+            },
+            {
+                "question": {
+                    "id": "stk-002",
+                    "title": "Min Stack",
+                    "category": "stack",
+                    "difficulty": "medium",
+                    "bloom_level": "Apply"
+                },
+                "submission": {
+                    "language": "java",
+                    "code_length": 40,
+                    "submitted_at": "2026-08-05T02:19:36.554715"
+                },
+                "test_results": {
+                    "total": 1,
+                    "passed": 0,
+                    "failed": 1,
+                    "pass_rate": 0.0,
+                    "public_passed": 0,
+                    "public_total": 1,
+                    "hidden_passed": 0,
+                    "hidden_total": 0,
+                    "results": [
+                        {
+                            "description": "Standard operations",
+                            "input": "push -2\npush 0\npush -3\ngetMin\npop\ntop\ngetMin",
+                            "expected_output": "-3\n0\n-2",
+                            "actual_output": "",
+                            "verdict": "wrong_answer",
+                            "execution_time_ms": 0.0,
+                            "is_hidden": false,
+                            "is_stress": false,
+                            "is_edge_case": false,
+                            "error": ""
+                        }
+                    ]
+                },
+                "complexity_analysis": {
+                    "estimated_time_complexity": "O(n)",
+                    "estimated_space_complexity": "O(1)",
+                    "confidence": 0.55
+                },
+                "static_analysis": {
+                    "maintainability_score": 100.0,
+                    "total_issues": 0,
+                    "errors": 0,
+                    "warnings": 0,
+                    "info": 0,
+                    "metrics": {
+                        "total_lines": 3,
+                        "code_lines": 3,
+                        "blank_lines": 0,
+                        "comment_lines": 0,
+                        "cyclomatic_complexity": 1
+                    },
+                    "issues": []
+                },
+                "explanation_evaluation": null,
+                "viva_evaluation": null,
+                "scores": {
+                    "correctness": 0.0,
+                    "complexity": 55.0,
+                    "quality": 100.0,
+                    "explanation": 0,
+                    "viva": 0,
+                    "overall": 18.25
+                }
+            },
+            {
+                "question": {
+                    "id": "seg-001",
+                    "title": "Range Sum Query - Mutable",
+                    "category": "segment_tree",
+                    "difficulty": "hard",
+                    "bloom_level": "Create"
+                },
+                "submission": {
+                    "language": "java",
+                    "code_length": 40,
+                    "submitted_at": "2026-08-05T02:19:45.304068"
+                },
+                "test_results": {
+                    "total": 1,
+                    "passed": 0,
+                    "failed": 1,
+                    "pass_rate": 0.0,
+                    "public_passed": 0,
+                    "public_total": 1,
+                    "hidden_passed": 0,
+                    "hidden_total": 0,
+                    "results": [
+                        {
+                            "description": "Update and query",
+                            "input": "1 3 5\nsumRange 0 2\nupdate 1 2\nsumRange 0 2",
+                            "expected_output": "9\n8",
+                            "actual_output": "",
+                            "verdict": "wrong_answer",
+                            "execution_time_ms": 0.0,
+                            "is_hidden": false,
+                            "is_stress": false,
+                            "is_edge_case": false,
+                            "error": ""
+                        }
+                    ]
+                },
+                "complexity_analysis": {
+                    "estimated_time_complexity": "O(n)",
+                    "estimated_space_complexity": "O(1)",
+                    "confidence": 0.55
+                },
+                "static_analysis": {
+                    "maintainability_score": 100.0,
+                    "total_issues": 0,
+                    "errors": 0,
+                    "warnings": 0,
+                    "info": 0,
+                    "metrics": {
+                        "total_lines": 3,
+                        "code_lines": 3,
+                        "blank_lines": 0,
+                        "comment_lines": 0,
+                        "cyclomatic_complexity": 1
+                    },
+                    "issues": []
+                },
+                "explanation_evaluation": null,
+                "viva_evaluation": null,
+                "scores": {
+                    "correctness": 0.0,
+                    "complexity": 55.0,
+                    "quality": 100.0,
+                    "explanation": 0,
+                    "viva": 0,
+                    "overall": 18.25
+                }
+            }
+        ],
+        "overall_assessment": {
+            "total_score": 18.25,
+            "questions_attempted": 5,
+            "grade": "F",
+            "recommendation": "Not Recommended \u2014 Below expected threshold for this position.",
+            "score_breakdown": {
+                "per_question_scores": [
+                    18.25,
+                    18.25,
+                    18.25,
+                    18.25,
+                    18.25
+                ],
+                "highest_score": 18.25,
+                "lowest_score": 18.25
+            },
+            "weights_used": {
+                "correctness": 0.35,
+                "complexity": 0.15,
+                "quality": 0.1,
+                "explanation": 0.15,
+                "viva": 0.1,
+                "debugging": 0.15
+            }
+        },
+        "generated_at": "2026-08-05T03:04:34.366076+00:00",
+        "engine_version": "1.0.0"
+    }
+}

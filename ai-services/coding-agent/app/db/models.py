@@ -123,8 +123,8 @@ class SubmissionORM(Base):
     correctness_score = Column(Float, default=0.0)
     complexity_score = Column(Float, default=0.0)
     quality_score = Column(Float, default=0.0)
-    explanation_score = Column(Float, default=0.0)
-    viva_score = Column(Float, default=0.0)
+    problem_solving_score = Column(Float, default=0.0)
+    teaching_score = Column(Float, default=0.0)
     debugging_score = Column(Float, default=0.0)
     overall_score = Column(Float, default=0.0)
 

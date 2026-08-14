@@ -1,0 +1,49 @@
+{
+  "short_summary": "Here is a summary of the teaching demonstration transcript in 2-3 concise sentences:\n\nThe speaker, Marina Denilevsky, introduces the concept of Retrieval Augmented Generation (RAG), which aims to improve the accuracy and up-to-dateness of large language models (LLMs) through a framework that combines generation and retrieval. She shares an anecdote illustrating the limitations of LLMs in providing accurate and sourced answers, highlighting two common challenges: lack of source support and outdated information. By integrating a content store, such as the internet, into RAG, it is possible to provide more reliable and up-to-date responses.",
+  "topics_covered": [
+    "Large Language",
+    "Language Model",
+    "Language Models",
+    "Retrieval Augmented",
+    "User Query",
+    "Generative Model",
+    "User Question",
+    "Second Problem",
+    "Content Store",
+    "Pay Attention"
+  ],
+  "concepts": [],
+  "keywords": [
+    "answer",
+    "language",
+    "model",
+    "user",
+    "large",
+    "question",
+    "response",
+    "information",
+    "models",
+    "first",
+    "nasa",
+    "give",
+    "date",
+    "source",
+    "data",
+    "retrieval",
+    "augmented",
+    "part",
+    "moons",
+    "fact"
+  ],
+  "technical_terms": [],
+  "programming_languages": [
+    "C",
+    "GO",
+    "R"
+  ],
+  "algorithms": [
+    "Prim"
+  ],
+  "subjects": [],
+  "json_path": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\5724f247-c82d-4ba2-84e4-98801df5ec52\\summary.json"
+}

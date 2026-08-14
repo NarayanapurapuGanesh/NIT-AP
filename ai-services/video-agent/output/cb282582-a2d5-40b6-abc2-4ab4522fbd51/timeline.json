@@ -1,0 +1,979 @@
+{
+  "total_entries": 108,
+  "duration_seconds": 395.13,
+  "entries": [
+    {
+      "timestamp": 0.0,
+      "timestamp_formatted": "00:00",
+      "event_type": "slide_and_transcript",
+      "slide_id": "slide_001",
+      "slide_image_path": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\cb282582-a2d5-40b6-abc2-4ab4522fbd51\\visuals\\cb282582-a2d5-40b6-abc2-4ab4522fbd51_0.0.jpg",
+      "transcript_text": "Large language models, they are everywhere.",
+      "ocr_text": "IBM Technology"
+    },
+    {
+      "timestamp": 2.86,
+      "timestamp_formatted": "00:00:02",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "They get some things amazingly right and other things very interestingly wrong.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 8.1,
+      "timestamp_formatted": "00:00:08",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "My name is Marina Denilevsky.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 9.56,
+      "timestamp_formatted": "00:00:09",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "I am a senior research scientist here at IBM Research,",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 12.16,
+      "timestamp_formatted": "00:00:12",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "and I want to tell you about a framework to help large language models",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 16.12,
+      "timestamp_formatted": "00:00:16",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "be more accurate and more up to date.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 18.72,
+      "timestamp_formatted": "00:00:18",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "Retrieval Augmented Generation or RAG.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 22.52,
+      "timestamp_formatted": "00:00:22",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "Let's just talk about the generation part for a minute.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 24.86,
+      "timestamp_formatted": "00:00:24",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "So forget the retrieval augmented.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 26.42,
+      "timestamp_formatted": "00:00:26",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "So the generation, this refers to large language models or LLMs",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 30.363666666666667,
+      "timestamp_formatted": "00:30",
+      "event_type": "slide_and_transcript",
+      "slide_id": "slide_002",
+      "slide_image_path": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\cb282582-a2d5-40b6-abc2-4ab4522fbd51\\visuals\\cb282582-a2d5-40b6-abc2-4ab4522fbd51_30.4.jpg",
+      "transcript_text": "that generate text in response to a user query referred to as a prompt.",
+      "ocr_text": "akcreval - A ugmenied a"
+    },
+    {
+      "timestamp": 36.0,
+      "timestamp_formatted": "00:00:36",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "These models can have some undesirable behavior.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 38.28,
+      "timestamp_formatted": "00:00:38",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "I want to tell you an anecdote to illustrate this.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 41.66,
+      "timestamp_formatted": "00:00:41",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "So my kids, they recently asked me this question in our solar system,",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 45.94,
+      "timestamp_formatted": "00:00:45",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "what planet has the most moons?",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 49.06,
+      "timestamp_formatted": "00:00:49",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "And my response was, oh, that's really great that you're asking this question.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 53.64,
+      "timestamp_formatted": "00:00:53",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "I loved space when I was your age.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 55.7,
+      "timestamp_formatted": "00:00:55",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "Of course, that was like 30 years ago.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 58.06,
+      "timestamp_formatted": "00:00:58",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "But I know this.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 60.727333333333334,
+      "timestamp_formatted": "01:00",
+      "event_type": "slide_and_transcript",
+      "slide_id": "slide_003",
+      "slide_image_path": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\cb282582-a2d5-40b6-abc2-4ab4522fbd51\\visuals\\cb282582-a2d5-40b6-abc2-4ab4522fbd51_60.7.jpg",
+      "transcript_text": "I read an article and the article said that it was Jupiter and 88 moons.",
+      "ocr_text": "Retrieval -Avsmant CT C\\eVG - vg menic O be 2A AGS"
+    },
+    {
+      "timestamp": 65.3,
+      "timestamp_formatted": "00:01:05",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "So that's the answer.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 66.54,
+      "timestamp_formatted": "00:01:06",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "Now, actually, there's a couple of things wrong with my answer.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 70.48,
+      "timestamp_formatted": "00:01:10",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "First of all, I have no source to support what I'm saying.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 74.06,
+      "timestamp_formatted": "00:01:14",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "So even though I confidently said I read an article, I know the answer.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 77.58,
+      "timestamp_formatted": "00:01:17",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "I'm not sourcing it.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 78.46,
+      "timestamp_formatted": "00:01:18",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "I'm giving the answer off the top of my head.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 80.6,
+      "timestamp_formatted": "00:01:20",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "And also, I actually haven't kept up with this for a while.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 83.42,
+      "timestamp_formatted": "00:01:23",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "And my answer is out of date.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 85.86,
+      "timestamp_formatted": "00:01:25",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "So we have two problems here.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 87.88,
+      "timestamp_formatted": "00:01:27",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "One is no source.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 91.09100000000001,
+      "timestamp_formatted": "01:31",
+      "event_type": "slide_and_transcript",
+      "slide_id": "slide_004",
+      "slide_image_path": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\cb282582-a2d5-40b6-abc2-4ab4522fbd51\\visuals\\cb282582-a2d5-40b6-abc2-4ab4522fbd51_91.1.jpg",
+      "transcript_text": "And the second problem is that I am out of date.",
+      "ocr_text": "Rekceval - Aue mente: AT O\\EVG “\\u9 venice go “4 * ‘ ? '"
+    },
+    {
+      "timestamp": 95.28,
+      "timestamp_formatted": "00:01:35",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "And these, in fact, are two behaviors that are often observed as problematic",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 101.52,
+      "timestamp_formatted": "00:01:41",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "when interacting with large language models.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 104.7,
+      "timestamp_formatted": "00:01:44",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "They are LLM challenges.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 106.56,
+      "timestamp_formatted": "00:01:46",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "Now, what would have happened if I'd taken a beat and first gone and looked up the answer",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 111.84,
+      "timestamp_formatted": "00:01:51",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "on a reputable source like NASA?",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 115.18,
+      "timestamp_formatted": "00:01:55",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "Well, then I would have been able to say, ah, OK, so the answer is Saturn with 146 moons.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 121.45466666666667,
+      "timestamp_formatted": "02:01",
+      "event_type": "slide_and_transcript",
+      "slide_id": "slide_005",
+      "slide_image_path": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\cb282582-a2d5-40b6-abc2-4ab4522fbd51\\visuals\\cb282582-a2d5-40b6-abc2-4ab4522fbd51_121.5.jpg",
+      "transcript_text": "And in fact, this keeps changing because scientists keep on discovering more and more",
+      "ocr_text": "il \\ Rokcieval - Avs mented NASA, ‘ v vy’"
+    },
+    {
+      "timestamp": 127.62,
+      "timestamp_formatted": "00:02:07",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "moots.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 128.24,
+      "timestamp_formatted": "00:02:08",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "So I have now grounded my answer in something more believable.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 131.02,
+      "timestamp_formatted": "00:02:11",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "I have not hallucinated or made up an answer on, by the way, I didn't leak personal information",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 135.16,
+      "timestamp_formatted": "00:02:15",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "about how long ago it's been since I was obsessed with space.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 138.82,
+      "timestamp_formatted": "00:02:18",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "All right.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 139.28,
+      "timestamp_formatted": "00:02:19",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "So what does this have to do with largely language models?",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 142.04,
+      "timestamp_formatted": "00:02:22",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "Well, how would a large language model be?",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 143.88,
+      "timestamp_formatted": "00:02:23",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "A large language model had answered this question.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 146.52,
+      "timestamp_formatted": "00:02:26",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "So let's say that I have a user asking this question about moons.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 151.81833333333333,
+      "timestamp_formatted": "02:31",
+      "event_type": "slide_and_transcript",
+      "slide_id": "slide_006",
+      "slide_image_path": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\cb282582-a2d5-40b6-abc2-4ab4522fbd51\\visuals\\cb282582-a2d5-40b6-abc2-4ab4522fbd51_151.8.jpg",
+      "transcript_text": "A large language model would constantly say, OK, I have been trained.",
+      "ocr_text": "Rohcieval - “Avs mone Lb NASA,"
+    },
+    {
+      "timestamp": 160.26,
+      "timestamp_formatted": "00:02:40",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "And from what I know in my parameters during my training, the answer is Jupiter.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 166.44,
+      "timestamp_formatted": "00:02:46",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "The answer is wrong.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 167.86,
+      "timestamp_formatted": "00:02:47",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "But, you know, we don't know.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 170.3,
+      "timestamp_formatted": "00:02:50",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "The large language model is very confident in what it answered.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 173.0,
+      "timestamp_formatted": "00:02:53",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "Now, what happens when you add this retrieval augmented part here?",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 178.48,
+      "timestamp_formatted": "00:02:58",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "What does that mean?",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 179.3,
+      "timestamp_formatted": "00:02:59",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "That means that now instead of just relying on what the LLM knows, we are adding a content store.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 182.18200000000002,
+      "timestamp_formatted": "03:02",
+      "event_type": "slide",
+      "slide_id": "slide_007",
+      "slide_image_path": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\cb282582-a2d5-40b6-abc2-4ab4522fbd51\\visuals\\cb282582-a2d5-40b6-abc2-4ab4522fbd51_182.2.jpg",
+      "transcript_text": null,
+      "ocr_text": "2 hove \\-A fet eves Va va memed — a f"
+    },
+    {
+      "timestamp": 185.76,
+      "timestamp_formatted": "00:03:05",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "This could be open like the internet.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 187.84,
+      "timestamp_formatted": "00:03:07",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "This could be closed like some collection of documents, collection of policies, whatever.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 194.28,
+      "timestamp_formatted": "00:03:14",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "The point, though, now is that the LLM first goes and talks to the content store and says,",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 199.3,
+      "timestamp_formatted": "00:03:19",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "hey, can you retrieve from me information that is relevant to what the user's query was?",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 206.04,
+      "timestamp_formatted": "00:03:26",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "And now, with this retriever augmented answer, it's not Jupiter anymore.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 212.54566666666668,
+      "timestamp_formatted": "03:32",
+      "event_type": "slide_and_transcript",
+      "slide_id": "slide_008",
+      "slide_image_path": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\cb282582-a2d5-40b6-abc2-4ab4522fbd51\\visuals\\cb282582-a2d5-40b6-abc2-4ab4522fbd51_212.5.jpg",
+      "transcript_text": "We know that it is Saturn.",
+      "ocr_text": "r f- \\ IQ, cieval - Avg mented ee ~~ — NASA"
+    },
+    {
+      "timestamp": 214.16,
+      "timestamp_formatted": "00:03:34",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "What does this look like?",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 216.0,
+      "timestamp_formatted": "00:03:36",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "Well, first, user prompts the LLM with their question.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 226.74,
+      "timestamp_formatted": "00:03:46",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "They say this is what my question was.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 228.04,
+      "timestamp_formatted": "00:03:48",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "And originally, if we're just talking to a generative model,",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 232.48,
+      "timestamp_formatted": "00:03:52",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "the generative model says, oh, okay, I know the response.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 235.58,
+      "timestamp_formatted": "00:03:55",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "Here it is.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 236.08,
+      "timestamp_formatted": "00:03:56",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "Here's my response.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 237.52,
+      "timestamp_formatted": "00:03:57",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "But now, in the RAM framework, the generative model actually has an instruction that says,",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 242.90933333333334,
+      "timestamp_formatted": "04:02",
+      "event_type": "slide_and_transcript",
+      "slide_id": "slide_009",
+      "slide_image_path": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\cb282582-a2d5-40b6-abc2-4ab4522fbd51\\visuals\\cb282582-a2d5-40b6-abc2-4ab4522fbd51_242.9.jpg",
+      "transcript_text": "no, no, no.",
+      "ocr_text": "Rokrieval “Pug mente’ \\ NASA ci cs \\:"
+    },
+    {
+      "timestamp": 244.36,
+      "timestamp_formatted": "00:04:04",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "First, go and retrieve relevant content.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 248.76,
+      "timestamp_formatted": "00:04:08",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "Combine that with the user's question and only then generate the answer.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 253.58,
+      "timestamp_formatted": "00:04:13",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "So, the prompt now has three parts.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 257.22,
+      "timestamp_formatted": "00:04:17",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "The instruction to pay attention to the retrieved content,",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 261.4,
+      "timestamp_formatted": "00:04:21",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "together with the user's question, now give a response.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 264.46,
+      "timestamp_formatted": "00:04:24",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "And in fact, now you can give evidence for why your response was what it was.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 269.78,
+      "timestamp_formatted": "00:04:29",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "So now hopefully you can see how does RAG help the 2LM challenges that I had mentioned before.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 273.273,
+      "timestamp_formatted": "04:33",
+      "event_type": "slide",
+      "slide_id": "slide_010",
+      "slide_image_path": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\cb282582-a2d5-40b6-abc2-4ab4522fbd51\\visuals\\cb282582-a2d5-40b6-abc2-4ab4522fbd51_273.3.jpg",
+      "transcript_text": null,
+      "ocr_text": "Rokcieval ~ Avg ment OD \\ \\ P-” c —"
+    },
+    {
+      "timestamp": 276.08,
+      "timestamp_formatted": "00:04:36",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "So, first of all, I'll start with the out of date part.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 278.62,
+      "timestamp_formatted": "00:04:38",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "Now, instead of having to retrain your model, if new information comes up like, hey,",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 283.78,
+      "timestamp_formatted": "00:04:43",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "we found some more moves.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 285.2,
+      "timestamp_formatted": "00:04:45",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "Now, to Jupyter again, maybe it'll be Saturday again in the future.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 288.32,
+      "timestamp_formatted": "00:04:48",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "All you have to do is you augment your data store with new information,",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 292.44,
+      "timestamp_formatted": "00:04:52",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "updated information.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 293.38,
+      "timestamp_formatted": "00:04:53",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "So now the next time that a user comes and asks the question, we're ready.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 297.72,
+      "timestamp_formatted": "00:04:57",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "We just go ahead and retrieve the most up to date information.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 300.42,
+      "timestamp_formatted": "00:05:00",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "The second problem, source.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 303.63666666666666,
+      "timestamp_formatted": "05:03",
+      "event_type": "slide_and_transcript",
+      "slide_id": "slide_011",
+      "slide_image_path": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\cb282582-a2d5-40b6-abc2-4ab4522fbd51\\visuals\\cb282582-a2d5-40b6-abc2-4ab4522fbd51_303.6.jpg",
+      "transcript_text": "Well, the language language model is now being instructed to pay attention to primary source",
+      "ocr_text": "Robcev aN enn NASA, L\\ -Au wears i vq Memes §"
+    },
+    {
+      "timestamp": 308.94,
+      "timestamp_formatted": "00:05:08",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "data before giving its response.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 311.1,
+      "timestamp_formatted": "00:05:11",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "And in fact, now being able to give evidence.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 313.78,
+      "timestamp_formatted": "00:05:13",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "This makes it less likely to hallucinate or to leak data because it is less likely to",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 318.36,
+      "timestamp_formatted": "00:05:18",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "rely only on information that I learned during training.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 321.84,
+      "timestamp_formatted": "00:05:21",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "It also allows us to get the model to have a behavior that can be very positive,",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 326.46,
+      "timestamp_formatted": "00:05:26",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "which is knowing when to say, I don't know.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 329.62,
+      "timestamp_formatted": "00:05:29",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "If the user's question cannot be reliably answered based on your data store,",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 334.00033333333334,
+      "timestamp_formatted": "05:34",
+      "event_type": "slide_and_transcript",
+      "slide_id": "slide_012",
+      "slide_image_path": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\cb282582-a2d5-40b6-abc2-4ab4522fbd51\\visuals\\cb282582-a2d5-40b6-abc2-4ab4522fbd51_334.0.jpg",
+      "transcript_text": "the model should say, I don't know, instead of making up something that is believable",
+      "ocr_text": "Robceval — Ll \\ “Av enie & “Pug mente’"
+    },
+    {
+      "timestamp": 339.36,
+      "timestamp_formatted": "00:05:39",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "and may mislead the user.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 342.06,
+      "timestamp_formatted": "00:05:42",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "This can have a negative effect as well, though, because if the retriever is not",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 345.92,
+      "timestamp_formatted": "00:05:45",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "sufficiently good to give the large language model the best, most highest quality",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 351.48,
+      "timestamp_formatted": "00:05:51",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "grounding information, then maybe the user's query that is answerable doesn't get an answer.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 357.36,
+      "timestamp_formatted": "00:05:57",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "So this is actually why lots of folks, including many of us here at IBM,",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 361.6,
+      "timestamp_formatted": "00:06:01",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "are working the problem on both sides.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 364.36400000000003,
+      "timestamp_formatted": "06:04",
+      "event_type": "slide_and_transcript",
+      "slide_id": "slide_013",
+      "slide_image_path": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\cb282582-a2d5-40b6-abc2-4ab4522fbd51\\visuals\\cb282582-a2d5-40b6-abc2-4ab4522fbd51_364.4.jpg",
+      "transcript_text": "We are both working to improve the retriever to give the large language model the best quality",
+      "ocr_text": "Rekcieval \\ \\ - AN menic &"
+    },
+    {
+      "timestamp": 370.52,
+      "timestamp_formatted": "00:06:10",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "data on which to ground its response and also the generative part so that the LLM can give",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 376.02,
+      "timestamp_formatted": "00:06:16",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "the richest best response finally to the user when it generates the answer.",
+      "ocr_text": null
+    },
+    {
+      "timestamp": 379.7794,
+      "timestamp_formatted": "06:19",
+      "event_type": "slide_and_transcript",
+      "slide_id": "slide_014",
+      "slide_image_path": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\cb282582-a2d5-40b6-abc2-4ab4522fbd51\\visuals\\cb282582-a2d5-40b6-abc2-4ab4522fbd51_379.8.jpg",
+      "transcript_text": "Thank you for learning more about RAG and like and subscribe to the channel.",
+      "ocr_text": "Co . \\ Ros ceval . Avg mented ee eee"
+    },
+    {
+      "timestamp": 385.66,
+      "timestamp_formatted": "00:06:25",
+      "event_type": "transcript",
+      "slide_id": null,
+      "slide_image_path": null,
+      "transcript_text": "Thank you.",
+      "ocr_text": null
+    }
+  ],
+  "json_path": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\cb282582-a2d5-40b6-abc2-4ab4522fbd51\\timeline.json"
+}

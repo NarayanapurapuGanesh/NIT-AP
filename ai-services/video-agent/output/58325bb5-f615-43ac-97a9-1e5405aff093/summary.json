@@ -1,0 +1,49 @@
+{
+  "short_summary": "Here is a concise summary of the teaching demonstration transcript in 2-3 sentences:\n\nThe presenter introduces Retrieval Augmented Generation (RAG), a framework to improve the accuracy and up-to-dateness of large language models (LLMs) that generate text in response to user queries. The generation part of RAG highlights issues with LLMs, such as providing unverified answers and outdated information, which can be mitigated by integrating a content store, like a trusted source or database. By combining retrieval and augmentation, RAG aims to provide more reliable and informative responses from LLMs.",
+  "topics_covered": [
+    "Large Language",
+    "Language Model",
+    "Language Models",
+    "Retrieval Augmented",
+    "User Query",
+    "Generative Model",
+    "User Question",
+    "Second Problem",
+    "Content Store",
+    "Pay Attention"
+  ],
+  "concepts": [],
+  "keywords": [
+    "answer",
+    "language",
+    "model",
+    "user",
+    "large",
+    "question",
+    "response",
+    "information",
+    "models",
+    "first",
+    "nasa",
+    "give",
+    "date",
+    "source",
+    "data",
+    "retrieval",
+    "augmented",
+    "part",
+    "moons",
+    "fact"
+  ],
+  "technical_terms": [],
+  "programming_languages": [
+    "C",
+    "GO",
+    "R"
+  ],
+  "algorithms": [
+    "Prim"
+  ],
+  "subjects": [],
+  "json_path": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\58325bb5-f615-43ac-97a9-1e5405aff093\\summary.json"
+}

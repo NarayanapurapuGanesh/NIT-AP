@@ -1,0 +1,156 @@
+{
+  "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\1d2b961b-0124-4886-81e5-f954656571d4\\visuals\\frame_000000.jpg": {
+    "visual_type": "Code Editor",
+    "contains_handwriting": false,
+    "contains_diagram": false,
+    "contains_flowchart": false,
+    "contains_code": true,
+    "contains_equation": false,
+    "contains_table": false,
+    "rank_score": 0.0,
+    "detection_confidence": 0.75
+  },
+  "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\1d2b961b-0124-4886-81e5-f954656571d4\\visuals\\frame_000910.jpg": {
+    "visual_type": "Code Editor",
+    "contains_handwriting": false,
+    "contains_diagram": true,
+    "contains_flowchart": true,
+    "contains_code": true,
+    "contains_equation": false,
+    "contains_table": false,
+    "rank_score": 3.0,
+    "detection_confidence": 0.85
+  },
+  "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\1d2b961b-0124-4886-81e5-f954656571d4\\visuals\\frame_001820.jpg": {
+    "visual_type": "Code Editor",
+    "contains_handwriting": false,
+    "contains_diagram": true,
+    "contains_flowchart": true,
+    "contains_code": true,
+    "contains_equation": false,
+    "contains_table": false,
+    "rank_score": 3.0,
+    "detection_confidence": 0.85
+  },
+  "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\1d2b961b-0124-4886-81e5-f954656571d4\\visuals\\frame_002730.jpg": {
+    "visual_type": "Code Editor",
+    "contains_handwriting": false,
+    "contains_diagram": true,
+    "contains_flowchart": true,
+    "contains_code": true,
+    "contains_equation": false,
+    "contains_table": false,
+    "rank_score": 3.0,
+    "detection_confidence": 0.85
+  },
+  "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\1d2b961b-0124-4886-81e5-f954656571d4\\visuals\\frame_003640.jpg": {
+    "visual_type": "Code Editor",
+    "contains_handwriting": false,
+    "contains_diagram": true,
+    "contains_flowchart": true,
+    "contains_code": true,
+    "contains_equation": false,
+    "contains_table": false,
+    "rank_score": 3.0,
+    "detection_confidence": 0.85
+  },
+  "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\1d2b961b-0124-4886-81e5-f954656571d4\\visuals\\frame_004550.jpg": {
+    "visual_type": "Code Editor",
+    "contains_handwriting": false,
+    "contains_diagram": true,
+    "contains_flowchart": true,
+    "contains_code": true,
+    "contains_equation": false,
+    "contains_table": false,
+    "rank_score": 3.0,
+    "detection_confidence": 0.85
+  },
+  "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\1d2b961b-0124-4886-81e5-f954656571d4\\visuals\\frame_005460.jpg": {
+    "visual_type": "Code Editor",
+    "contains_handwriting": false,
+    "contains_diagram": true,
+    "contains_flowchart": true,
+    "contains_code": true,
+    "contains_equation": false,
+    "contains_table": false,
+    "rank_score": 3.0,
+    "detection_confidence": 0.85
+  },
+  "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\1d2b961b-0124-4886-81e5-f954656571d4\\visuals\\frame_006370.jpg": {
+    "visual_type": "Code Editor",
+    "contains_handwriting": false,
+    "contains_diagram": true,
+    "contains_flowchart": true,
+    "contains_code": true,
+    "contains_equation": false,
+    "contains_table": false,
+    "rank_score": 3.0,
+    "detection_confidence": 0.85
+  },
+  "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\1d2b961b-0124-4886-81e5-f954656571d4\\visuals\\frame_007280.jpg": {
+    "visual_type": "Code Editor",
+    "contains_handwriting": false,
+    "contains_diagram": true,
+    "contains_flowchart": true,
+    "contains_code": true,
+    "contains_equation": false,
+    "contains_table": false,
+    "rank_score": 3.0,
+    "detection_confidence": 0.85
+  },
+  "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\1d2b961b-0124-4886-81e5-f954656571d4\\visuals\\frame_008190.jpg": {
+    "visual_type": "Code Editor",
+    "contains_handwriting": false,
+    "contains_diagram": true,
+    "contains_flowchart": true,
+    "contains_code": true,
+    "contains_equation": false,
+    "contains_table": false,
+    "rank_score": 3.0,
+    "detection_confidence": 0.85
+  },
+  "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\1d2b961b-0124-4886-81e5-f954656571d4\\visuals\\frame_009100.jpg": {
+    "visual_type": "Code Editor",
+    "contains_handwriting": false,
+    "contains_diagram": true,
+    "contains_flowchart": true,
+    "contains_code": true,
+    "contains_equation": false,
+    "contains_table": false,
+    "rank_score": 3.0,
+    "detection_confidence": 0.85
+  },
+  "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\1d2b961b-0124-4886-81e5-f954656571d4\\visuals\\frame_010010.jpg": {
+    "visual_type": "Code Editor",
+    "contains_handwriting": false,
+    "contains_diagram": true,
+    "contains_flowchart": false,
+    "contains_code": true,
+    "contains_equation": false,
+    "contains_table": true,
+    "rank_score": 5.0,
+    "detection_confidence": 0.9
+  },
+  "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\1d2b961b-0124-4886-81e5-f954656571d4\\visuals\\frame_010920.jpg": {
+    "visual_type": "Code Editor",
+    "contains_handwriting": false,
+    "contains_diagram": true,
+    "contains_flowchart": true,
+    "contains_code": true,
+    "contains_equation": false,
+    "contains_table": false,
+    "rank_score": 3.0,
+    "detection_confidence": 0.85
+  },
+  "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\1d2b961b-0124-4886-81e5-f954656571d4\\visuals\\frame_011382.jpg": {
+    "visual_type": "Slide",
+    "contains_handwriting": false,
+    "contains_diagram": true,
+    "contains_flowchart": true,
+    "contains_code": false,
+    "contains_equation": false,
+    "contains_table": false,
+    "rank_score": 3.0,
+    "detection_confidence": 0.85
+  }
+}

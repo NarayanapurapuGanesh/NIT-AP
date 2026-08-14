@@ -57,12 +57,11 @@ class PipelineSettings(BaseModel):
     max_questions_per_session: int = 10
     default_difficulty: str = "medium"
     adaptive_enabled: bool = True
-    explanation_weight: float = 0.15
-    viva_weight: float = 0.10
-    correctness_weight: float = 0.35
+    problem_solving_weight: float = 0.30
+    correctness_weight: float = 0.25
+    quality_weight: float = 0.15
     complexity_weight: float = 0.15
-    quality_weight: float = 0.10
-    debugging_weight: float = 0.15
+    teaching_weight: float = 0.15
 
 
 class LoggingSettings(BaseModel):

@@ -36,12 +36,11 @@ pipeline:
   max_questions_per_session: 10
   default_difficulty: "medium"
   adaptive_enabled: true
-  explanation_weight: 0.15
-  viva_weight: 0.10
-  correctness_weight: 0.35
+  problem_solving_weight: 0.30
+  correctness_weight: 0.25
+  quality_weight: 0.15
   complexity_weight: 0.15
-  quality_weight: 0.10
-  debugging_weight: 0.15
+  teaching_weight: 0.15
 
 logging:
   level: "DEBUG"

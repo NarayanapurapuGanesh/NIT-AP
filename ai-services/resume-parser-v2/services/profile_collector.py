@@ -178,8 +178,10 @@ class ProfileCollectorService:
                     if r_match:
                         rating_val = int(r_match.group(1))
 
-                # Match global rank
-                rank_match = re.search(r'Global Rank[^\d]*(\d+)', html)
+                # Match global rank more robustly (ignoring digits in class names like mb-2)
+                rank_match = re.search(r'Global Rank.*?>(?:\s*<strong>\s*)?(\d+)(?:\s*</strong>\s*)?<', html, re.IGNORECASE | re.DOTALL)
+                if not rank_match:
+                    rank_match = re.search(r'Global Rank[^\d]*(\d+)', html)
                 global_rank = int(rank_match.group(1)) if rank_match else None
 
                 # Match star level e.g. 3*

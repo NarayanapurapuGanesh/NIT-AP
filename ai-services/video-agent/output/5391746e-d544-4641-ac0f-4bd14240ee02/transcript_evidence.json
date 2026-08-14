@@ -1,0 +1,7502 @@
+{
+  "full_text": "Large language models, they are everywhere. They get some things amazingly right and other things very interestingly wrong. My name is Marina Denilevsky. I am a senior research scientist here at IBM Research, and I want to tell you about a framework to help large language models be more accurate and more up to date. Retrieval Augmented Generation or RAG. Let's just talk about the generation part for a minute. So forget the retrieval augmented. So the generation, this refers to large language models or LLMs that generate text in response to a user query referred to as a prompt. These models can have some undesirable behavior. I want to tell you an anecdote to illustrate this. So my kids, they recently asked me this question in our solar system, what planet has the most moons? And my response was, oh, that's really great that you're asking this question. I loved space when I was your age. Of course, that was like 30 years ago. But I know this. I read an article and the article said that it was Jupiter and 88 moons. So that's the answer. Now, actually, there's a couple of things wrong with my answer. First of all, I have no source to support what I'm saying. So even though I confidently said I read an article, I know the answer. I'm not sourcing it. I'm giving the answer off the top of my head. And also, I actually haven't kept up with this for a while. And my answer is out of date. So we have two problems here. One is no source. And the second problem is that I am out of date. And these, in fact, are two behaviors that are often observed as problematic when interacting with large language models. They are LLM challenges. Now, what would have happened if I'd taken a beat and first gone and looked up the answer on a reputable source like NASA? Well, then I would have been able to say, ah, OK, so the answer is Saturn with 146 moons. And in fact, this keeps changing because scientists keep on discovering more and more moots. So I have now grounded my answer in something more believable. I have not hallucinated or made up an answer on, by the way, I didn't leak personal information about how long ago it's been since I was obsessed with space. All right. So what does this have to do with largely language models? Well, how would a large language model be? A large language model had answered this question. So let's say that I have a user asking this question about moons. A large language model would constantly say, OK, I have been trained. And from what I know in my parameters during my training, the answer is Jupiter. The answer is wrong. But, you know, we don't know. The large language model is very confident in what it answered. Now, what happens when you add this retrieval augmented part here? What does that mean? That means that now instead of just relying on what the LLM knows, we are adding a content store. This could be open like the internet. This could be closed like some collection of documents, collection of policies, whatever. The point, though, now is that the LLM first goes and talks to the content store and says, hey, can you retrieve from me information that is relevant to what the user's query was? And now, with this retriever augmented answer, it's not Jupiter anymore. We know that it is Saturn. What does this look like? Well, first, user prompts the LLM with their question. They say this is what my question was. And originally, if we're just talking to a generative model, the generative model says, oh, okay, I know the response. Here it is. Here's my response. But now, in the RAM framework, the generative model actually has an instruction that says, no, no, no. First, go and retrieve relevant content. Combine that with the user's question and only then generate the answer. So, the prompt now has three parts. The instruction to pay attention to the retrieved content, together with the user's question, now give a response. And in fact, now you can give evidence for why your response was what it was. So now hopefully you can see how does RAG help the 2LM challenges that I had mentioned before. So, first of all, I'll start with the out of date part. Now, instead of having to retrain your model, if new information comes up like, hey, we found some more moves. Now, to Jupyter again, maybe it'll be Saturday again in the future. All you have to do is you augment your data store with new information, updated information. So now the next time that a user comes and asks the question, we're ready. We just go ahead and retrieve the most up to date information. The second problem, source. Well, the language language model is now being instructed to pay attention to primary source data before giving its response. And in fact, now being able to give evidence. This makes it less likely to hallucinate or to leak data because it is less likely to rely only on information that I learned during training. It also allows us to get the model to have a behavior that can be very positive, which is knowing when to say, I don't know. If the user's question cannot be reliably answered based on your data store, the model should say, I don't know, instead of making up something that is believable and may mislead the user. This can have a negative effect as well, though, because if the retriever is not sufficiently good to give the large language model the best, most highest quality grounding information, then maybe the user's query that is answerable doesn't get an answer. So this is actually why lots of folks, including many of us here at IBM, are working the problem on both sides. We are both working to improve the retriever to give the large language model the best quality data on which to ground its response and also the generative part so that the LLM can give the richest best response finally to the user when it generates the answer. Thank you for learning more about RAG and like and subscribe to the channel. Thank you.",
+  "segments": [
+    {
+      "id": 1,
+      "start": 0.0,
+      "end": 2.34,
+      "text": "Large language models, they are everywhere.",
+      "confidence": 0.8176,
+      "speaker": null,
+      "words": [
+        {
+          "word": "Large",
+          "start": 0.0,
+          "end": 0.42,
+          "probability": 0.3096
+        },
+        {
+          "word": "language",
+          "start": 0.42,
+          "end": 0.64,
+          "probability": 0.631
+        },
+        {
+          "word": "models,",
+          "start": 0.64,
+          "end": 0.94,
+          "probability": 0.993
+        },
+        {
+          "word": "they",
+          "start": 1.22,
+          "end": 1.54,
+          "probability": 0.9887
+        },
+        {
+          "word": "are",
+          "start": 1.54,
+          "end": 1.96,
+          "probability": 0.988
+        },
+        {
+          "word": "everywhere.",
+          "start": 1.96,
+          "end": 2.34,
+          "probability": 0.9954
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "start": 2.86,
+      "end": 7.24,
+      "text": "They get some things amazingly right and other things very interestingly wrong.",
+      "confidence": 0.943,
+      "speaker": null,
+      "words": [
+        {
+          "word": "They",
+          "start": 2.86,
+          "end": 3.08,
+          "probability": 0.9887
+        },
+        {
+          "word": "get",
+          "start": 3.08,
+          "end": 3.42,
+          "probability": 0.9959
+        },
+        {
+          "word": "some",
+          "start": 3.42,
+          "end": 3.66,
+          "probability": 0.9725
+        },
+        {
+          "word": "things",
+          "start": 3.66,
+          "end": 4.02,
+          "probability": 0.9966
+        },
+        {
+          "word": "amazingly",
+          "start": 4.02,
+          "end": 4.7,
+          "probability": 0.9469
+        },
+        {
+          "word": "right",
+          "start": 4.7,
+          "end": 5.06,
+          "probability": 0.9802
+        },
+        {
+          "word": "and",
+          "start": 5.06,
+          "end": 5.4,
+          "probability": 0.572
+        },
+        {
+          "word": "other",
+          "start": 5.4,
+          "end": 5.6,
+          "probability": 0.9836
+        },
+        {
+          "word": "things",
+          "start": 5.6,
+          "end": 5.92,
+          "probability": 0.9971
+        },
+        {
+          "word": "very",
+          "start": 5.92,
+          "end": 6.54,
+          "probability": 0.9227
+        },
+        {
+          "word": "interestingly",
+          "start": 6.54,
+          "end": 6.92,
+          "probability": 0.9687
+        },
+        {
+          "word": "wrong.",
+          "start": 6.92,
+          "end": 7.24,
+          "probability": 0.991
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "start": 8.1,
+      "end": 9.28,
+      "text": "My name is Marina Denilevsky.",
+      "confidence": 0.8946,
+      "speaker": null,
+      "words": [
+        {
+          "word": "My",
+          "start": 8.1,
+          "end": 8.26,
+          "probability": 0.9892
+        },
+        {
+          "word": "name",
+          "start": 8.26,
+          "end": 8.38,
+          "probability": 0.998
+        },
+        {
+          "word": "is",
+          "start": 8.38,
+          "end": 8.5,
+          "probability": 0.9963
+        },
+        {
+          "word": "Marina",
+          "start": 8.5,
+          "end": 8.72,
+          "probability": 0.9781
+        },
+        {
+          "word": "Denilevsky.",
+          "start": 8.72,
+          "end": 9.28,
+          "probability": 0.5113
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "start": 9.56,
+      "end": 11.88,
+      "text": "I am a senior research scientist here at IBM Research,",
+      "confidence": 0.9604,
+      "speaker": null,
+      "words": [
+        {
+          "word": "I",
+          "start": 9.56,
+          "end": 9.82,
+          "probability": 0.9976
+        },
+        {
+          "word": "am",
+          "start": 9.82,
+          "end": 10.0,
+          "probability": 0.9717
+        },
+        {
+          "word": "a",
+          "start": 10.0,
+          "end": 10.14,
+          "probability": 0.997
+        },
+        {
+          "word": "senior",
+          "start": 10.14,
+          "end": 10.3,
+          "probability": 0.799
+        },
+        {
+          "word": "research",
+          "start": 10.3,
+          "end": 10.58,
+          "probability": 0.9742
+        },
+        {
+          "word": "scientist",
+          "start": 10.58,
+          "end": 11.06,
+          "probability": 0.9867
+        },
+        {
+          "word": "here",
+          "start": 11.06,
+          "end": 11.24,
+          "probability": 0.9847
+        },
+        {
+          "word": "at",
+          "start": 11.24,
+          "end": 11.34,
+          "probability": 0.9949
+        },
+        {
+          "word": "IBM",
+          "start": 11.34,
+          "end": 11.54,
+          "probability": 0.9846
+        },
+        {
+          "word": "Research,",
+          "start": 11.54,
+          "end": 11.88,
+          "probability": 0.9137
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "start": 12.16,
+      "end": 16.12,
+      "text": "and I want to tell you about a framework to help large language models",
+      "confidence": 0.9906,
+      "speaker": null,
+      "words": [
+        {
+          "word": "and",
+          "start": 12.16,
+          "end": 12.6,
+          "probability": 0.9942
+        },
+        {
+          "word": "I",
+          "start": 12.6,
+          "end": 13.08,
+          "probability": 0.9974
+        },
+        {
+          "word": "want",
+          "start": 13.08,
+          "end": 13.26,
+          "probability": 0.9325
+        },
+        {
+          "word": "to",
+          "start": 13.26,
+          "end": 13.38,
+          "probability": 0.999
+        },
+        {
+          "word": "tell",
+          "start": 13.38,
+          "end": 13.52,
+          "probability": 0.9993
+        },
+        {
+          "word": "you",
+          "start": 13.52,
+          "end": 13.64,
+          "probability": 0.9992
+        },
+        {
+          "word": "about",
+          "start": 13.64,
+          "end": 13.86,
+          "probability": 0.9988
+        },
+        {
+          "word": "a",
+          "start": 13.86,
+          "end": 14.04,
+          "probability": 0.9968
+        },
+        {
+          "word": "framework",
+          "start": 14.04,
+          "end": 14.44,
+          "probability": 0.9977
+        },
+        {
+          "word": "to",
+          "start": 14.44,
+          "end": 14.9,
+          "probability": 0.9984
+        },
+        {
+          "word": "help",
+          "start": 14.9,
+          "end": 15.18,
+          "probability": 0.9989
+        },
+        {
+          "word": "large",
+          "start": 15.18,
+          "end": 15.54,
+          "probability": 0.9908
+        },
+        {
+          "word": "language",
+          "start": 15.54,
+          "end": 15.74,
+          "probability": 0.9664
+        },
+        {
+          "word": "models",
+          "start": 15.74,
+          "end": 16.12,
+          "probability": 0.9986
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "start": 16.12,
+      "end": 18.24,
+      "text": "be more accurate and more up to date.",
+      "confidence": 0.9436,
+      "speaker": null,
+      "words": [
+        {
+          "word": "be",
+          "start": 16.12,
+          "end": 16.74,
+          "probability": 0.9732
+        },
+        {
+          "word": "more",
+          "start": 16.74,
+          "end": 16.98,
+          "probability": 0.9987
+        },
+        {
+          "word": "accurate",
+          "start": 16.98,
+          "end": 17.28,
+          "probability": 0.9968
+        },
+        {
+          "word": "and",
+          "start": 17.28,
+          "end": 17.52,
+          "probability": 0.9878
+        },
+        {
+          "word": "more",
+          "start": 17.52,
+          "end": 17.72,
+          "probability": 0.9925
+        },
+        {
+          "word": "up",
+          "start": 17.72,
+          "end": 17.96,
+          "probability": 0.9959
+        },
+        {
+          "word": "to",
+          "start": 17.96,
+          "end": 18.04,
+          "probability": 0.6047
+        },
+        {
+          "word": "date.",
+          "start": 18.04,
+          "end": 18.24,
+          "probability": 0.9995
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "start": 18.72,
+      "end": 21.82,
+      "text": "Retrieval Augmented Generation or RAG.",
+      "confidence": 0.817,
+      "speaker": null,
+      "words": [
+        {
+          "word": "Retrieval",
+          "start": 18.72,
+          "end": 19.26,
+          "probability": 0.9701
+        },
+        {
+          "word": "Augmented",
+          "start": 19.26,
+          "end": 19.98,
+          "probability": 0.5919
+        },
+        {
+          "word": "Generation",
+          "start": 19.98,
+          "end": 20.42,
+          "probability": 0.9816
+        },
+        {
+          "word": "or",
+          "start": 20.42,
+          "end": 21.26,
+          "probability": 0.6188
+        },
+        {
+          "word": "RAG.",
+          "start": 21.26,
+          "end": 21.82,
+          "probability": 0.9228
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "start": 22.52,
+      "end": 24.66,
+      "text": "Let's just talk about the generation part for a minute.",
+      "confidence": 0.9341,
+      "speaker": null,
+      "words": [
+        {
+          "word": "Let's",
+          "start": 22.52,
+          "end": 23.08,
+          "probability": 0.9931
+        },
+        {
+          "word": "just",
+          "start": 23.08,
+          "end": 23.2,
+          "probability": 0.9841
+        },
+        {
+          "word": "talk",
+          "start": 23.2,
+          "end": 23.4,
+          "probability": 0.9986
+        },
+        {
+          "word": "about",
+          "start": 23.4,
+          "end": 23.56,
+          "probability": 0.9989
+        },
+        {
+          "word": "the",
+          "start": 23.56,
+          "end": 23.7,
+          "probability": 0.9952
+        },
+        {
+          "word": "generation",
+          "start": 23.7,
+          "end": 23.92,
+          "probability": 0.6583
+        },
+        {
+          "word": "part",
+          "start": 23.92,
+          "end": 24.32,
+          "probability": 0.7337
+        },
+        {
+          "word": "for",
+          "start": 24.32,
+          "end": 24.48,
+          "probability": 0.9915
+        },
+        {
+          "word": "a",
+          "start": 24.48,
+          "end": 24.58,
+          "probability": 0.9903
+        },
+        {
+          "word": "minute.",
+          "start": 24.58,
+          "end": 24.66,
+          "probability": 0.9976
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "start": 24.86,
+      "end": 26.42,
+      "text": "So forget the retrieval augmented.",
+      "confidence": 0.9295,
+      "speaker": null,
+      "words": [
+        {
+          "word": "So",
+          "start": 24.86,
+          "end": 25.02,
+          "probability": 0.8989
+        },
+        {
+          "word": "forget",
+          "start": 25.02,
+          "end": 25.6,
+          "probability": 0.8223
+        },
+        {
+          "word": "the",
+          "start": 25.6,
+          "end": 25.76,
+          "probability": 0.9924
+        },
+        {
+          "word": "retrieval",
+          "start": 25.76,
+          "end": 26.06,
+          "probability": 0.9775
+        },
+        {
+          "word": "augmented.",
+          "start": 26.06,
+          "end": 26.42,
+          "probability": 0.9562
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "start": 26.42,
+      "end": 30.84,
+      "text": "So the generation, this refers to large language models or LLMs",
+      "confidence": 0.8392,
+      "speaker": null,
+      "words": [
+        {
+          "word": "So",
+          "start": 26.42,
+          "end": 27.04,
+          "probability": 0.3185
+        },
+        {
+          "word": "the",
+          "start": 27.04,
+          "end": 27.34,
+          "probability": 0.5805
+        },
+        {
+          "word": "generation,",
+          "start": 27.34,
+          "end": 27.68,
+          "probability": 0.9477
+        },
+        {
+          "word": "this",
+          "start": 28.22,
+          "end": 28.48,
+          "probability": 0.9904
+        },
+        {
+          "word": "refers",
+          "start": 28.48,
+          "end": 28.7,
+          "probability": 0.9953
+        },
+        {
+          "word": "to",
+          "start": 28.7,
+          "end": 29.08,
+          "probability": 0.9975
+        },
+        {
+          "word": "large",
+          "start": 29.08,
+          "end": 29.48,
+          "probability": 0.9597
+        },
+        {
+          "word": "language",
+          "start": 29.48,
+          "end": 29.7,
+          "probability": 0.8955
+        },
+        {
+          "word": "models",
+          "start": 29.7,
+          "end": 30.06,
+          "probability": 0.9975
+        },
+        {
+          "word": "or",
+          "start": 30.06,
+          "end": 30.32,
+          "probability": 0.7181
+        },
+        {
+          "word": "LLMs",
+          "start": 30.32,
+          "end": 30.84,
+          "probability": 0.8303
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "start": 30.84,
+      "end": 35.38,
+      "text": "that generate text in response to a user query referred to as a prompt.",
+      "confidence": 0.961,
+      "speaker": null,
+      "words": [
+        {
+          "word": "that",
+          "start": 30.84,
+          "end": 31.32,
+          "probability": 0.9235
+        },
+        {
+          "word": "generate",
+          "start": 31.32,
+          "end": 31.84,
+          "probability": 0.9891
+        },
+        {
+          "word": "text",
+          "start": 31.84,
+          "end": 32.32,
+          "probability": 0.9587
+        },
+        {
+          "word": "in",
+          "start": 32.32,
+          "end": 32.74,
+          "probability": 0.9881
+        },
+        {
+          "word": "response",
+          "start": 32.74,
+          "end": 33.04,
+          "probability": 0.9965
+        },
+        {
+          "word": "to",
+          "start": 33.04,
+          "end": 33.5,
+          "probability": 0.9986
+        },
+        {
+          "word": "a",
+          "start": 33.5,
+          "end": 33.88,
+          "probability": 0.9624
+        },
+        {
+          "word": "user",
+          "start": 33.88,
+          "end": 34.02,
+          "probability": 0.9912
+        },
+        {
+          "word": "query",
+          "start": 34.02,
+          "end": 34.38,
+          "probability": 0.997
+        },
+        {
+          "word": "referred",
+          "start": 34.38,
+          "end": 34.82,
+          "probability": 0.7107
+        },
+        {
+          "word": "to",
+          "start": 34.82,
+          "end": 35.0,
+          "probability": 0.9824
+        },
+        {
+          "word": "as",
+          "start": 35.0,
+          "end": 35.1,
+          "probability": 0.9884
+        },
+        {
+          "word": "a",
+          "start": 35.1,
+          "end": 35.18,
+          "probability": 0.9876
+        },
+        {
+          "word": "prompt.",
+          "start": 35.18,
+          "end": 35.38,
+          "probability": 0.9803
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "start": 36.0,
+      "end": 37.98,
+      "text": "These models can have some undesirable behavior.",
+      "confidence": 0.9863,
+      "speaker": null,
+      "words": [
+        {
+          "word": "These",
+          "start": 36.0,
+          "end": 36.32,
+          "probability": 0.9546
+        },
+        {
+          "word": "models",
+          "start": 36.32,
+          "end": 36.58,
+          "probability": 0.9987
+        },
+        {
+          "word": "can",
+          "start": 36.58,
+          "end": 36.76,
+          "probability": 0.9911
+        },
+        {
+          "word": "have",
+          "start": 36.76,
+          "end": 36.92,
+          "probability": 0.9989
+        },
+        {
+          "word": "some",
+          "start": 36.92,
+          "end": 37.04,
+          "probability": 0.9941
+        },
+        {
+          "word": "undesirable",
+          "start": 37.04,
+          "end": 37.52,
+          "probability": 0.9977
+        },
+        {
+          "word": "behavior.",
+          "start": 37.52,
+          "end": 37.98,
+          "probability": 0.9688
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "start": 38.28,
+      "end": 41.06,
+      "text": "I want to tell you an anecdote to illustrate this.",
+      "confidence": 0.9584,
+      "speaker": null,
+      "words": [
+        {
+          "word": "I",
+          "start": 38.28,
+          "end": 38.42,
+          "probability": 0.9897
+        },
+        {
+          "word": "want",
+          "start": 38.42,
+          "end": 38.5,
+          "probability": 0.6936
+        },
+        {
+          "word": "to",
+          "start": 38.5,
+          "end": 38.64,
+          "probability": 0.9964
+        },
+        {
+          "word": "tell",
+          "start": 38.64,
+          "end": 39.1,
+          "probability": 0.9949
+        },
+        {
+          "word": "you",
+          "start": 39.1,
+          "end": 39.2,
+          "probability": 0.9984
+        },
+        {
+          "word": "an",
+          "start": 39.2,
+          "end": 39.3,
+          "probability": 0.9916
+        },
+        {
+          "word": "anecdote",
+          "start": 39.3,
+          "end": 39.6,
+          "probability": 0.9978
+        },
+        {
+          "word": "to",
+          "start": 39.6,
+          "end": 40.42,
+          "probability": 0.9258
+        },
+        {
+          "word": "illustrate",
+          "start": 40.42,
+          "end": 40.74,
+          "probability": 0.9982
+        },
+        {
+          "word": "this.",
+          "start": 40.74,
+          "end": 41.06,
+          "probability": 0.9977
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "start": 41.66,
+      "end": 45.66,
+      "text": "So my kids, they recently asked me this question in our solar system,",
+      "confidence": 0.934,
+      "speaker": null,
+      "words": [
+        {
+          "word": "So",
+          "start": 41.66,
+          "end": 41.68,
+          "probability": 0.9442
+        },
+        {
+          "word": "my",
+          "start": 41.68,
+          "end": 42.26,
+          "probability": 0.8054
+        },
+        {
+          "word": "kids,",
+          "start": 42.26,
+          "end": 42.54,
+          "probability": 0.998
+        },
+        {
+          "word": "they",
+          "start": 42.68,
+          "end": 42.76,
+          "probability": 0.9979
+        },
+        {
+          "word": "recently",
+          "start": 42.76,
+          "end": 43.04,
+          "probability": 0.9968
+        },
+        {
+          "word": "asked",
+          "start": 43.04,
+          "end": 43.36,
+          "probability": 0.9887
+        },
+        {
+          "word": "me",
+          "start": 43.36,
+          "end": 43.48,
+          "probability": 0.9961
+        },
+        {
+          "word": "this",
+          "start": 43.48,
+          "end": 43.62,
+          "probability": 0.998
+        },
+        {
+          "word": "question",
+          "start": 43.62,
+          "end": 44.0,
+          "probability": 0.9992
+        },
+        {
+          "word": "in",
+          "start": 44.0,
+          "end": 44.84,
+          "probability": 0.5388
+        },
+        {
+          "word": "our",
+          "start": 44.84,
+          "end": 45.08,
+          "probability": 0.9947
+        },
+        {
+          "word": "solar",
+          "start": 45.08,
+          "end": 45.28,
+          "probability": 0.8844
+        },
+        {
+          "word": "system,",
+          "start": 45.28,
+          "end": 45.66,
+          "probability": 0.9993
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "start": 45.94,
+      "end": 47.98,
+      "text": "what planet has the most moons?",
+      "confidence": 0.8405,
+      "speaker": null,
+      "words": [
+        {
+          "word": "what",
+          "start": 45.94,
+          "end": 46.06,
+          "probability": 0.5563
+        },
+        {
+          "word": "planet",
+          "start": 46.06,
+          "end": 46.48,
+          "probability": 0.9985
+        },
+        {
+          "word": "has",
+          "start": 46.48,
+          "end": 47.1,
+          "probability": 0.9963
+        },
+        {
+          "word": "the",
+          "start": 47.1,
+          "end": 47.46,
+          "probability": 0.9988
+        },
+        {
+          "word": "most",
+          "start": 47.46,
+          "end": 47.7,
+          "probability": 0.9966
+        },
+        {
+          "word": "moons?",
+          "start": 47.7,
+          "end": 47.98,
+          "probability": 0.4963
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "start": 49.06,
+      "end": 53.5,
+      "text": "And my response was, oh, that's really great that you're asking this question.",
+      "confidence": 0.9347,
+      "speaker": null,
+      "words": [
+        {
+          "word": "And",
+          "start": 49.06,
+          "end": 49.66,
+          "probability": 0.9761
+        },
+        {
+          "word": "my",
+          "start": 49.66,
+          "end": 50.2,
+          "probability": 0.9924
+        },
+        {
+          "word": "response",
+          "start": 50.2,
+          "end": 50.66,
+          "probability": 0.9966
+        },
+        {
+          "word": "was,",
+          "start": 50.66,
+          "end": 50.9,
+          "probability": 0.9758
+        },
+        {
+          "word": "oh,",
+          "start": 51.02,
+          "end": 51.22,
+          "probability": 0.5629
+        },
+        {
+          "word": "that's",
+          "start": 51.5,
+          "end": 51.84,
+          "probability": 0.9987
+        },
+        {
+          "word": "really",
+          "start": 51.84,
+          "end": 52.22,
+          "probability": 0.9987
+        },
+        {
+          "word": "great",
+          "start": 52.22,
+          "end": 52.54,
+          "probability": 0.9987
+        },
+        {
+          "word": "that",
+          "start": 52.54,
+          "end": 52.68,
+          "probability": 0.9621
+        },
+        {
+          "word": "you're",
+          "start": 52.68,
+          "end": 52.8,
+          "probability": 0.9963
+        },
+        {
+          "word": "asking",
+          "start": 52.8,
+          "end": 52.98,
+          "probability": 0.9989
+        },
+        {
+          "word": "this",
+          "start": 52.98,
+          "end": 53.18,
+          "probability": 0.6952
+        },
+        {
+          "word": "question.",
+          "start": 53.18,
+          "end": 53.5,
+          "probability": 0.9987
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "start": 53.64,
+      "end": 55.7,
+      "text": "I loved space when I was your age.",
+      "confidence": 0.9898,
+      "speaker": null,
+      "words": [
+        {
+          "word": "I",
+          "start": 53.64,
+          "end": 54.0,
+          "probability": 0.9964
+        },
+        {
+          "word": "loved",
+          "start": 54.0,
+          "end": 54.6,
+          "probability": 0.9638
+        },
+        {
+          "word": "space",
+          "start": 54.6,
+          "end": 54.92,
+          "probability": 0.9874
+        },
+        {
+          "word": "when",
+          "start": 54.92,
+          "end": 55.12,
+          "probability": 0.9769
+        },
+        {
+          "word": "I",
+          "start": 55.12,
+          "end": 55.24,
+          "probability": 0.9994
+        },
+        {
+          "word": "was",
+          "start": 55.24,
+          "end": 55.36,
+          "probability": 0.9995
+        },
+        {
+          "word": "your",
+          "start": 55.36,
+          "end": 55.48,
+          "probability": 0.9954
+        },
+        {
+          "word": "age.",
+          "start": 55.48,
+          "end": 55.7,
+          "probability": 0.9999
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "start": 55.7,
+      "end": 57.58,
+      "text": "Of course, that was like 30 years ago.",
+      "confidence": 0.9243,
+      "speaker": null,
+      "words": [
+        {
+          "word": "Of",
+          "start": 55.7,
+          "end": 55.9,
+          "probability": 0.6545
+        },
+        {
+          "word": "course,",
+          "start": 55.9,
+          "end": 56.06,
+          "probability": 0.9985
+        },
+        {
+          "word": "that",
+          "start": 56.14,
+          "end": 56.26,
+          "probability": 0.9964
+        },
+        {
+          "word": "was",
+          "start": 56.26,
+          "end": 56.46,
+          "probability": 0.9986
+        },
+        {
+          "word": "like",
+          "start": 56.46,
+          "end": 56.72,
+          "probability": 0.818
+        },
+        {
+          "word": "30",
+          "start": 56.72,
+          "end": 57.0,
+          "probability": 0.9308
+        },
+        {
+          "word": "years",
+          "start": 57.0,
+          "end": 57.24,
+          "probability": 0.9988
+        },
+        {
+          "word": "ago.",
+          "start": 57.24,
+          "end": 57.58,
+          "probability": 0.9985
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "start": 58.06,
+      "end": 59.16,
+      "text": "But I know this.",
+      "confidence": 0.935,
+      "speaker": null,
+      "words": [
+        {
+          "word": "But",
+          "start": 58.06,
+          "end": 58.46,
+          "probability": 0.9717
+        },
+        {
+          "word": "I",
+          "start": 58.46,
+          "end": 58.86,
+          "probability": 0.8244
+        },
+        {
+          "word": "know",
+          "start": 58.86,
+          "end": 59.0,
+          "probability": 0.964
+        },
+        {
+          "word": "this.",
+          "start": 59.0,
+          "end": 59.16,
+          "probability": 0.9799
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "start": 59.38,
+      "end": 65.08,
+      "text": "I read an article and the article said that it was Jupiter and 88 moons.",
+      "confidence": 0.9434,
+      "speaker": null,
+      "words": [
+        {
+          "word": "I",
+          "start": 59.38,
+          "end": 59.54,
+          "probability": 0.9975
+        },
+        {
+          "word": "read",
+          "start": 59.54,
+          "end": 59.88,
+          "probability": 0.9647
+        },
+        {
+          "word": "an",
+          "start": 59.88,
+          "end": 60.02,
+          "probability": 0.9956
+        },
+        {
+          "word": "article",
+          "start": 60.02,
+          "end": 60.3,
+          "probability": 0.9995
+        },
+        {
+          "word": "and",
+          "start": 60.3,
+          "end": 61.36,
+          "probability": 0.6382
+        },
+        {
+          "word": "the",
+          "start": 61.36,
+          "end": 61.74,
+          "probability": 0.9833
+        },
+        {
+          "word": "article",
+          "start": 61.74,
+          "end": 61.94,
+          "probability": 0.9971
+        },
+        {
+          "word": "said",
+          "start": 61.94,
+          "end": 62.32,
+          "probability": 0.998
+        },
+        {
+          "word": "that",
+          "start": 62.32,
+          "end": 62.78,
+          "probability": 0.9908
+        },
+        {
+          "word": "it",
+          "start": 62.78,
+          "end": 63.12,
+          "probability": 0.9852
+        },
+        {
+          "word": "was",
+          "start": 63.12,
+          "end": 63.48,
+          "probability": 0.9967
+        },
+        {
+          "word": "Jupiter",
+          "start": 63.48,
+          "end": 63.76,
+          "probability": 0.9634
+        },
+        {
+          "word": "and",
+          "start": 63.76,
+          "end": 64.54,
+          "probability": 0.973
+        },
+        {
+          "word": "88",
+          "start": 64.54,
+          "end": 64.84,
+          "probability": 0.8125
+        },
+        {
+          "word": "moons.",
+          "start": 64.84,
+          "end": 65.08,
+          "probability": 0.8561
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "start": 65.3,
+      "end": 65.94,
+      "text": "So that's the answer.",
+      "confidence": 0.9865,
+      "speaker": null,
+      "words": [
+        {
+          "word": "So",
+          "start": 65.3,
+          "end": 65.42,
+          "probability": 0.9879
+        },
+        {
+          "word": "that's",
+          "start": 65.42,
+          "end": 65.66,
+          "probability": 0.9601
+        },
+        {
+          "word": "the",
+          "start": 65.66,
+          "end": 65.76,
+          "probability": 0.9987
+        },
+        {
+          "word": "answer.",
+          "start": 65.76,
+          "end": 65.94,
+          "probability": 0.9991
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "start": 66.54,
+      "end": 69.64,
+      "text": "Now, actually, there's a couple of things wrong with my answer.",
+      "confidence": 0.9911,
+      "speaker": null,
+      "words": [
+        {
+          "word": "Now,",
+          "start": 66.54,
+          "end": 66.66,
+          "probability": 0.9833
+        },
+        {
+          "word": "actually,",
+          "start": 66.72,
+          "end": 67.64,
+          "probability": 0.9908
+        },
+        {
+          "word": "there's",
+          "start": 67.74,
+          "end": 68.32,
+          "probability": 0.9747
+        },
+        {
+          "word": "a",
+          "start": 68.32,
+          "end": 68.4,
+          "probability": 0.9994
+        },
+        {
+          "word": "couple",
+          "start": 68.4,
+          "end": 68.56,
+          "probability": 0.9996
+        },
+        {
+          "word": "of",
+          "start": 68.56,
+          "end": 68.66,
+          "probability": 0.9646
+        },
+        {
+          "word": "things",
+          "start": 68.66,
+          "end": 68.82,
+          "probability": 0.9977
+        },
+        {
+          "word": "wrong",
+          "start": 68.82,
+          "end": 69.08,
+          "probability": 0.9949
+        },
+        {
+          "word": "with",
+          "start": 69.08,
+          "end": 69.22,
+          "probability": 0.9986
+        },
+        {
+          "word": "my",
+          "start": 69.22,
+          "end": 69.38,
+          "probability": 0.9991
+        },
+        {
+          "word": "answer.",
+          "start": 69.38,
+          "end": 69.64,
+          "probability": 0.999
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "start": 70.48,
+      "end": 73.9,
+      "text": "First of all, I have no source to support what I'm saying.",
+      "confidence": 0.9852,
+      "speaker": null,
+      "words": [
+        {
+          "word": "First",
+          "start": 70.48,
+          "end": 70.68,
+          "probability": 0.9092
+        },
+        {
+          "word": "of",
+          "start": 70.68,
+          "end": 70.82,
+          "probability": 0.998
+        },
+        {
+          "word": "all,",
+          "start": 70.82,
+          "end": 71.04,
+          "probability": 0.9992
+        },
+        {
+          "word": "I",
+          "start": 71.18,
+          "end": 71.82,
+          "probability": 0.9531
+        },
+        {
+          "word": "have",
+          "start": 71.82,
+          "end": 71.98,
+          "probability": 0.9852
+        },
+        {
+          "word": "no",
+          "start": 71.98,
+          "end": 72.1,
+          "probability": 0.999
+        },
+        {
+          "word": "source",
+          "start": 72.1,
+          "end": 72.48,
+          "probability": 0.9896
+        },
+        {
+          "word": "to",
+          "start": 72.48,
+          "end": 72.96,
+          "probability": 0.998
+        },
+        {
+          "word": "support",
+          "start": 72.96,
+          "end": 73.3,
+          "probability": 0.9992
+        },
+        {
+          "word": "what",
+          "start": 73.3,
+          "end": 73.46,
+          "probability": 0.9986
+        },
+        {
+          "word": "I'm",
+          "start": 73.46,
+          "end": 73.62,
+          "probability": 0.9943
+        },
+        {
+          "word": "saying.",
+          "start": 73.62,
+          "end": 73.9,
+          "probability": 0.9985
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "start": 74.06,
+      "end": 77.06,
+      "text": "So even though I confidently said I read an article, I know the answer.",
+      "confidence": 0.9448,
+      "speaker": null,
+      "words": [
+        {
+          "word": "So",
+          "start": 74.06,
+          "end": 74.14,
+          "probability": 0.9958
+        },
+        {
+          "word": "even",
+          "start": 74.14,
+          "end": 74.36,
+          "probability": 0.9637
+        },
+        {
+          "word": "though",
+          "start": 74.36,
+          "end": 74.5,
+          "probability": 0.9951
+        },
+        {
+          "word": "I",
+          "start": 74.5,
+          "end": 74.6,
+          "probability": 0.9947
+        },
+        {
+          "word": "confidently",
+          "start": 74.6,
+          "end": 75.06,
+          "probability": 0.9966
+        },
+        {
+          "word": "said",
+          "start": 75.06,
+          "end": 75.46,
+          "probability": 0.9981
+        },
+        {
+          "word": "I",
+          "start": 75.46,
+          "end": 75.7,
+          "probability": 0.6343
+        },
+        {
+          "word": "read",
+          "start": 75.7,
+          "end": 75.88,
+          "probability": 0.6771
+        },
+        {
+          "word": "an",
+          "start": 75.88,
+          "end": 76.02,
+          "probability": 0.9907
+        },
+        {
+          "word": "article,",
+          "start": 76.02,
+          "end": 76.28,
+          "probability": 0.9996
+        },
+        {
+          "word": "I",
+          "start": 76.5,
+          "end": 76.52,
+          "probability": 0.9961
+        },
+        {
+          "word": "know",
+          "start": 76.52,
+          "end": 76.68,
+          "probability": 0.9883
+        },
+        {
+          "word": "the",
+          "start": 76.68,
+          "end": 76.82,
+          "probability": 0.9974
+        },
+        {
+          "word": "answer.",
+          "start": 76.82,
+          "end": 77.06,
+          "probability": 0.9995
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "start": 77.58,
+      "end": 78.36,
+      "text": "I'm not sourcing it.",
+      "confidence": 0.9688,
+      "speaker": null,
+      "words": [
+        {
+          "word": "I'm",
+          "start": 77.58,
+          "end": 77.84,
+          "probability": 0.9989
+        },
+        {
+          "word": "not",
+          "start": 77.84,
+          "end": 77.94,
+          "probability": 0.9983
+        },
+        {
+          "word": "sourcing",
+          "start": 77.94,
+          "end": 78.24,
+          "probability": 0.901
+        },
+        {
+          "word": "it.",
+          "start": 78.24,
+          "end": 78.36,
+          "probability": 0.9768
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "start": 78.46,
+      "end": 80.1,
+      "text": "I'm giving the answer off the top of my head.",
+      "confidence": 0.9951,
+      "speaker": null,
+      "words": [
+        {
+          "word": "I'm",
+          "start": 78.46,
+          "end": 78.54,
+          "probability": 0.9986
+        },
+        {
+          "word": "giving",
+          "start": 78.54,
+          "end": 78.68,
+          "probability": 0.9791
+        },
+        {
+          "word": "the",
+          "start": 78.68,
+          "end": 78.86,
+          "probability": 0.9845
+        },
+        {
+          "word": "answer",
+          "start": 78.86,
+          "end": 79.1,
+          "probability": 0.9993
+        },
+        {
+          "word": "off",
+          "start": 79.1,
+          "end": 79.32,
+          "probability": 0.997
+        },
+        {
+          "word": "the",
+          "start": 79.32,
+          "end": 79.46,
+          "probability": 0.9951
+        },
+        {
+          "word": "top",
+          "start": 79.46,
+          "end": 79.64,
+          "probability": 0.9998
+        },
+        {
+          "word": "of",
+          "start": 79.64,
+          "end": 79.74,
+          "probability": 0.9989
+        },
+        {
+          "word": "my",
+          "start": 79.74,
+          "end": 79.84,
+          "probability": 0.9996
+        },
+        {
+          "word": "head.",
+          "start": 79.84,
+          "end": 80.1,
+          "probability": 0.9995
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "start": 80.6,
+      "end": 83.26,
+      "text": "And also, I actually haven't kept up with this for a while.",
+      "confidence": 0.9924,
+      "speaker": null,
+      "words": [
+        {
+          "word": "And",
+          "start": 80.6,
+          "end": 80.88,
+          "probability": 0.9882
+        },
+        {
+          "word": "also,",
+          "start": 80.88,
+          "end": 81.2,
+          "probability": 0.9831
+        },
+        {
+          "word": "I",
+          "start": 81.24,
+          "end": 81.68,
+          "probability": 0.9995
+        },
+        {
+          "word": "actually",
+          "start": 81.68,
+          "end": 81.94,
+          "probability": 0.9949
+        },
+        {
+          "word": "haven't",
+          "start": 81.94,
+          "end": 82.22,
+          "probability": 0.9949
+        },
+        {
+          "word": "kept",
+          "start": 82.22,
+          "end": 82.36,
+          "probability": 0.9985
+        },
+        {
+          "word": "up",
+          "start": 82.36,
+          "end": 82.54,
+          "probability": 0.9998
+        },
+        {
+          "word": "with",
+          "start": 82.54,
+          "end": 82.64,
+          "probability": 0.9995
+        },
+        {
+          "word": "this",
+          "start": 82.64,
+          "end": 82.8,
+          "probability": 0.9984
+        },
+        {
+          "word": "for",
+          "start": 82.8,
+          "end": 82.98,
+          "probability": 0.9982
+        },
+        {
+          "word": "a",
+          "start": 82.98,
+          "end": 83.06,
+          "probability": 0.9543
+        },
+        {
+          "word": "while.",
+          "start": 83.06,
+          "end": 83.26,
+          "probability": 0.9994
+        }
+      ]
+    },
+    {
+      "id": 28,
+      "start": 83.42,
+      "end": 85.2,
+      "text": "And my answer is out of date.",
+      "confidence": 0.9885,
+      "speaker": null,
+      "words": [
+        {
+          "word": "And",
+          "start": 83.42,
+          "end": 83.58,
+          "probability": 0.9963
+        },
+        {
+          "word": "my",
+          "start": 83.58,
+          "end": 83.74,
+          "probability": 0.9993
+        },
+        {
+          "word": "answer",
+          "start": 83.74,
+          "end": 84.12,
+          "probability": 0.9997
+        },
+        {
+          "word": "is",
+          "start": 84.12,
+          "end": 84.5,
+          "probability": 0.9993
+        },
+        {
+          "word": "out",
+          "start": 84.5,
+          "end": 84.92,
+          "probability": 0.9702
+        },
+        {
+          "word": "of",
+          "start": 84.92,
+          "end": 85.02,
+          "probability": 0.9553
+        },
+        {
+          "word": "date.",
+          "start": 85.02,
+          "end": 85.2,
+          "probability": 0.9993
+        }
+      ]
+    },
+    {
+      "id": 29,
+      "start": 85.86,
+      "end": 87.5,
+      "text": "So we have two problems here.",
+      "confidence": 0.8948,
+      "speaker": null,
+      "words": [
+        {
+          "word": "So",
+          "start": 85.86,
+          "end": 86.42,
+          "probability": 0.722
+        },
+        {
+          "word": "we",
+          "start": 86.42,
+          "end": 86.68,
+          "probability": 0.7147
+        },
+        {
+          "word": "have",
+          "start": 86.68,
+          "end": 86.82,
+          "probability": 0.9966
+        },
+        {
+          "word": "two",
+          "start": 86.82,
+          "end": 86.98,
+          "probability": 0.9629
+        },
+        {
+          "word": "problems",
+          "start": 86.98,
+          "end": 87.26,
+          "probability": 0.9895
+        },
+        {
+          "word": "here.",
+          "start": 87.26,
+          "end": 87.5,
+          "probability": 0.9832
+        }
+      ]
+    },
+    {
+      "id": 30,
+      "start": 87.88,
+      "end": 88.98,
+      "text": "One is no source.",
+      "confidence": 0.9265,
+      "speaker": null,
+      "words": [
+        {
+          "word": "One",
+          "start": 87.88,
+          "end": 88.02,
+          "probability": 0.9889
+        },
+        {
+          "word": "is",
+          "start": 88.02,
+          "end": 88.36,
+          "probability": 0.9964
+        },
+        {
+          "word": "no",
+          "start": 88.36,
+          "end": 88.68,
+          "probability": 0.8059
+        },
+        {
+          "word": "source.",
+          "start": 88.68,
+          "end": 88.98,
+          "probability": 0.915
+        }
+      ]
+    },
+    {
+      "id": 31,
+      "start": 90.22,
+      "end": 92.86,
+      "text": "And the second problem is that I am out of date.",
+      "confidence": 0.9834,
+      "speaker": null,
+      "words": [
+        {
+          "word": "And",
+          "start": 90.22,
+          "end": 90.78,
+          "probability": 0.9752
+        },
+        {
+          "word": "the",
+          "start": 90.78,
+          "end": 91.06,
+          "probability": 0.9836
+        },
+        {
+          "word": "second",
+          "start": 91.06,
+          "end": 91.26,
+          "probability": 0.9982
+        },
+        {
+          "word": "problem",
+          "start": 91.26,
+          "end": 91.64,
+          "probability": 0.998
+        },
+        {
+          "word": "is",
+          "start": 91.64,
+          "end": 91.92,
+          "probability": 0.9965
+        },
+        {
+          "word": "that",
+          "start": 91.92,
+          "end": 92.06,
+          "probability": 0.9903
+        },
+        {
+          "word": "I",
+          "start": 92.06,
+          "end": 92.26,
+          "probability": 0.9963
+        },
+        {
+          "word": "am",
+          "start": 92.26,
+          "end": 92.4,
+          "probability": 0.9389
+        },
+        {
+          "word": "out",
+          "start": 92.4,
+          "end": 92.6,
+          "probability": 0.9937
+        },
+        {
+          "word": "of",
+          "start": 92.6,
+          "end": 92.68,
+          "probability": 0.9501
+        },
+        {
+          "word": "date.",
+          "start": 92.68,
+          "end": 92.86,
+          "probability": 0.9968
+        }
+      ]
+    },
+    {
+      "id": 32,
+      "start": 95.28,
+      "end": 101.52,
+      "text": "And these, in fact, are two behaviors that are often observed as problematic",
+      "confidence": 0.9917,
+      "speaker": null,
+      "words": [
+        {
+          "word": "And",
+          "start": 95.28,
+          "end": 95.84,
+          "probability": 0.964
+        },
+        {
+          "word": "these,",
+          "start": 95.84,
+          "end": 96.24,
+          "probability": 0.9923
+        },
+        {
+          "word": "in",
+          "start": 96.42,
+          "end": 96.5,
+          "probability": 0.9988
+        },
+        {
+          "word": "fact,",
+          "start": 96.5,
+          "end": 96.78,
+          "probability": 0.9994
+        },
+        {
+          "word": "are",
+          "start": 96.88,
+          "end": 96.96,
+          "probability": 0.9919
+        },
+        {
+          "word": "two",
+          "start": 96.96,
+          "end": 97.14,
+          "probability": 0.9898
+        },
+        {
+          "word": "behaviors",
+          "start": 97.14,
+          "end": 97.52,
+          "probability": 0.9876
+        },
+        {
+          "word": "that",
+          "start": 97.52,
+          "end": 98.48,
+          "probability": 0.9954
+        },
+        {
+          "word": "are",
+          "start": 98.48,
+          "end": 99.12,
+          "probability": 0.9944
+        },
+        {
+          "word": "often",
+          "start": 99.12,
+          "end": 99.56,
+          "probability": 0.9978
+        },
+        {
+          "word": "observed",
+          "start": 99.56,
+          "end": 100.16,
+          "probability": 0.994
+        },
+        {
+          "word": "as",
+          "start": 100.16,
+          "end": 100.78,
+          "probability": 0.9925
+        },
+        {
+          "word": "problematic",
+          "start": 100.78,
+          "end": 101.52,
+          "probability": 0.9945
+        }
+      ]
+    },
+    {
+      "id": 33,
+      "start": 101.52,
+      "end": 103.9,
+      "text": "when interacting with large language models.",
+      "confidence": 0.982,
+      "speaker": null,
+      "words": [
+        {
+          "word": "when",
+          "start": 101.52,
+          "end": 102.2,
+          "probability": 0.9545
+        },
+        {
+          "word": "interacting",
+          "start": 102.2,
+          "end": 102.68,
+          "probability": 0.9979
+        },
+        {
+          "word": "with",
+          "start": 102.68,
+          "end": 103.04,
+          "probability": 0.9988
+        },
+        {
+          "word": "large",
+          "start": 103.04,
+          "end": 103.3,
+          "probability": 0.9913
+        },
+        {
+          "word": "language",
+          "start": 103.3,
+          "end": 103.54,
+          "probability": 0.9508
+        },
+        {
+          "word": "models.",
+          "start": 103.54,
+          "end": 103.9,
+          "probability": 0.9988
+        }
+      ]
+    },
+    {
+      "id": 34,
+      "start": 104.7,
+      "end": 105.88,
+      "text": "They are LLM challenges.",
+      "confidence": 0.8463,
+      "speaker": null,
+      "words": [
+        {
+          "word": "They",
+          "start": 104.7,
+          "end": 104.88,
+          "probability": 0.8251
+        },
+        {
+          "word": "are",
+          "start": 104.88,
+          "end": 105.0,
+          "probability": 0.596
+        },
+        {
+          "word": "LLM",
+          "start": 105.0,
+          "end": 105.46,
+          "probability": 0.9762
+        },
+        {
+          "word": "challenges.",
+          "start": 105.46,
+          "end": 105.88,
+          "probability": 0.9881
+        }
+      ]
+    },
+    {
+      "id": 35,
+      "start": 106.56,
+      "end": 111.84,
+      "text": "Now, what would have happened if I'd taken a beat and first gone and looked up the answer",
+      "confidence": 0.9578,
+      "speaker": null,
+      "words": [
+        {
+          "word": "Now,",
+          "start": 106.56,
+          "end": 106.72,
+          "probability": 0.9768
+        },
+        {
+          "word": "what",
+          "start": 107.1,
+          "end": 107.6,
+          "probability": 0.9962
+        },
+        {
+          "word": "would",
+          "start": 107.6,
+          "end": 107.7,
+          "probability": 0.9962
+        },
+        {
+          "word": "have",
+          "start": 107.7,
+          "end": 107.78,
+          "probability": 0.9086
+        },
+        {
+          "word": "happened",
+          "start": 107.78,
+          "end": 108.0,
+          "probability": 0.9846
+        },
+        {
+          "word": "if",
+          "start": 108.0,
+          "end": 108.16,
+          "probability": 0.9846
+        },
+        {
+          "word": "I'd",
+          "start": 108.16,
+          "end": 108.38,
+          "probability": 0.8436
+        },
+        {
+          "word": "taken",
+          "start": 108.38,
+          "end": 108.82,
+          "probability": 0.9936
+        },
+        {
+          "word": "a",
+          "start": 108.82,
+          "end": 109.0,
+          "probability": 0.9869
+        },
+        {
+          "word": "beat",
+          "start": 109.0,
+          "end": 109.12,
+          "probability": 0.9369
+        },
+        {
+          "word": "and",
+          "start": 109.12,
+          "end": 109.62,
+          "probability": 0.8986
+        },
+        {
+          "word": "first",
+          "start": 109.62,
+          "end": 110.0,
+          "probability": 0.8663
+        },
+        {
+          "word": "gone",
+          "start": 110.0,
+          "end": 110.66,
+          "probability": 0.902
+        },
+        {
+          "word": "and",
+          "start": 110.66,
+          "end": 110.86,
+          "probability": 0.9937
+        },
+        {
+          "word": "looked",
+          "start": 110.86,
+          "end": 111.24,
+          "probability": 0.9971
+        },
+        {
+          "word": "up",
+          "start": 111.24,
+          "end": 111.42,
+          "probability": 0.9793
+        },
+        {
+          "word": "the",
+          "start": 111.42,
+          "end": 111.6,
+          "probability": 0.9976
+        },
+        {
+          "word": "answer",
+          "start": 111.6,
+          "end": 111.84,
+          "probability": 0.9983
+        }
+      ]
+    },
+    {
+      "id": 36,
+      "start": 111.84,
+      "end": 113.9,
+      "text": "on a reputable source like NASA?",
+      "confidence": 0.9522,
+      "speaker": null,
+      "words": [
+        {
+          "word": "on",
+          "start": 111.84,
+          "end": 112.02,
+          "probability": 0.9935
+        },
+        {
+          "word": "a",
+          "start": 112.02,
+          "end": 112.1,
+          "probability": 0.9959
+        },
+        {
+          "word": "reputable",
+          "start": 112.1,
+          "end": 112.38,
+          "probability": 0.9905
+        },
+        {
+          "word": "source",
+          "start": 112.38,
+          "end": 112.84,
+          "probability": 0.9986
+        },
+        {
+          "word": "like",
+          "start": 112.84,
+          "end": 113.42,
+          "probability": 0.749
+        },
+        {
+          "word": "NASA?",
+          "start": 113.42,
+          "end": 113.9,
+          "probability": 0.986
+        }
+      ]
+    },
+    {
+      "id": 37,
+      "start": 115.18,
+      "end": 123.18,
+      "text": "Well, then I would have been able to say, ah, OK, so the answer is Saturn with 146 moons.",
+      "confidence": 0.8251,
+      "speaker": null,
+      "words": [
+        {
+          "word": "Well,",
+          "start": 115.18,
+          "end": 115.66,
+          "probability": 0.1447
+        },
+        {
+          "word": "then",
+          "start": 115.98,
+          "end": 116.22,
+          "probability": 0.89
+        },
+        {
+          "word": "I",
+          "start": 116.22,
+          "end": 116.56,
+          "probability": 0.8852
+        },
+        {
+          "word": "would",
+          "start": 116.56,
+          "end": 116.86,
+          "probability": 0.9601
+        },
+        {
+          "word": "have",
+          "start": 116.86,
+          "end": 117.06,
+          "probability": 0.9821
+        },
+        {
+          "word": "been",
+          "start": 117.06,
+          "end": 117.22,
+          "probability": 0.9949
+        },
+        {
+          "word": "able",
+          "start": 117.22,
+          "end": 117.42,
+          "probability": 0.9979
+        },
+        {
+          "word": "to",
+          "start": 117.42,
+          "end": 117.6,
+          "probability": 0.9963
+        },
+        {
+          "word": "say,",
+          "start": 117.6,
+          "end": 117.86,
+          "probability": 0.9947
+        },
+        {
+          "word": "ah,",
+          "start": 118.08,
+          "end": 118.38,
+          "probability": 0.1699
+        },
+        {
+          "word": "OK,",
+          "start": 118.76,
+          "end": 119.04,
+          "probability": 0.2518
+        },
+        {
+          "word": "so",
+          "start": 119.38,
+          "end": 119.66,
+          "probability": 0.9792
+        },
+        {
+          "word": "the",
+          "start": 119.66,
+          "end": 120.84,
+          "probability": 0.6494
+        },
+        {
+          "word": "answer",
+          "start": 120.84,
+          "end": 121.06,
+          "probability": 0.9988
+        },
+        {
+          "word": "is",
+          "start": 121.06,
+          "end": 121.28,
+          "probability": 0.9965
+        },
+        {
+          "word": "Saturn",
+          "start": 121.28,
+          "end": 121.7,
+          "probability": 0.995
+        },
+        {
+          "word": "with",
+          "start": 121.7,
+          "end": 122.04,
+          "probability": 0.8367
+        },
+        {
+          "word": "146",
+          "start": 122.04,
+          "end": 122.9,
+          "probability": 0.971
+        },
+        {
+          "word": "moons.",
+          "start": 122.9,
+          "end": 123.18,
+          "probability": 0.9821
+        }
+      ]
+    },
+    {
+      "id": 38,
+      "start": 123.32,
+      "end": 127.62,
+      "text": "And in fact, this keeps changing because scientists keep on discovering more and more",
+      "confidence": 0.9723,
+      "speaker": null,
+      "words": [
+        {
+          "word": "And",
+          "start": 123.32,
+          "end": 123.4,
+          "probability": 0.9924
+        },
+        {
+          "word": "in",
+          "start": 123.4,
+          "end": 123.5,
+          "probability": 0.9235
+        },
+        {
+          "word": "fact,",
+          "start": 123.5,
+          "end": 123.94,
+          "probability": 0.9995
+        },
+        {
+          "word": "this",
+          "start": 124.3,
+          "end": 124.56,
+          "probability": 0.997
+        },
+        {
+          "word": "keeps",
+          "start": 124.56,
+          "end": 124.76,
+          "probability": 0.9957
+        },
+        {
+          "word": "changing",
+          "start": 124.76,
+          "end": 125.24,
+          "probability": 0.9991
+        },
+        {
+          "word": "because",
+          "start": 125.24,
+          "end": 125.62,
+          "probability": 0.7441
+        },
+        {
+          "word": "scientists",
+          "start": 125.62,
+          "end": 125.96,
+          "probability": 0.9952
+        },
+        {
+          "word": "keep",
+          "start": 125.96,
+          "end": 126.24,
+          "probability": 0.998
+        },
+        {
+          "word": "on",
+          "start": 126.24,
+          "end": 126.5,
+          "probability": 0.9813
+        },
+        {
+          "word": "discovering",
+          "start": 126.5,
+          "end": 127.12,
+          "probability": 0.9979
+        },
+        {
+          "word": "more",
+          "start": 127.12,
+          "end": 127.44,
+          "probability": 0.9981
+        },
+        {
+          "word": "and",
+          "start": 127.44,
+          "end": 127.56,
+          "probability": 0.9917
+        },
+        {
+          "word": "more",
+          "start": 127.56,
+          "end": 127.62,
+          "probability": 0.9986
+        }
+      ]
+    },
+    {
+      "id": 39,
+      "start": 127.62,
+      "end": 127.94,
+      "text": "moots.",
+      "confidence": 0.497,
+      "speaker": null,
+      "words": [
+        {
+          "word": "moots.",
+          "start": 127.62,
+          "end": 127.94,
+          "probability": 0.497
+        }
+      ]
+    },
+    {
+      "id": 40,
+      "start": 128.24,
+      "end": 130.66,
+      "text": "So I have now grounded my answer in something more believable.",
+      "confidence": 0.9842,
+      "speaker": null,
+      "words": [
+        {
+          "word": "So",
+          "start": 128.24,
+          "end": 128.42,
+          "probability": 0.9673
+        },
+        {
+          "word": "I",
+          "start": 128.42,
+          "end": 128.52,
+          "probability": 0.9803
+        },
+        {
+          "word": "have",
+          "start": 128.52,
+          "end": 128.6,
+          "probability": 0.9706
+        },
+        {
+          "word": "now",
+          "start": 128.6,
+          "end": 128.7,
+          "probability": 0.9968
+        },
+        {
+          "word": "grounded",
+          "start": 128.7,
+          "end": 129.18,
+          "probability": 0.9959
+        },
+        {
+          "word": "my",
+          "start": 129.18,
+          "end": 129.38,
+          "probability": 0.9987
+        },
+        {
+          "word": "answer",
+          "start": 129.38,
+          "end": 129.66,
+          "probability": 0.9928
+        },
+        {
+          "word": "in",
+          "start": 129.66,
+          "end": 129.78,
+          "probability": 0.9292
+        },
+        {
+          "word": "something",
+          "start": 129.78,
+          "end": 129.96,
+          "probability": 0.9994
+        },
+        {
+          "word": "more",
+          "start": 129.96,
+          "end": 130.2,
+          "probability": 0.9972
+        },
+        {
+          "word": "believable.",
+          "start": 130.2,
+          "end": 130.66,
+          "probability": 0.9979
+        }
+      ]
+    },
+    {
+      "id": 41,
+      "start": 131.02,
+      "end": 135.16,
+      "text": "I have not hallucinated or made up an answer on, by the way, I didn't leak personal information",
+      "confidence": 0.9484,
+      "speaker": null,
+      "words": [
+        {
+          "word": "I",
+          "start": 131.02,
+          "end": 131.28,
+          "probability": 0.9952
+        },
+        {
+          "word": "have",
+          "start": 131.28,
+          "end": 131.4,
+          "probability": 0.9985
+        },
+        {
+          "word": "not",
+          "start": 131.4,
+          "end": 131.6,
+          "probability": 0.9976
+        },
+        {
+          "word": "hallucinated",
+          "start": 131.6,
+          "end": 132.16,
+          "probability": 0.944
+        },
+        {
+          "word": "or",
+          "start": 132.16,
+          "end": 132.36,
+          "probability": 0.9834
+        },
+        {
+          "word": "made",
+          "start": 132.36,
+          "end": 132.5,
+          "probability": 0.998
+        },
+        {
+          "word": "up",
+          "start": 132.5,
+          "end": 132.64,
+          "probability": 0.9926
+        },
+        {
+          "word": "an",
+          "start": 132.64,
+          "end": 132.74,
+          "probability": 0.8458
+        },
+        {
+          "word": "answer",
+          "start": 132.74,
+          "end": 132.98,
+          "probability": 0.9992
+        },
+        {
+          "word": "on,",
+          "start": 132.98,
+          "end": 133.28,
+          "probability": 0.4455
+        },
+        {
+          "word": "by",
+          "start": 133.58,
+          "end": 133.6,
+          "probability": 0.8955
+        },
+        {
+          "word": "the",
+          "start": 133.6,
+          "end": 133.7,
+          "probability": 0.9996
+        },
+        {
+          "word": "way,",
+          "start": 133.7,
+          "end": 133.8,
+          "probability": 0.9987
+        },
+        {
+          "word": "I",
+          "start": 133.82,
+          "end": 133.9,
+          "probability": 0.9972
+        },
+        {
+          "word": "didn't",
+          "start": 133.9,
+          "end": 134.16,
+          "probability": 0.9972
+        },
+        {
+          "word": "leak",
+          "start": 134.16,
+          "end": 134.44,
+          "probability": 0.9882
+        },
+        {
+          "word": "personal",
+          "start": 134.44,
+          "end": 134.78,
+          "probability": 0.9951
+        },
+        {
+          "word": "information",
+          "start": 134.78,
+          "end": 135.16,
+          "probability": 0.9997
+        }
+      ]
+    },
+    {
+      "id": 42,
+      "start": 135.16,
+      "end": 138.12,
+      "text": "about how long ago it's been since I was obsessed with space.",
+      "confidence": 0.9947,
+      "speaker": null,
+      "words": [
+        {
+          "word": "about",
+          "start": 135.16,
+          "end": 135.5,
+          "probability": 0.9985
+        },
+        {
+          "word": "how",
+          "start": 135.5,
+          "end": 136.08,
+          "probability": 0.9898
+        },
+        {
+          "word": "long",
+          "start": 136.08,
+          "end": 136.22,
+          "probability": 0.9968
+        },
+        {
+          "word": "ago",
+          "start": 136.22,
+          "end": 136.42,
+          "probability": 0.9945
+        },
+        {
+          "word": "it's",
+          "start": 136.42,
+          "end": 136.6,
+          "probability": 0.9918
+        },
+        {
+          "word": "been",
+          "start": 136.6,
+          "end": 136.76,
+          "probability": 0.9982
+        },
+        {
+          "word": "since",
+          "start": 136.76,
+          "end": 137.0,
+          "probability": 0.9734
+        },
+        {
+          "word": "I",
+          "start": 137.0,
+          "end": 137.38,
+          "probability": 0.9987
+        },
+        {
+          "word": "was",
+          "start": 137.38,
+          "end": 137.46,
+          "probability": 0.9996
+        },
+        {
+          "word": "obsessed",
+          "start": 137.46,
+          "end": 137.7,
+          "probability": 0.9991
+        },
+        {
+          "word": "with",
+          "start": 137.7,
+          "end": 137.86,
+          "probability": 0.9993
+        },
+        {
+          "word": "space.",
+          "start": 137.86,
+          "end": 138.12,
+          "probability": 0.9967
+        }
+      ]
+    },
+    {
+      "id": 43,
+      "start": 138.82,
+      "end": 139.24,
+      "text": "All right.",
+      "confidence": 0.9314,
+      "speaker": null,
+      "words": [
+        {
+          "word": "All",
+          "start": 138.82,
+          "end": 139.14,
+          "probability": 0.864
+        },
+        {
+          "word": "right.",
+          "start": 139.14,
+          "end": 139.24,
+          "probability": 0.9988
+        }
+      ]
+    },
+    {
+      "id": 44,
+      "start": 139.28,
+      "end": 141.74,
+      "text": "So what does this have to do with largely language models?",
+      "confidence": 0.8745,
+      "speaker": null,
+      "words": [
+        {
+          "word": "So",
+          "start": 139.28,
+          "end": 139.32,
+          "probability": 0.9584
+        },
+        {
+          "word": "what",
+          "start": 139.32,
+          "end": 139.44,
+          "probability": 0.9768
+        },
+        {
+          "word": "does",
+          "start": 139.44,
+          "end": 139.5,
+          "probability": 0.892
+        },
+        {
+          "word": "this",
+          "start": 139.5,
+          "end": 139.64,
+          "probability": 0.8956
+        },
+        {
+          "word": "have",
+          "start": 139.64,
+          "end": 139.76,
+          "probability": 0.9943
+        },
+        {
+          "word": "to",
+          "start": 139.76,
+          "end": 139.88,
+          "probability": 0.9995
+        },
+        {
+          "word": "do",
+          "start": 139.88,
+          "end": 140.1,
+          "probability": 0.9981
+        },
+        {
+          "word": "with",
+          "start": 140.1,
+          "end": 140.68,
+          "probability": 0.9978
+        },
+        {
+          "word": "largely",
+          "start": 140.68,
+          "end": 141.28,
+          "probability": 0.9099
+        },
+        {
+          "word": "language",
+          "start": 141.28,
+          "end": 141.46,
+          "probability": 0.0003
+        },
+        {
+          "word": "models?",
+          "start": 141.46,
+          "end": 141.74,
+          "probability": 0.9963
+        }
+      ]
+    },
+    {
+      "id": 45,
+      "start": 142.04,
+      "end": 143.88,
+      "text": "Well, how would a large language model be?",
+      "confidence": 0.6832,
+      "speaker": null,
+      "words": [
+        {
+          "word": "Well,",
+          "start": 142.04,
+          "end": 142.3,
+          "probability": 0.9871
+        },
+        {
+          "word": "how",
+          "start": 142.84,
+          "end": 143.28,
+          "probability": 0.9935
+        },
+        {
+          "word": "would",
+          "start": 143.28,
+          "end": 143.56,
+          "probability": 0.9938
+        },
+        {
+          "word": "a",
+          "start": 143.56,
+          "end": 143.74,
+          "probability": 0.9848
+        },
+        {
+          "word": "large",
+          "start": 143.74,
+          "end": 143.88,
+          "probability": 0.6042
+        },
+        {
+          "word": "language",
+          "start": 143.88,
+          "end": 143.88,
+          "probability": 0.0224
+        },
+        {
+          "word": "model",
+          "start": 143.88,
+          "end": 143.88,
+          "probability": 0.6205
+        },
+        {
+          "word": "be?",
+          "start": 143.88,
+          "end": 143.88,
+          "probability": 0.2591
+        }
+      ]
+    },
+    {
+      "id": 46,
+      "start": 143.88,
+      "end": 146.4,
+      "text": "A large language model had answered this question.",
+      "confidence": 0.7507,
+      "speaker": null,
+      "words": [
+        {
+          "word": "A",
+          "start": 143.88,
+          "end": 143.98,
+          "probability": 0.083
+        },
+        {
+          "word": "large",
+          "start": 143.98,
+          "end": 143.98,
+          "probability": 0.8377
+        },
+        {
+          "word": "language",
+          "start": 143.98,
+          "end": 144.14,
+          "probability": 0.8654
+        },
+        {
+          "word": "model",
+          "start": 144.14,
+          "end": 144.5,
+          "probability": 0.9966
+        },
+        {
+          "word": "had",
+          "start": 144.5,
+          "end": 145.08,
+          "probability": 0.2814
+        },
+        {
+          "word": "answered",
+          "start": 145.08,
+          "end": 145.7,
+          "probability": 0.9778
+        },
+        {
+          "word": "this",
+          "start": 145.7,
+          "end": 146.04,
+          "probability": 0.967
+        },
+        {
+          "word": "question.",
+          "start": 146.04,
+          "end": 146.4,
+          "probability": 0.997
+        }
+      ]
+    },
+    {
+      "id": 47,
+      "start": 146.52,
+      "end": 151.26,
+      "text": "So let's say that I have a user asking this question about moons.",
+      "confidence": 0.9071,
+      "speaker": null,
+      "words": [
+        {
+          "word": "So",
+          "start": 146.52,
+          "end": 146.64,
+          "probability": 0.886
+        },
+        {
+          "word": "let's",
+          "start": 146.64,
+          "end": 146.84,
+          "probability": 0.9106
+        },
+        {
+          "word": "say",
+          "start": 146.84,
+          "end": 147.04,
+          "probability": 0.9982
+        },
+        {
+          "word": "that",
+          "start": 147.04,
+          "end": 147.26,
+          "probability": 0.9463
+        },
+        {
+          "word": "I",
+          "start": 147.26,
+          "end": 147.46,
+          "probability": 0.9919
+        },
+        {
+          "word": "have",
+          "start": 147.46,
+          "end": 147.86,
+          "probability": 0.9937
+        },
+        {
+          "word": "a",
+          "start": 147.86,
+          "end": 148.4,
+          "probability": 0.9741
+        },
+        {
+          "word": "user",
+          "start": 148.4,
+          "end": 148.66,
+          "probability": 0.9967
+        },
+        {
+          "word": "asking",
+          "start": 148.66,
+          "end": 149.62,
+          "probability": 0.9715
+        },
+        {
+          "word": "this",
+          "start": 149.62,
+          "end": 149.84,
+          "probability": 0.9933
+        },
+        {
+          "word": "question",
+          "start": 149.84,
+          "end": 150.2,
+          "probability": 0.9977
+        },
+        {
+          "word": "about",
+          "start": 150.2,
+          "end": 150.56,
+          "probability": 0.9885
+        },
+        {
+          "word": "moons.",
+          "start": 150.56,
+          "end": 151.26,
+          "probability": 0.1442
+        }
+      ]
+    },
+    {
+      "id": 48,
+      "start": 152.22,
+      "end": 159.88,
+      "text": "A large language model would constantly say, OK, I have been trained.",
+      "confidence": 0.8381,
+      "speaker": null,
+      "words": [
+        {
+          "word": "A",
+          "start": 152.22,
+          "end": 152.76,
+          "probability": 0.9397
+        },
+        {
+          "word": "large",
+          "start": 152.76,
+          "end": 152.96,
+          "probability": 0.9949
+        },
+        {
+          "word": "language",
+          "start": 152.96,
+          "end": 153.2,
+          "probability": 0.9959
+        },
+        {
+          "word": "model",
+          "start": 153.2,
+          "end": 153.88,
+          "probability": 0.9987
+        },
+        {
+          "word": "would",
+          "start": 153.88,
+          "end": 155.9,
+          "probability": 0.896
+        },
+        {
+          "word": "constantly",
+          "start": 155.9,
+          "end": 157.04,
+          "probability": 0.2106
+        },
+        {
+          "word": "say,",
+          "start": 157.04,
+          "end": 157.6,
+          "probability": 0.9964
+        },
+        {
+          "word": "OK,",
+          "start": 157.96,
+          "end": 158.2,
+          "probability": 0.0997
+        },
+        {
+          "word": "I",
+          "start": 159.0,
+          "end": 159.28,
+          "probability": 0.9852
+        },
+        {
+          "word": "have",
+          "start": 159.28,
+          "end": 159.4,
+          "probability": 0.9436
+        },
+        {
+          "word": "been",
+          "start": 159.4,
+          "end": 159.56,
+          "probability": 0.9985
+        },
+        {
+          "word": "trained.",
+          "start": 159.56,
+          "end": 159.88,
+          "probability": 0.998
+        }
+      ]
+    },
+    {
+      "id": 49,
+      "start": 160.26,
+      "end": 164.66,
+      "text": "And from what I know in my parameters during my training, the answer is Jupiter.",
+      "confidence": 0.9779,
+      "speaker": null,
+      "words": [
+        {
+          "word": "And",
+          "start": 160.26,
+          "end": 160.34,
+          "probability": 0.9934
+        },
+        {
+          "word": "from",
+          "start": 160.34,
+          "end": 160.5,
+          "probability": 0.9959
+        },
+        {
+          "word": "what",
+          "start": 160.5,
+          "end": 160.68,
+          "probability": 0.9993
+        },
+        {
+          "word": "I",
+          "start": 160.68,
+          "end": 160.92,
+          "probability": 0.9993
+        },
+        {
+          "word": "know",
+          "start": 160.92,
+          "end": 161.18,
+          "probability": 0.9992
+        },
+        {
+          "word": "in",
+          "start": 161.18,
+          "end": 161.56,
+          "probability": 0.823
+        },
+        {
+          "word": "my",
+          "start": 161.56,
+          "end": 161.96,
+          "probability": 0.9988
+        },
+        {
+          "word": "parameters",
+          "start": 161.96,
+          "end": 162.3,
+          "probability": 0.996
+        },
+        {
+          "word": "during",
+          "start": 162.3,
+          "end": 162.6,
+          "probability": 0.9843
+        },
+        {
+          "word": "my",
+          "start": 162.6,
+          "end": 162.76,
+          "probability": 0.9946
+        },
+        {
+          "word": "training,",
+          "start": 162.76,
+          "end": 163.02,
+          "probability": 0.9989
+        },
+        {
+          "word": "the",
+          "start": 163.48,
+          "end": 163.64,
+          "probability": 0.9958
+        },
+        {
+          "word": "answer",
+          "start": 163.64,
+          "end": 163.86,
+          "probability": 0.9996
+        },
+        {
+          "word": "is",
+          "start": 163.86,
+          "end": 164.24,
+          "probability": 0.9991
+        },
+        {
+          "word": "Jupiter.",
+          "start": 164.24,
+          "end": 164.66,
+          "probability": 0.8907
+        }
+      ]
+    },
+    {
+      "id": 50,
+      "start": 166.44,
+      "end": 167.56,
+      "text": "The answer is wrong.",
+      "confidence": 0.9892,
+      "speaker": null,
+      "words": [
+        {
+          "word": "The",
+          "start": 166.44,
+          "end": 166.98,
+          "probability": 0.9908
+        },
+        {
+          "word": "answer",
+          "start": 166.98,
+          "end": 167.12,
+          "probability": 0.9995
+        },
+        {
+          "word": "is",
+          "start": 167.12,
+          "end": 167.26,
+          "probability": 0.9852
+        },
+        {
+          "word": "wrong.",
+          "start": 167.26,
+          "end": 167.56,
+          "probability": 0.9815
+        }
+      ]
+    },
+    {
+      "id": 51,
+      "start": 167.86,
+      "end": 170.16,
+      "text": "But, you know, we don't know.",
+      "confidence": 0.9901,
+      "speaker": null,
+      "words": [
+        {
+          "word": "But,",
+          "start": 167.86,
+          "end": 168.18,
+          "probability": 0.9888
+        },
+        {
+          "word": "you",
+          "start": 168.5,
+          "end": 169.32,
+          "probability": 0.9633
+        },
+        {
+          "word": "know,",
+          "start": 169.32,
+          "end": 169.48,
+          "probability": 0.9993
+        },
+        {
+          "word": "we",
+          "start": 169.7,
+          "end": 169.86,
+          "probability": 0.9917
+        },
+        {
+          "word": "don't",
+          "start": 169.86,
+          "end": 170.0,
+          "probability": 0.9991
+        },
+        {
+          "word": "know.",
+          "start": 170.0,
+          "end": 170.16,
+          "probability": 0.9987
+        }
+      ]
+    },
+    {
+      "id": 52,
+      "start": 170.3,
+      "end": 172.44,
+      "text": "The large language model is very confident in what it answered.",
+      "confidence": 0.9336,
+      "speaker": null,
+      "words": [
+        {
+          "word": "The",
+          "start": 170.3,
+          "end": 170.42,
+          "probability": 0.9541
+        },
+        {
+          "word": "large",
+          "start": 170.42,
+          "end": 170.7,
+          "probability": 0.9807
+        },
+        {
+          "word": "language",
+          "start": 170.7,
+          "end": 170.86,
+          "probability": 0.9841
+        },
+        {
+          "word": "model",
+          "start": 170.86,
+          "end": 171.1,
+          "probability": 0.9931
+        },
+        {
+          "word": "is",
+          "start": 171.1,
+          "end": 171.24,
+          "probability": 0.6954
+        },
+        {
+          "word": "very",
+          "start": 171.24,
+          "end": 171.38,
+          "probability": 0.9993
+        },
+        {
+          "word": "confident",
+          "start": 171.38,
+          "end": 171.76,
+          "probability": 0.9917
+        },
+        {
+          "word": "in",
+          "start": 171.76,
+          "end": 171.94,
+          "probability": 0.939
+        },
+        {
+          "word": "what",
+          "start": 171.94,
+          "end": 172.08,
+          "probability": 0.9928
+        },
+        {
+          "word": "it",
+          "start": 172.08,
+          "end": 172.16,
+          "probability": 0.7453
+        },
+        {
+          "word": "answered.",
+          "start": 172.16,
+          "end": 172.44,
+          "probability": 0.9937
+        }
+      ]
+    },
+    {
+      "id": 53,
+      "start": 173.0,
+      "end": 178.04,
+      "text": "Now, what happens when you add this retrieval augmented part here?",
+      "confidence": 0.9252,
+      "speaker": null,
+      "words": [
+        {
+          "word": "Now,",
+          "start": 172.98,
+          "end": 173.22,
+          "probability": 0.8778
+        },
+        {
+          "word": "what",
+          "start": 173.38,
+          "end": 173.62,
+          "probability": 0.992
+        },
+        {
+          "word": "happens",
+          "start": 173.62,
+          "end": 174.02,
+          "probability": 0.9988
+        },
+        {
+          "word": "when",
+          "start": 174.02,
+          "end": 174.26,
+          "probability": 0.987
+        },
+        {
+          "word": "you",
+          "start": 174.26,
+          "end": 174.38,
+          "probability": 0.9988
+        },
+        {
+          "word": "add",
+          "start": 174.38,
+          "end": 174.68,
+          "probability": 0.9971
+        },
+        {
+          "word": "this",
+          "start": 174.68,
+          "end": 174.88,
+          "probability": 0.9948
+        },
+        {
+          "word": "retrieval",
+          "start": 174.88,
+          "end": 176.26,
+          "probability": 0.6639
+        },
+        {
+          "word": "augmented",
+          "start": 176.26,
+          "end": 177.1,
+          "probability": 0.7738
+        },
+        {
+          "word": "part",
+          "start": 177.1,
+          "end": 177.56,
+          "probability": 0.9951
+        },
+        {
+          "word": "here?",
+          "start": 177.56,
+          "end": 178.04,
+          "probability": 0.8983
+        }
+      ]
+    },
+    {
+      "id": 54,
+      "start": 178.48,
+      "end": 178.98,
+      "text": "What does that mean?",
+      "confidence": 0.9862,
+      "speaker": null,
+      "words": [
+        {
+          "word": "What",
+          "start": 178.48,
+          "end": 178.62,
+          "probability": 0.9886
+        },
+        {
+          "word": "does",
+          "start": 178.62,
+          "end": 178.74,
+          "probability": 0.9808
+        },
+        {
+          "word": "that",
+          "start": 178.74,
+          "end": 178.86,
+          "probability": 0.9837
+        },
+        {
+          "word": "mean?",
+          "start": 178.86,
+          "end": 178.98,
+          "probability": 0.9917
+        }
+      ]
+    },
+    {
+      "id": 55,
+      "start": 179.3,
+      "end": 185.08,
+      "text": "That means that now instead of just relying on what the LLM knows, we are adding a content store.",
+      "confidence": 0.9384,
+      "speaker": null,
+      "words": [
+        {
+          "word": "That",
+          "start": 179.3,
+          "end": 179.44,
+          "probability": 0.7447
+        },
+        {
+          "word": "means",
+          "start": 179.44,
+          "end": 179.6,
+          "probability": 0.9926
+        },
+        {
+          "word": "that",
+          "start": 179.6,
+          "end": 179.82,
+          "probability": 0.9402
+        },
+        {
+          "word": "now",
+          "start": 179.82,
+          "end": 180.18,
+          "probability": 0.914
+        },
+        {
+          "word": "instead",
+          "start": 180.18,
+          "end": 180.62,
+          "probability": 0.5471
+        },
+        {
+          "word": "of",
+          "start": 180.62,
+          "end": 180.84,
+          "probability": 0.9991
+        },
+        {
+          "word": "just",
+          "start": 180.84,
+          "end": 181.06,
+          "probability": 0.9899
+        },
+        {
+          "word": "relying",
+          "start": 181.06,
+          "end": 181.48,
+          "probability": 0.9989
+        },
+        {
+          "word": "on",
+          "start": 181.48,
+          "end": 181.74,
+          "probability": 0.9971
+        },
+        {
+          "word": "what",
+          "start": 181.74,
+          "end": 181.88,
+          "probability": 0.9977
+        },
+        {
+          "word": "the",
+          "start": 181.88,
+          "end": 182.02,
+          "probability": 0.9922
+        },
+        {
+          "word": "LLM",
+          "start": 182.02,
+          "end": 182.32,
+          "probability": 0.9173
+        },
+        {
+          "word": "knows,",
+          "start": 182.32,
+          "end": 182.6,
+          "probability": 0.9929
+        },
+        {
+          "word": "we",
+          "start": 182.94,
+          "end": 183.16,
+          "probability": 0.9973
+        },
+        {
+          "word": "are",
+          "start": 183.16,
+          "end": 183.32,
+          "probability": 0.9969
+        },
+        {
+          "word": "adding",
+          "start": 183.32,
+          "end": 183.72,
+          "probability": 0.9989
+        },
+        {
+          "word": "a",
+          "start": 183.72,
+          "end": 184.1,
+          "probability": 0.998
+        },
+        {
+          "word": "content",
+          "start": 184.1,
+          "end": 184.76,
+          "probability": 0.819
+        },
+        {
+          "word": "store.",
+          "start": 184.76,
+          "end": 185.08,
+          "probability": 0.9956
+        }
+      ]
+    },
+    {
+      "id": 56,
+      "start": 185.76,
+      "end": 187.34,
+      "text": "This could be open like the internet.",
+      "confidence": 0.8593,
+      "speaker": null,
+      "words": [
+        {
+          "word": "This",
+          "start": 185.76,
+          "end": 185.98,
+          "probability": 0.9956
+        },
+        {
+          "word": "could",
+          "start": 185.98,
+          "end": 186.18,
+          "probability": 0.8156
+        },
+        {
+          "word": "be",
+          "start": 186.18,
+          "end": 186.34,
+          "probability": 0.9978
+        },
+        {
+          "word": "open",
+          "start": 186.34,
+          "end": 186.62,
+          "probability": 0.9551
+        },
+        {
+          "word": "like",
+          "start": 186.62,
+          "end": 186.98,
+          "probability": 0.5696
+        },
+        {
+          "word": "the",
+          "start": 186.98,
+          "end": 187.12,
+          "probability": 0.9978
+        },
+        {
+          "word": "internet.",
+          "start": 187.12,
+          "end": 187.34,
+          "probability": 0.6839
+        }
+      ]
+    },
+    {
+      "id": 57,
+      "start": 187.84,
+      "end": 193.64,
+      "text": "This could be closed like some collection of documents, collection of policies, whatever.",
+      "confidence": 0.9535,
+      "speaker": null,
+      "words": [
+        {
+          "word": "This",
+          "start": 187.84,
+          "end": 188.04,
+          "probability": 0.9969
+        },
+        {
+          "word": "could",
+          "start": 188.04,
+          "end": 188.22,
+          "probability": 0.8982
+        },
+        {
+          "word": "be",
+          "start": 188.22,
+          "end": 188.38,
+          "probability": 0.9993
+        },
+        {
+          "word": "closed",
+          "start": 188.38,
+          "end": 188.9,
+          "probability": 0.9986
+        },
+        {
+          "word": "like",
+          "start": 188.9,
+          "end": 190.22,
+          "probability": 0.5477
+        },
+        {
+          "word": "some",
+          "start": 190.22,
+          "end": 190.84,
+          "probability": 0.9746
+        },
+        {
+          "word": "collection",
+          "start": 190.84,
+          "end": 191.26,
+          "probability": 0.9979
+        },
+        {
+          "word": "of",
+          "start": 191.26,
+          "end": 191.44,
+          "probability": 0.9994
+        },
+        {
+          "word": "documents,",
+          "start": 191.44,
+          "end": 191.98,
+          "probability": 0.9973
+        },
+        {
+          "word": "collection",
+          "start": 192.28,
+          "end": 192.54,
+          "probability": 0.992
+        },
+        {
+          "word": "of",
+          "start": 192.54,
+          "end": 192.78,
+          "probability": 0.9991
+        },
+        {
+          "word": "policies,",
+          "start": 192.78,
+          "end": 193.3,
+          "probability": 0.9964
+        },
+        {
+          "word": "whatever.",
+          "start": 193.4,
+          "end": 193.64,
+          "probability": 0.9987
+        }
+      ]
+    },
+    {
+      "id": 58,
+      "start": 194.28,
+      "end": 199.3,
+      "text": "The point, though, now is that the LLM first goes and talks to the content store and says,",
+      "confidence": 0.979,
+      "speaker": null,
+      "words": [
+        {
+          "word": "The",
+          "start": 194.28,
+          "end": 194.38,
+          "probability": 0.9959
+        },
+        {
+          "word": "point,",
+          "start": 194.38,
+          "end": 194.66,
+          "probability": 0.9993
+        },
+        {
+          "word": "though,",
+          "start": 194.74,
+          "end": 194.84,
+          "probability": 0.9982
+        },
+        {
+          "word": "now",
+          "start": 194.86,
+          "end": 195.08,
+          "probability": 0.9935
+        },
+        {
+          "word": "is",
+          "start": 195.08,
+          "end": 195.32,
+          "probability": 0.7787
+        },
+        {
+          "word": "that",
+          "start": 195.32,
+          "end": 195.46,
+          "probability": 0.998
+        },
+        {
+          "word": "the",
+          "start": 195.46,
+          "end": 195.56,
+          "probability": 0.9948
+        },
+        {
+          "word": "LLM",
+          "start": 195.56,
+          "end": 196.02,
+          "probability": 0.9955
+        },
+        {
+          "word": "first",
+          "start": 196.02,
+          "end": 196.28,
+          "probability": 0.9796
+        },
+        {
+          "word": "goes",
+          "start": 196.28,
+          "end": 196.66,
+          "probability": 0.9953
+        },
+        {
+          "word": "and",
+          "start": 196.66,
+          "end": 196.88,
+          "probability": 0.994
+        },
+        {
+          "word": "talks",
+          "start": 196.88,
+          "end": 197.22,
+          "probability": 0.9978
+        },
+        {
+          "word": "to",
+          "start": 197.22,
+          "end": 198.34,
+          "probability": 0.9872
+        },
+        {
+          "word": "the",
+          "start": 198.34,
+          "end": 198.42,
+          "probability": 0.9953
+        },
+        {
+          "word": "content",
+          "start": 198.42,
+          "end": 198.68,
+          "probability": 0.9888
+        },
+        {
+          "word": "store",
+          "start": 198.68,
+          "end": 199.02,
+          "probability": 0.9942
+        },
+        {
+          "word": "and",
+          "start": 199.02,
+          "end": 199.16,
+          "probability": 0.944
+        },
+        {
+          "word": "says,",
+          "start": 199.16,
+          "end": 199.3,
+          "probability": 0.992
+        }
+      ]
+    },
+    {
+      "id": 59,
+      "start": 199.3,
+      "end": 205.38,
+      "text": "hey, can you retrieve from me information that is relevant to what the user's query was?",
+      "confidence": 0.9061,
+      "speaker": null,
+      "words": [
+        {
+          "word": "hey,",
+          "start": 199.3,
+          "end": 199.5,
+          "probability": 0.0297
+        },
+        {
+          "word": "can",
+          "start": 199.54,
+          "end": 199.76,
+          "probability": 0.9897
+        },
+        {
+          "word": "you",
+          "start": 199.76,
+          "end": 200.0,
+          "probability": 0.9984
+        },
+        {
+          "word": "retrieve",
+          "start": 200.0,
+          "end": 200.76,
+          "probability": 0.9977
+        },
+        {
+          "word": "from",
+          "start": 200.76,
+          "end": 201.06,
+          "probability": 0.6297
+        },
+        {
+          "word": "me",
+          "start": 201.06,
+          "end": 201.38,
+          "probability": 0.9972
+        },
+        {
+          "word": "information",
+          "start": 201.38,
+          "end": 203.22,
+          "probability": 0.9521
+        },
+        {
+          "word": "that",
+          "start": 203.22,
+          "end": 203.6,
+          "probability": 0.9927
+        },
+        {
+          "word": "is",
+          "start": 203.6,
+          "end": 203.68,
+          "probability": 0.9894
+        },
+        {
+          "word": "relevant",
+          "start": 203.68,
+          "end": 203.98,
+          "probability": 0.9901
+        },
+        {
+          "word": "to",
+          "start": 203.98,
+          "end": 204.26,
+          "probability": 0.997
+        },
+        {
+          "word": "what",
+          "start": 204.26,
+          "end": 204.42,
+          "probability": 0.9971
+        },
+        {
+          "word": "the",
+          "start": 204.42,
+          "end": 204.56,
+          "probability": 0.9951
+        },
+        {
+          "word": "user's",
+          "start": 204.56,
+          "end": 204.86,
+          "probability": 0.9529
+        },
+        {
+          "word": "query",
+          "start": 204.86,
+          "end": 205.02,
+          "probability": 0.9989
+        },
+        {
+          "word": "was?",
+          "start": 205.02,
+          "end": 205.38,
+          "probability": 0.9905
+        }
+      ]
+    },
+    {
+      "id": 60,
+      "start": 206.04,
+      "end": 211.64,
+      "text": "And now, with this retriever augmented answer, it's not Jupiter anymore.",
+      "confidence": 0.8665,
+      "speaker": null,
+      "words": [
+        {
+          "word": "And",
+          "start": 206.04,
+          "end": 206.2,
+          "probability": 0.9304
+        },
+        {
+          "word": "now,",
+          "start": 206.2,
+          "end": 206.66,
+          "probability": 0.9934
+        },
+        {
+          "word": "with",
+          "start": 207.38,
+          "end": 207.7,
+          "probability": 0.8342
+        },
+        {
+          "word": "this",
+          "start": 207.7,
+          "end": 207.94,
+          "probability": 0.9965
+        },
+        {
+          "word": "retriever",
+          "start": 207.94,
+          "end": 208.4,
+          "probability": 0.7034
+        },
+        {
+          "word": "augmented",
+          "start": 208.4,
+          "end": 208.9,
+          "probability": 0.9761
+        },
+        {
+          "word": "answer,",
+          "start": 208.9,
+          "end": 210.14,
+          "probability": 0.8818
+        },
+        {
+          "word": "it's",
+          "start": 210.58,
+          "end": 210.96,
+          "probability": 0.9579
+        },
+        {
+          "word": "not",
+          "start": 210.96,
+          "end": 211.1,
+          "probability": 0.9967
+        },
+        {
+          "word": "Jupiter",
+          "start": 211.1,
+          "end": 211.26,
+          "probability": 0.2849
+        },
+        {
+          "word": "anymore.",
+          "start": 211.26,
+          "end": 211.64,
+          "probability": 0.9767
+        }
+      ]
+    },
+    {
+      "id": 61,
+      "start": 211.92,
+      "end": 213.34,
+      "text": "We know that it is Saturn.",
+      "confidence": 0.9908,
+      "speaker": null,
+      "words": [
+        {
+          "word": "We",
+          "start": 211.92,
+          "end": 212.02,
+          "probability": 0.9912
+        },
+        {
+          "word": "know",
+          "start": 212.02,
+          "end": 212.2,
+          "probability": 0.9979
+        },
+        {
+          "word": "that",
+          "start": 212.2,
+          "end": 212.36,
+          "probability": 0.9959
+        },
+        {
+          "word": "it",
+          "start": 212.36,
+          "end": 212.54,
+          "probability": 0.9924
+        },
+        {
+          "word": "is",
+          "start": 212.54,
+          "end": 212.82,
+          "probability": 0.9962
+        },
+        {
+          "word": "Saturn.",
+          "start": 212.82,
+          "end": 213.34,
+          "probability": 0.971
+        }
+      ]
+    },
+    {
+      "id": 62,
+      "start": 214.16,
+      "end": 215.26,
+      "text": "What does this look like?",
+      "confidence": 0.9941,
+      "speaker": null,
+      "words": [
+        {
+          "word": "What",
+          "start": 214.16,
+          "end": 214.68,
+          "probability": 0.988
+        },
+        {
+          "word": "does",
+          "start": 214.68,
+          "end": 214.8,
+          "probability": 0.993
+        },
+        {
+          "word": "this",
+          "start": 214.8,
+          "end": 214.92,
+          "probability": 0.994
+        },
+        {
+          "word": "look",
+          "start": 214.92,
+          "end": 215.04,
+          "probability": 0.9971
+        },
+        {
+          "word": "like?",
+          "start": 215.04,
+          "end": 215.26,
+          "probability": 0.9983
+        }
+      ]
+    },
+    {
+      "id": 63,
+      "start": 216.0,
+      "end": 225.98,
+      "text": "Well, first, user prompts the LLM with their question.",
+      "confidence": 0.9684,
+      "speaker": null,
+      "words": [
+        {
+          "word": "Well,",
+          "start": 216.0,
+          "end": 216.1,
+          "probability": 0.9357
+        },
+        {
+          "word": "first,",
+          "start": 217.54,
+          "end": 219.42,
+          "probability": 0.9636
+        },
+        {
+          "word": "user",
+          "start": 220.32,
+          "end": 221.32,
+          "probability": 0.9046
+        },
+        {
+          "word": "prompts",
+          "start": 221.32,
+          "end": 222.02,
+          "probability": 0.9974
+        },
+        {
+          "word": "the",
+          "start": 222.02,
+          "end": 222.92,
+          "probability": 0.9927
+        },
+        {
+          "word": "LLM",
+          "start": 222.92,
+          "end": 223.38,
+          "probability": 0.9727
+        },
+        {
+          "word": "with",
+          "start": 223.38,
+          "end": 224.36,
+          "probability": 0.9912
+        },
+        {
+          "word": "their",
+          "start": 224.36,
+          "end": 225.66,
+          "probability": 0.9669
+        },
+        {
+          "word": "question.",
+          "start": 225.66,
+          "end": 225.98,
+          "probability": 0.9905
+        }
+      ]
+    },
+    {
+      "id": 64,
+      "start": 226.74,
+      "end": 228.04,
+      "text": "They say this is what my question was.",
+      "confidence": 0.9336,
+      "speaker": null,
+      "words": [
+        {
+          "word": "They",
+          "start": 226.74,
+          "end": 226.96,
+          "probability": 0.7663
+        },
+        {
+          "word": "say",
+          "start": 226.96,
+          "end": 227.08,
+          "probability": 0.9798
+        },
+        {
+          "word": "this",
+          "start": 227.08,
+          "end": 227.22,
+          "probability": 0.8337
+        },
+        {
+          "word": "is",
+          "start": 227.22,
+          "end": 227.32,
+          "probability": 0.9203
+        },
+        {
+          "word": "what",
+          "start": 227.32,
+          "end": 227.44,
+          "probability": 0.9837
+        },
+        {
+          "word": "my",
+          "start": 227.44,
+          "end": 227.58,
+          "probability": 0.9932
+        },
+        {
+          "word": "question",
+          "start": 227.58,
+          "end": 227.78,
+          "probability": 0.9983
+        },
+        {
+          "word": "was.",
+          "start": 227.78,
+          "end": 228.04,
+          "probability": 0.9936
+        }
+      ]
+    },
+    {
+      "id": 65,
+      "start": 228.04,
+      "end": 231.56,
+      "text": "And originally, if we're just talking to a generative model,",
+      "confidence": 0.8927,
+      "speaker": null,
+      "words": [
+        {
+          "word": "And",
+          "start": 228.04,
+          "end": 228.76,
+          "probability": 0.2437
+        },
+        {
+          "word": "originally,",
+          "start": 228.76,
+          "end": 229.3,
+          "probability": 0.8083
+        },
+        {
+          "word": "if",
+          "start": 229.9,
+          "end": 230.08,
+          "probability": 0.9778
+        },
+        {
+          "word": "we're",
+          "start": 230.08,
+          "end": 230.28,
+          "probability": 0.9497
+        },
+        {
+          "word": "just",
+          "start": 230.28,
+          "end": 230.48,
+          "probability": 0.9966
+        },
+        {
+          "word": "talking",
+          "start": 230.48,
+          "end": 230.8,
+          "probability": 0.9911
+        },
+        {
+          "word": "to",
+          "start": 230.8,
+          "end": 230.92,
+          "probability": 0.9907
+        },
+        {
+          "word": "a",
+          "start": 230.92,
+          "end": 231.04,
+          "probability": 0.9864
+        },
+        {
+          "word": "generative",
+          "start": 231.04,
+          "end": 231.28,
+          "probability": 0.9879
+        },
+        {
+          "word": "model,",
+          "start": 231.28,
+          "end": 231.56,
+          "probability": 0.9945
+        }
+      ]
+    },
+    {
+      "id": 66,
+      "start": 232.48,
+      "end": 234.84,
+      "text": "the generative model says, oh, okay, I know the response.",
+      "confidence": 0.8697,
+      "speaker": null,
+      "words": [
+        {
+          "word": "the",
+          "start": 232.48,
+          "end": 232.62,
+          "probability": 0.9416
+        },
+        {
+          "word": "generative",
+          "start": 232.62,
+          "end": 232.88,
+          "probability": 0.9952
+        },
+        {
+          "word": "model",
+          "start": 232.88,
+          "end": 233.12,
+          "probability": 0.9919
+        },
+        {
+          "word": "says,",
+          "start": 233.12,
+          "end": 233.38,
+          "probability": 0.9931
+        },
+        {
+          "word": "oh,",
+          "start": 233.5,
+          "end": 233.66,
+          "probability": 0.3761
+        },
+        {
+          "word": "okay,",
+          "start": 233.7,
+          "end": 233.94,
+          "probability": 0.4149
+        },
+        {
+          "word": "I",
+          "start": 234.2,
+          "end": 234.34,
+          "probability": 0.9982
+        },
+        {
+          "word": "know",
+          "start": 234.34,
+          "end": 234.46,
+          "probability": 0.9969
+        },
+        {
+          "word": "the",
+          "start": 234.46,
+          "end": 234.56,
+          "probability": 0.9935
+        },
+        {
+          "word": "response.",
+          "start": 234.56,
+          "end": 234.84,
+          "probability": 0.9951
+        }
+      ]
+    },
+    {
+      "id": 67,
+      "start": 235.58,
+      "end": 235.96,
+      "text": "Here it is.",
+      "confidence": 0.9889,
+      "speaker": null,
+      "words": [
+        {
+          "word": "Here",
+          "start": 235.58,
+          "end": 235.76,
+          "probability": 0.9775
+        },
+        {
+          "word": "it",
+          "start": 235.76,
+          "end": 235.84,
+          "probability": 0.9901
+        },
+        {
+          "word": "is.",
+          "start": 235.84,
+          "end": 235.96,
+          "probability": 0.999
+        }
+      ]
+    },
+    {
+      "id": 68,
+      "start": 236.08,
+      "end": 236.58,
+      "text": "Here's my response.",
+      "confidence": 0.9816,
+      "speaker": null,
+      "words": [
+        {
+          "word": "Here's",
+          "start": 236.08,
+          "end": 236.2,
+          "probability": 0.9548
+        },
+        {
+          "word": "my",
+          "start": 236.2,
+          "end": 236.3,
+          "probability": 0.9925
+        },
+        {
+          "word": "response.",
+          "start": 236.3,
+          "end": 236.58,
+          "probability": 0.9974
+        }
+      ]
+    },
+    {
+      "id": 69,
+      "start": 237.52,
+      "end": 243.5,
+      "text": "But now, in the RAM framework, the generative model actually has an instruction that says,",
+      "confidence": 0.961,
+      "speaker": null,
+      "words": [
+        {
+          "word": "But",
+          "start": 237.52,
+          "end": 238.04,
+          "probability": 0.9835
+        },
+        {
+          "word": "now,",
+          "start": 238.04,
+          "end": 238.56,
+          "probability": 0.9762
+        },
+        {
+          "word": "in",
+          "start": 238.8,
+          "end": 238.96,
+          "probability": 0.9923
+        },
+        {
+          "word": "the",
+          "start": 238.96,
+          "end": 239.18,
+          "probability": 0.9967
+        },
+        {
+          "word": "RAM",
+          "start": 239.18,
+          "end": 239.38,
+          "probability": 0.5049
+        },
+        {
+          "word": "framework,",
+          "start": 239.38,
+          "end": 239.9,
+          "probability": 0.9893
+        },
+        {
+          "word": "the",
+          "start": 240.46,
+          "end": 240.54,
+          "probability": 0.995
+        },
+        {
+          "word": "generative",
+          "start": 240.54,
+          "end": 240.86,
+          "probability": 0.9955
+        },
+        {
+          "word": "model",
+          "start": 240.86,
+          "end": 241.2,
+          "probability": 0.9982
+        },
+        {
+          "word": "actually",
+          "start": 241.2,
+          "end": 241.72,
+          "probability": 0.9961
+        },
+        {
+          "word": "has",
+          "start": 241.72,
+          "end": 242.06,
+          "probability": 0.9988
+        },
+        {
+          "word": "an",
+          "start": 242.06,
+          "end": 242.3,
+          "probability": 0.9956
+        },
+        {
+          "word": "instruction",
+          "start": 242.3,
+          "end": 242.68,
+          "probability": 0.9967
+        },
+        {
+          "word": "that",
+          "start": 242.68,
+          "end": 243.24,
+          "probability": 0.9977
+        },
+        {
+          "word": "says,",
+          "start": 243.24,
+          "end": 243.5,
+          "probability": 0.9978
+        }
+      ]
+    },
+    {
+      "id": 70,
+      "start": 243.68,
+      "end": 244.04,
+      "text": "no, no, no.",
+      "confidence": 0.9336,
+      "speaker": null,
+      "words": [
+        {
+          "word": "no,",
+          "start": 243.68,
+          "end": 243.8,
+          "probability": 0.812
+        },
+        {
+          "word": "no,",
+          "start": 243.84,
+          "end": 243.92,
+          "probability": 0.9957
+        },
+        {
+          "word": "no.",
+          "start": 243.92,
+          "end": 244.04,
+          "probability": 0.9932
+        }
+      ]
+    },
+    {
+      "id": 71,
+      "start": 244.36,
+      "end": 247.84,
+      "text": "First, go and retrieve relevant content.",
+      "confidence": 0.9847,
+      "speaker": null,
+      "words": [
+        {
+          "word": "First,",
+          "start": 244.36,
+          "end": 244.64,
+          "probability": 0.9916
+        },
+        {
+          "word": "go",
+          "start": 245.16,
+          "end": 245.44,
+          "probability": 0.9829
+        },
+        {
+          "word": "and",
+          "start": 245.44,
+          "end": 245.68,
+          "probability": 0.9494
+        },
+        {
+          "word": "retrieve",
+          "start": 245.68,
+          "end": 246.18,
+          "probability": 0.9993
+        },
+        {
+          "word": "relevant",
+          "start": 246.18,
+          "end": 246.96,
+          "probability": 0.991
+        },
+        {
+          "word": "content.",
+          "start": 246.96,
+          "end": 247.84,
+          "probability": 0.9941
+        }
+      ]
+    },
+    {
+      "id": 72,
+      "start": 248.76,
+      "end": 253.0,
+      "text": "Combine that with the user's question and only then generate the answer.",
+      "confidence": 0.956,
+      "speaker": null,
+      "words": [
+        {
+          "word": "Combine",
+          "start": 248.76,
+          "end": 249.28,
+          "probability": 0.9957
+        },
+        {
+          "word": "that",
+          "start": 249.28,
+          "end": 249.5,
+          "probability": 0.9989
+        },
+        {
+          "word": "with",
+          "start": 249.5,
+          "end": 249.64,
+          "probability": 0.9994
+        },
+        {
+          "word": "the",
+          "start": 249.64,
+          "end": 249.8,
+          "probability": 0.9979
+        },
+        {
+          "word": "user's",
+          "start": 249.8,
+          "end": 250.2,
+          "probability": 0.9771
+        },
+        {
+          "word": "question",
+          "start": 250.2,
+          "end": 250.58,
+          "probability": 0.9959
+        },
+        {
+          "word": "and",
+          "start": 250.58,
+          "end": 251.26,
+          "probability": 0.5652
+        },
+        {
+          "word": "only",
+          "start": 251.26,
+          "end": 251.52,
+          "probability": 0.9959
+        },
+        {
+          "word": "then",
+          "start": 251.52,
+          "end": 251.88,
+          "probability": 0.9925
+        },
+        {
+          "word": "generate",
+          "start": 251.88,
+          "end": 252.46,
+          "probability": 0.9559
+        },
+        {
+          "word": "the",
+          "start": 252.46,
+          "end": 252.72,
+          "probability": 0.9993
+        },
+        {
+          "word": "answer.",
+          "start": 252.72,
+          "end": 253.0,
+          "probability": 0.9988
+        }
+      ]
+    },
+    {
+      "id": 73,
+      "start": 253.58,
+      "end": 257.22,
+      "text": "So, the prompt now has three parts.",
+      "confidence": 0.9917,
+      "speaker": null,
+      "words": [
+        {
+          "word": "So,",
+          "start": 253.58,
+          "end": 253.94,
+          "probability": 0.9865
+        },
+        {
+          "word": "the",
+          "start": 254.54,
+          "end": 254.72,
+          "probability": 0.9945
+        },
+        {
+          "word": "prompt",
+          "start": 254.72,
+          "end": 255.22,
+          "probability": 0.9965
+        },
+        {
+          "word": "now",
+          "start": 255.22,
+          "end": 256.2,
+          "probability": 0.9824
+        },
+        {
+          "word": "has",
+          "start": 256.2,
+          "end": 256.66,
+          "probability": 0.9986
+        },
+        {
+          "word": "three",
+          "start": 256.66,
+          "end": 256.9,
+          "probability": 0.9848
+        },
+        {
+          "word": "parts.",
+          "start": 256.9,
+          "end": 257.22,
+          "probability": 0.9985
+        }
+      ]
+    },
+    {
+      "id": 74,
+      "start": 257.22,
+      "end": 261.14,
+      "text": "The instruction to pay attention to the retrieved content,",
+      "confidence": 0.8293,
+      "speaker": null,
+      "words": [
+        {
+          "word": "The",
+          "start": 257.22,
+          "end": 257.94,
+          "probability": 0.0609
+        },
+        {
+          "word": "instruction",
+          "start": 257.94,
+          "end": 258.36,
+          "probability": 0.7166
+        },
+        {
+          "word": "to",
+          "start": 258.36,
+          "end": 259.46,
+          "probability": 0.7343
+        },
+        {
+          "word": "pay",
+          "start": 259.46,
+          "end": 259.64,
+          "probability": 0.9951
+        },
+        {
+          "word": "attention",
+          "start": 259.64,
+          "end": 260.02,
+          "probability": 0.9972
+        },
+        {
+          "word": "to",
+          "start": 260.02,
+          "end": 260.26,
+          "probability": 0.9935
+        },
+        {
+          "word": "the",
+          "start": 260.26,
+          "end": 260.36,
+          "probability": 0.9889
+        },
+        {
+          "word": "retrieved",
+          "start": 260.36,
+          "end": 260.68,
+          "probability": 0.984
+        },
+        {
+          "word": "content,",
+          "start": 260.68,
+          "end": 261.14,
+          "probability": 0.9933
+        }
+      ]
+    },
+    {
+      "id": 75,
+      "start": 261.4,
+      "end": 264.08,
+      "text": "together with the user's question, now give a response.",
+      "confidence": 0.9692,
+      "speaker": null,
+      "words": [
+        {
+          "word": "together",
+          "start": 261.4,
+          "end": 261.84,
+          "probability": 0.9248
+        },
+        {
+          "word": "with",
+          "start": 261.84,
+          "end": 262.08,
+          "probability": 0.9963
+        },
+        {
+          "word": "the",
+          "start": 262.08,
+          "end": 262.18,
+          "probability": 0.9724
+        },
+        {
+          "word": "user's",
+          "start": 262.18,
+          "end": 262.44,
+          "probability": 0.9376
+        },
+        {
+          "word": "question,",
+          "start": 262.44,
+          "end": 262.74,
+          "probability": 0.9766
+        },
+        {
+          "word": "now",
+          "start": 263.2,
+          "end": 263.48,
+          "probability": 0.9618
+        },
+        {
+          "word": "give",
+          "start": 263.48,
+          "end": 263.64,
+          "probability": 0.9662
+        },
+        {
+          "word": "a",
+          "start": 263.64,
+          "end": 263.76,
+          "probability": 0.9935
+        },
+        {
+          "word": "response.",
+          "start": 263.76,
+          "end": 264.08,
+          "probability": 0.9932
+        }
+      ]
+    },
+    {
+      "id": 76,
+      "start": 264.46,
+      "end": 268.88,
+      "text": "And in fact, now you can give evidence for why your response was what it was.",
+      "confidence": 0.957,
+      "speaker": null,
+      "words": [
+        {
+          "word": "And",
+          "start": 264.46,
+          "end": 264.52,
+          "probability": 0.9094
+        },
+        {
+          "word": "in",
+          "start": 264.52,
+          "end": 264.6,
+          "probability": 0.8617
+        },
+        {
+          "word": "fact,",
+          "start": 264.6,
+          "end": 264.9,
+          "probability": 0.9989
+        },
+        {
+          "word": "now",
+          "start": 264.98,
+          "end": 265.26,
+          "probability": 0.9906
+        },
+        {
+          "word": "you",
+          "start": 265.26,
+          "end": 265.8,
+          "probability": 0.7611
+        },
+        {
+          "word": "can",
+          "start": 265.8,
+          "end": 266.0,
+          "probability": 0.9988
+        },
+        {
+          "word": "give",
+          "start": 266.0,
+          "end": 266.18,
+          "probability": 0.9552
+        },
+        {
+          "word": "evidence",
+          "start": 266.18,
+          "end": 266.64,
+          "probability": 0.9966
+        },
+        {
+          "word": "for",
+          "start": 266.64,
+          "end": 267.16,
+          "probability": 0.982
+        },
+        {
+          "word": "why",
+          "start": 267.16,
+          "end": 267.36,
+          "probability": 0.9817
+        },
+        {
+          "word": "your",
+          "start": 267.36,
+          "end": 267.5,
+          "probability": 0.9843
+        },
+        {
+          "word": "response",
+          "start": 267.5,
+          "end": 267.78,
+          "probability": 0.9989
+        },
+        {
+          "word": "was",
+          "start": 267.78,
+          "end": 268.18,
+          "probability": 0.9974
+        },
+        {
+          "word": "what",
+          "start": 268.18,
+          "end": 268.64,
+          "probability": 0.901
+        },
+        {
+          "word": "it",
+          "start": 268.64,
+          "end": 268.72,
+          "probability": 0.996
+        },
+        {
+          "word": "was.",
+          "start": 268.72,
+          "end": 268.88,
+          "probability": 0.9985
+        }
+      ]
+    },
+    {
+      "id": 77,
+      "start": 269.78,
+      "end": 275.22,
+      "text": "So now hopefully you can see how does RAG help the 2LM challenges that I had mentioned before.",
+      "confidence": 0.8998,
+      "speaker": null,
+      "words": [
+        {
+          "word": "So",
+          "start": 269.78,
+          "end": 270.26,
+          "probability": 0.9319
+        },
+        {
+          "word": "now",
+          "start": 270.26,
+          "end": 270.36,
+          "probability": 0.9133
+        },
+        {
+          "word": "hopefully",
+          "start": 270.36,
+          "end": 270.6,
+          "probability": 0.9053
+        },
+        {
+          "word": "you",
+          "start": 270.6,
+          "end": 270.78,
+          "probability": 0.8817
+        },
+        {
+          "word": "can",
+          "start": 270.78,
+          "end": 270.92,
+          "probability": 0.9986
+        },
+        {
+          "word": "see",
+          "start": 270.92,
+          "end": 271.16,
+          "probability": 0.9993
+        },
+        {
+          "word": "how",
+          "start": 271.16,
+          "end": 271.6,
+          "probability": 0.571
+        },
+        {
+          "word": "does",
+          "start": 271.6,
+          "end": 271.78,
+          "probability": 0.9633
+        },
+        {
+          "word": "RAG",
+          "start": 271.78,
+          "end": 272.14,
+          "probability": 0.6905
+        },
+        {
+          "word": "help",
+          "start": 272.14,
+          "end": 272.6,
+          "probability": 0.9891
+        },
+        {
+          "word": "the",
+          "start": 272.6,
+          "end": 273.24,
+          "probability": 0.9185
+        },
+        {
+          "word": "2LM",
+          "start": 273.24,
+          "end": 273.9,
+          "probability": 0.5556
+        },
+        {
+          "word": "challenges",
+          "start": 273.9,
+          "end": 274.24,
+          "probability": 0.9789
+        },
+        {
+          "word": "that",
+          "start": 274.24,
+          "end": 274.48,
+          "probability": 0.9878
+        },
+        {
+          "word": "I",
+          "start": 274.48,
+          "end": 274.58,
+          "probability": 0.9981
+        },
+        {
+          "word": "had",
+          "start": 274.58,
+          "end": 274.68,
+          "probability": 0.9162
+        },
+        {
+          "word": "mentioned",
+          "start": 274.68,
+          "end": 274.94,
+          "probability": 0.9985
+        },
+        {
+          "word": "before.",
+          "start": 274.94,
+          "end": 275.22,
+          "probability": 0.998
+        }
+      ]
+    },
+    {
+      "id": 78,
+      "start": 276.08,
+      "end": 278.12,
+      "text": "So, first of all, I'll start with the out of date part.",
+      "confidence": 0.9408,
+      "speaker": null,
+      "words": [
+        {
+          "word": "So,",
+          "start": 276.08,
+          "end": 276.24,
+          "probability": 0.9793
+        },
+        {
+          "word": "first",
+          "start": 276.28,
+          "end": 276.48,
+          "probability": 0.9954
+        },
+        {
+          "word": "of",
+          "start": 276.48,
+          "end": 276.62,
+          "probability": 0.999
+        },
+        {
+          "word": "all,",
+          "start": 276.62,
+          "end": 276.78,
+          "probability": 0.9992
+        },
+        {
+          "word": "I'll",
+          "start": 277.04,
+          "end": 277.16,
+          "probability": 0.9905
+        },
+        {
+          "word": "start",
+          "start": 277.16,
+          "end": 277.26,
+          "probability": 0.9905
+        },
+        {
+          "word": "with",
+          "start": 277.26,
+          "end": 277.38,
+          "probability": 0.9915
+        },
+        {
+          "word": "the",
+          "start": 277.38,
+          "end": 277.48,
+          "probability": 0.9933
+        },
+        {
+          "word": "out",
+          "start": 277.48,
+          "end": 277.6,
+          "probability": 0.7825
+        },
+        {
+          "word": "of",
+          "start": 277.6,
+          "end": 277.68,
+          "probability": 0.5735
+        },
+        {
+          "word": "date",
+          "start": 277.68,
+          "end": 277.84,
+          "probability": 0.997
+        },
+        {
+          "word": "part.",
+          "start": 277.84,
+          "end": 278.12,
+          "probability": 0.9983
+        }
+      ]
+    },
+    {
+      "id": 79,
+      "start": 278.62,
+      "end": 283.78,
+      "text": "Now, instead of having to retrain your model, if new information comes up like, hey,",
+      "confidence": 0.9421,
+      "speaker": null,
+      "words": [
+        {
+          "word": "Now,",
+          "start": 278.62,
+          "end": 278.96,
+          "probability": 0.9938
+        },
+        {
+          "word": "instead",
+          "start": 279.0,
+          "end": 279.42,
+          "probability": 0.9982
+        },
+        {
+          "word": "of",
+          "start": 279.42,
+          "end": 279.94,
+          "probability": 0.9989
+        },
+        {
+          "word": "having",
+          "start": 279.94,
+          "end": 280.62,
+          "probability": 0.9514
+        },
+        {
+          "word": "to",
+          "start": 280.62,
+          "end": 280.82,
+          "probability": 0.9879
+        },
+        {
+          "word": "retrain",
+          "start": 280.82,
+          "end": 281.3,
+          "probability": 0.9737
+        },
+        {
+          "word": "your",
+          "start": 281.3,
+          "end": 281.68,
+          "probability": 0.9958
+        },
+        {
+          "word": "model,",
+          "start": 281.68,
+          "end": 282.02,
+          "probability": 0.9973
+        },
+        {
+          "word": "if",
+          "start": 282.18,
+          "end": 282.34,
+          "probability": 0.9932
+        },
+        {
+          "word": "new",
+          "start": 282.34,
+          "end": 282.48,
+          "probability": 0.9954
+        },
+        {
+          "word": "information",
+          "start": 282.48,
+          "end": 282.76,
+          "probability": 0.9993
+        },
+        {
+          "word": "comes",
+          "start": 282.76,
+          "end": 283.06,
+          "probability": 0.9984
+        },
+        {
+          "word": "up",
+          "start": 283.06,
+          "end": 283.22,
+          "probability": 0.9957
+        },
+        {
+          "word": "like,",
+          "start": 283.22,
+          "end": 283.44,
+          "probability": 0.7138
+        },
+        {
+          "word": "hey,",
+          "start": 283.66,
+          "end": 283.78,
+          "probability": 0.538
+        }
+      ]
+    },
+    {
+      "id": 80,
+      "start": 283.78,
+      "end": 284.94,
+      "text": "we found some more moves.",
+      "confidence": 0.6771,
+      "speaker": null,
+      "words": [
+        {
+          "word": "we",
+          "start": 283.78,
+          "end": 284.1,
+          "probability": 0.1315
+        },
+        {
+          "word": "found",
+          "start": 284.1,
+          "end": 284.3,
+          "probability": 0.8889
+        },
+        {
+          "word": "some",
+          "start": 284.3,
+          "end": 284.46,
+          "probability": 0.9809
+        },
+        {
+          "word": "more",
+          "start": 284.46,
+          "end": 284.66,
+          "probability": 0.9958
+        },
+        {
+          "word": "moves.",
+          "start": 284.66,
+          "end": 284.94,
+          "probability": 0.3882
+        }
+      ]
+    },
+    {
+      "id": 81,
+      "start": 285.2,
+      "end": 287.68,
+      "text": "Now, to Jupyter again, maybe it'll be Saturday again in the future.",
+      "confidence": 0.8057,
+      "speaker": null,
+      "words": [
+        {
+          "word": "Now,",
+          "start": 285.2,
+          "end": 285.26,
+          "probability": 0.9811
+        },
+        {
+          "word": "to",
+          "start": 285.34,
+          "end": 285.4,
+          "probability": 0.545
+        },
+        {
+          "word": "Jupyter",
+          "start": 285.4,
+          "end": 285.72,
+          "probability": 0.8589
+        },
+        {
+          "word": "again,",
+          "start": 285.72,
+          "end": 286.02,
+          "probability": 0.973
+        },
+        {
+          "word": "maybe",
+          "start": 286.38,
+          "end": 286.54,
+          "probability": 0.9695
+        },
+        {
+          "word": "it'll",
+          "start": 286.54,
+          "end": 286.66,
+          "probability": 0.4301
+        },
+        {
+          "word": "be",
+          "start": 286.66,
+          "end": 286.72,
+          "probability": 0.9837
+        },
+        {
+          "word": "Saturday",
+          "start": 286.72,
+          "end": 287.04,
+          "probability": 0.2958
+        },
+        {
+          "word": "again",
+          "start": 287.04,
+          "end": 287.3,
+          "probability": 0.7137
+        },
+        {
+          "word": "in",
+          "start": 287.3,
+          "end": 287.4,
+          "probability": 0.9563
+        },
+        {
+          "word": "the",
+          "start": 287.4,
+          "end": 287.5,
+          "probability": 0.9619
+        },
+        {
+          "word": "future.",
+          "start": 287.5,
+          "end": 287.68,
+          "probability": 0.9989
+        }
+      ]
+    },
+    {
+      "id": 82,
+      "start": 288.32,
+      "end": 292.28,
+      "text": "All you have to do is you augment your data store with new information,",
+      "confidence": 0.9384,
+      "speaker": null,
+      "words": [
+        {
+          "word": "All",
+          "start": 288.32,
+          "end": 288.48,
+          "probability": 0.9923
+        },
+        {
+          "word": "you",
+          "start": 288.48,
+          "end": 288.62,
+          "probability": 0.9982
+        },
+        {
+          "word": "have",
+          "start": 288.62,
+          "end": 288.76,
+          "probability": 0.9984
+        },
+        {
+          "word": "to",
+          "start": 288.76,
+          "end": 288.88,
+          "probability": 0.9994
+        },
+        {
+          "word": "do",
+          "start": 288.88,
+          "end": 289.06,
+          "probability": 0.9984
+        },
+        {
+          "word": "is",
+          "start": 289.06,
+          "end": 289.28,
+          "probability": 0.983
+        },
+        {
+          "word": "you",
+          "start": 289.28,
+          "end": 289.38,
+          "probability": 0.9359
+        },
+        {
+          "word": "augment",
+          "start": 289.38,
+          "end": 289.74,
+          "probability": 0.605
+        },
+        {
+          "word": "your",
+          "start": 289.74,
+          "end": 290.16,
+          "probability": 0.9978
+        },
+        {
+          "word": "data",
+          "start": 290.16,
+          "end": 290.54,
+          "probability": 0.8244
+        },
+        {
+          "word": "store",
+          "start": 290.54,
+          "end": 290.86,
+          "probability": 0.9485
+        },
+        {
+          "word": "with",
+          "start": 290.86,
+          "end": 291.44,
+          "probability": 0.8764
+        },
+        {
+          "word": "new",
+          "start": 291.44,
+          "end": 291.86,
+          "probability": 0.9877
+        },
+        {
+          "word": "information,",
+          "start": 291.86,
+          "end": 292.28,
+          "probability": 0.9923
+        }
+      ]
+    },
+    {
+      "id": 83,
+      "start": 292.44,
+      "end": 293.12,
+      "text": "updated information.",
+      "confidence": 0.8375,
+      "speaker": null,
+      "words": [
+        {
+          "word": "updated",
+          "start": 292.44,
+          "end": 292.64,
+          "probability": 0.6802
+        },
+        {
+          "word": "information.",
+          "start": 292.64,
+          "end": 293.12,
+          "probability": 0.9947
+        }
+      ]
+    },
+    {
+      "id": 84,
+      "start": 293.38,
+      "end": 297.44,
+      "text": "So now the next time that a user comes and asks the question, we're ready.",
+      "confidence": 0.9472,
+      "speaker": null,
+      "words": [
+        {
+          "word": "So",
+          "start": 293.38,
+          "end": 293.42,
+          "probability": 0.8791
+        },
+        {
+          "word": "now",
+          "start": 293.42,
+          "end": 293.54,
+          "probability": 0.8356
+        },
+        {
+          "word": "the",
+          "start": 293.54,
+          "end": 293.64,
+          "probability": 0.7894
+        },
+        {
+          "word": "next",
+          "start": 293.64,
+          "end": 293.86,
+          "probability": 0.9995
+        },
+        {
+          "word": "time",
+          "start": 293.86,
+          "end": 294.32,
+          "probability": 0.9987
+        },
+        {
+          "word": "that",
+          "start": 294.32,
+          "end": 295.02,
+          "probability": 0.9553
+        },
+        {
+          "word": "a",
+          "start": 295.02,
+          "end": 295.26,
+          "probability": 0.953
+        },
+        {
+          "word": "user",
+          "start": 295.26,
+          "end": 295.38,
+          "probability": 0.9984
+        },
+        {
+          "word": "comes",
+          "start": 295.38,
+          "end": 295.62,
+          "probability": 0.9963
+        },
+        {
+          "word": "and",
+          "start": 295.62,
+          "end": 295.8,
+          "probability": 0.9011
+        },
+        {
+          "word": "asks",
+          "start": 295.8,
+          "end": 295.96,
+          "probability": 0.9639
+        },
+        {
+          "word": "the",
+          "start": 295.96,
+          "end": 296.12,
+          "probability": 0.9839
+        },
+        {
+          "word": "question,",
+          "start": 296.12,
+          "end": 296.46,
+          "probability": 0.9974
+        },
+        {
+          "word": "we're",
+          "start": 296.76,
+          "end": 297.22,
+          "probability": 0.9568
+        },
+        {
+          "word": "ready.",
+          "start": 297.22,
+          "end": 297.44,
+          "probability": 0.9989
+        }
+      ]
+    },
+    {
+      "id": 85,
+      "start": 297.72,
+      "end": 299.64,
+      "text": "We just go ahead and retrieve the most up to date information.",
+      "confidence": 0.9297,
+      "speaker": null,
+      "words": [
+        {
+          "word": "We",
+          "start": 297.72,
+          "end": 297.82,
+          "probability": 0.9934
+        },
+        {
+          "word": "just",
+          "start": 297.82,
+          "end": 297.96,
+          "probability": 0.9935
+        },
+        {
+          "word": "go",
+          "start": 297.96,
+          "end": 298.1,
+          "probability": 0.9979
+        },
+        {
+          "word": "ahead",
+          "start": 298.1,
+          "end": 298.26,
+          "probability": 0.9991
+        },
+        {
+          "word": "and",
+          "start": 298.26,
+          "end": 298.38,
+          "probability": 0.9954
+        },
+        {
+          "word": "retrieve",
+          "start": 298.38,
+          "end": 298.6,
+          "probability": 0.9978
+        },
+        {
+          "word": "the",
+          "start": 298.6,
+          "end": 298.78,
+          "probability": 0.9959
+        },
+        {
+          "word": "most",
+          "start": 298.78,
+          "end": 298.96,
+          "probability": 0.9994
+        },
+        {
+          "word": "up",
+          "start": 298.96,
+          "end": 299.12,
+          "probability": 0.6291
+        },
+        {
+          "word": "to",
+          "start": 299.12,
+          "end": 299.2,
+          "probability": 0.5614
+        },
+        {
+          "word": "date",
+          "start": 299.2,
+          "end": 299.28,
+          "probability": 0.9965
+        },
+        {
+          "word": "information.",
+          "start": 299.28,
+          "end": 299.64,
+          "probability": 0.997
+        }
+      ]
+    },
+    {
+      "id": 86,
+      "start": 300.42,
+      "end": 301.68,
+      "text": "The second problem, source.",
+      "confidence": 0.9694,
+      "speaker": null,
+      "words": [
+        {
+          "word": "The",
+          "start": 300.42,
+          "end": 300.68,
+          "probability": 0.9882
+        },
+        {
+          "word": "second",
+          "start": 300.68,
+          "end": 300.92,
+          "probability": 0.9961
+        },
+        {
+          "word": "problem,",
+          "start": 300.92,
+          "end": 301.26,
+          "probability": 0.9955
+        },
+        {
+          "word": "source.",
+          "start": 301.6,
+          "end": 301.68,
+          "probability": 0.8979
+        }
+      ]
+    },
+    {
+      "id": 87,
+      "start": 302.36,
+      "end": 308.94,
+      "text": "Well, the language language model is now being instructed to pay attention to primary source",
+      "confidence": 0.9351,
+      "speaker": null,
+      "words": [
+        {
+          "word": "Well,",
+          "start": 302.36,
+          "end": 302.54,
+          "probability": 0.9699
+        },
+        {
+          "word": "the",
+          "start": 303.0,
+          "end": 303.12,
+          "probability": 0.9886
+        },
+        {
+          "word": "language",
+          "start": 303.12,
+          "end": 303.34,
+          "probability": 0.2672
+        },
+        {
+          "word": "language",
+          "start": 303.34,
+          "end": 303.58,
+          "probability": 0.8603
+        },
+        {
+          "word": "model",
+          "start": 303.58,
+          "end": 303.8,
+          "probability": 0.9928
+        },
+        {
+          "word": "is",
+          "start": 303.8,
+          "end": 303.98,
+          "probability": 0.9822
+        },
+        {
+          "word": "now",
+          "start": 303.98,
+          "end": 304.18,
+          "probability": 0.9971
+        },
+        {
+          "word": "being",
+          "start": 304.18,
+          "end": 304.5,
+          "probability": 0.9958
+        },
+        {
+          "word": "instructed",
+          "start": 304.5,
+          "end": 305.18,
+          "probability": 0.9904
+        },
+        {
+          "word": "to",
+          "start": 305.18,
+          "end": 305.98,
+          "probability": 0.9971
+        },
+        {
+          "word": "pay",
+          "start": 305.98,
+          "end": 306.42,
+          "probability": 0.9971
+        },
+        {
+          "word": "attention",
+          "start": 306.42,
+          "end": 306.92,
+          "probability": 0.999
+        },
+        {
+          "word": "to",
+          "start": 306.92,
+          "end": 307.74,
+          "probability": 0.9976
+        },
+        {
+          "word": "primary",
+          "start": 307.74,
+          "end": 308.58,
+          "probability": 0.9942
+        },
+        {
+          "word": "source",
+          "start": 308.58,
+          "end": 308.94,
+          "probability": 0.9972
+        }
+      ]
+    },
+    {
+      "id": 88,
+      "start": 308.94,
+      "end": 310.92,
+      "text": "data before giving its response.",
+      "confidence": 0.9479,
+      "speaker": null,
+      "words": [
+        {
+          "word": "data",
+          "start": 308.94,
+          "end": 309.34,
+          "probability": 0.9995
+        },
+        {
+          "word": "before",
+          "start": 309.34,
+          "end": 309.86,
+          "probability": 0.9529
+        },
+        {
+          "word": "giving",
+          "start": 309.86,
+          "end": 310.34,
+          "probability": 0.9834
+        },
+        {
+          "word": "its",
+          "start": 310.34,
+          "end": 310.54,
+          "probability": 0.8065
+        },
+        {
+          "word": "response.",
+          "start": 310.54,
+          "end": 310.92,
+          "probability": 0.9972
+        }
+      ]
+    },
+    {
+      "id": 89,
+      "start": 311.1,
+      "end": 313.18,
+      "text": "And in fact, now being able to give evidence.",
+      "confidence": 0.9656,
+      "speaker": null,
+      "words": [
+        {
+          "word": "And",
+          "start": 311.1,
+          "end": 311.2,
+          "probability": 0.9806
+        },
+        {
+          "word": "in",
+          "start": 311.2,
+          "end": 311.28,
+          "probability": 0.9066
+        },
+        {
+          "word": "fact,",
+          "start": 311.28,
+          "end": 311.5,
+          "probability": 0.9995
+        },
+        {
+          "word": "now",
+          "start": 311.54,
+          "end": 311.78,
+          "probability": 0.9959
+        },
+        {
+          "word": "being",
+          "start": 311.78,
+          "end": 312.02,
+          "probability": 0.8137
+        },
+        {
+          "word": "able",
+          "start": 312.02,
+          "end": 312.34,
+          "probability": 0.9989
+        },
+        {
+          "word": "to",
+          "start": 312.34,
+          "end": 312.68,
+          "probability": 0.9994
+        },
+        {
+          "word": "give",
+          "start": 312.68,
+          "end": 312.86,
+          "probability": 0.9972
+        },
+        {
+          "word": "evidence.",
+          "start": 312.86,
+          "end": 313.18,
+          "probability": 0.9985
+        }
+      ]
+    },
+    {
+      "id": 90,
+      "start": 313.78,
+      "end": 318.36,
+      "text": "This makes it less likely to hallucinate or to leak data because it is less likely to",
+      "confidence": 0.9435,
+      "speaker": null,
+      "words": [
+        {
+          "word": "This",
+          "start": 313.78,
+          "end": 314.12,
+          "probability": 0.7219
+        },
+        {
+          "word": "makes",
+          "start": 314.12,
+          "end": 314.34,
+          "probability": 0.9827
+        },
+        {
+          "word": "it",
+          "start": 314.34,
+          "end": 314.5,
+          "probability": 0.995
+        },
+        {
+          "word": "less",
+          "start": 314.5,
+          "end": 314.68,
+          "probability": 0.9951
+        },
+        {
+          "word": "likely",
+          "start": 314.68,
+          "end": 315.04,
+          "probability": 0.999
+        },
+        {
+          "word": "to",
+          "start": 315.04,
+          "end": 315.32,
+          "probability": 0.9975
+        },
+        {
+          "word": "hallucinate",
+          "start": 315.32,
+          "end": 316.0,
+          "probability": 0.9846
+        },
+        {
+          "word": "or",
+          "start": 316.0,
+          "end": 316.38,
+          "probability": 0.9573
+        },
+        {
+          "word": "to",
+          "start": 316.38,
+          "end": 316.52,
+          "probability": 0.9888
+        },
+        {
+          "word": "leak",
+          "start": 316.52,
+          "end": 316.66,
+          "probability": 0.9979
+        },
+        {
+          "word": "data",
+          "start": 316.66,
+          "end": 316.96,
+          "probability": 0.9984
+        },
+        {
+          "word": "because",
+          "start": 316.96,
+          "end": 317.52,
+          "probability": 0.6691
+        },
+        {
+          "word": "it",
+          "start": 317.52,
+          "end": 317.64,
+          "probability": 0.9246
+        },
+        {
+          "word": "is",
+          "start": 317.64,
+          "end": 317.72,
+          "probability": 0.8379
+        },
+        {
+          "word": "less",
+          "start": 317.72,
+          "end": 317.92,
+          "probability": 0.9931
+        },
+        {
+          "word": "likely",
+          "start": 317.92,
+          "end": 318.16,
+          "probability": 0.999
+        },
+        {
+          "word": "to",
+          "start": 318.16,
+          "end": 318.36,
+          "probability": 0.998
+        }
+      ]
+    },
+    {
+      "id": 91,
+      "start": 318.36,
+      "end": 321.22,
+      "text": "rely only on information that I learned during training.",
+      "confidence": 0.8393,
+      "speaker": null,
+      "words": [
+        {
+          "word": "rely",
+          "start": 318.36,
+          "end": 318.68,
+          "probability": 0.9967
+        },
+        {
+          "word": "only",
+          "start": 318.68,
+          "end": 319.06,
+          "probability": 0.9438
+        },
+        {
+          "word": "on",
+          "start": 319.06,
+          "end": 319.42,
+          "probability": 0.9984
+        },
+        {
+          "word": "information",
+          "start": 319.42,
+          "end": 319.8,
+          "probability": 0.9929
+        },
+        {
+          "word": "that",
+          "start": 319.8,
+          "end": 320.02,
+          "probability": 0.5831
+        },
+        {
+          "word": "I",
+          "start": 320.02,
+          "end": 320.04,
+          "probability": 0.5109
+        },
+        {
+          "word": "learned",
+          "start": 320.04,
+          "end": 320.38,
+          "probability": 0.5425
+        },
+        {
+          "word": "during",
+          "start": 320.38,
+          "end": 320.88,
+          "probability": 0.9963
+        },
+        {
+          "word": "training.",
+          "start": 320.88,
+          "end": 321.22,
+          "probability": 0.989
+        }
+      ]
+    },
+    {
+      "id": 92,
+      "start": 321.84,
+      "end": 326.46,
+      "text": "It also allows us to get the model to have a behavior that can be very positive,",
+      "confidence": 0.9878,
+      "speaker": null,
+      "words": [
+        {
+          "word": "It",
+          "start": 321.84,
+          "end": 322.02,
+          "probability": 0.9043
+        },
+        {
+          "word": "also",
+          "start": 322.02,
+          "end": 322.26,
+          "probability": 0.9917
+        },
+        {
+          "word": "allows",
+          "start": 322.26,
+          "end": 322.56,
+          "probability": 0.9971
+        },
+        {
+          "word": "us",
+          "start": 322.56,
+          "end": 322.72,
+          "probability": 0.9938
+        },
+        {
+          "word": "to",
+          "start": 322.72,
+          "end": 322.86,
+          "probability": 0.9975
+        },
+        {
+          "word": "get",
+          "start": 322.86,
+          "end": 322.98,
+          "probability": 0.9965
+        },
+        {
+          "word": "the",
+          "start": 322.98,
+          "end": 323.12,
+          "probability": 0.9964
+        },
+        {
+          "word": "model",
+          "start": 323.12,
+          "end": 323.38,
+          "probability": 0.9972
+        },
+        {
+          "word": "to",
+          "start": 323.38,
+          "end": 323.8,
+          "probability": 0.9941
+        },
+        {
+          "word": "have",
+          "start": 323.8,
+          "end": 324.6,
+          "probability": 0.964
+        },
+        {
+          "word": "a",
+          "start": 324.6,
+          "end": 324.7,
+          "probability": 0.9935
+        },
+        {
+          "word": "behavior",
+          "start": 324.7,
+          "end": 325.06,
+          "probability": 0.976
+        },
+        {
+          "word": "that",
+          "start": 325.06,
+          "end": 325.5,
+          "probability": 0.9967
+        },
+        {
+          "word": "can",
+          "start": 325.5,
+          "end": 325.72,
+          "probability": 0.9991
+        },
+        {
+          "word": "be",
+          "start": 325.72,
+          "end": 325.86,
+          "probability": 0.9988
+        },
+        {
+          "word": "very",
+          "start": 325.86,
+          "end": 326.04,
+          "probability": 0.9972
+        },
+        {
+          "word": "positive,",
+          "start": 326.04,
+          "end": 326.46,
+          "probability": 0.9984
+        }
+      ]
+    },
+    {
+      "id": 93,
+      "start": 326.46,
+      "end": 328.9,
+      "text": "which is knowing when to say, I don't know.",
+      "confidence": 0.9187,
+      "speaker": null,
+      "words": [
+        {
+          "word": "which",
+          "start": 326.46,
+          "end": 326.72,
+          "probability": 0.9974
+        },
+        {
+          "word": "is",
+          "start": 326.72,
+          "end": 326.9,
+          "probability": 0.9989
+        },
+        {
+          "word": "knowing",
+          "start": 326.9,
+          "end": 327.46,
+          "probability": 0.9467
+        },
+        {
+          "word": "when",
+          "start": 327.46,
+          "end": 327.68,
+          "probability": 0.9986
+        },
+        {
+          "word": "to",
+          "start": 327.68,
+          "end": 327.86,
+          "probability": 0.9991
+        },
+        {
+          "word": "say,",
+          "start": 327.86,
+          "end": 328.1,
+          "probability": 0.9987
+        },
+        {
+          "word": "I",
+          "start": 328.26,
+          "end": 328.34,
+          "probability": 0.3327
+        },
+        {
+          "word": "don't",
+          "start": 328.34,
+          "end": 328.66,
+          "probability": 0.9976
+        },
+        {
+          "word": "know.",
+          "start": 328.66,
+          "end": 328.9,
+          "probability": 0.999
+        }
+      ]
+    },
+    {
+      "id": 94,
+      "start": 329.62,
+      "end": 334.9,
+      "text": "If the user's question cannot be reliably answered based on your data store,",
+      "confidence": 0.9765,
+      "speaker": null,
+      "words": [
+        {
+          "word": "If",
+          "start": 329.62,
+          "end": 329.8,
+          "probability": 0.9956
+        },
+        {
+          "word": "the",
+          "start": 329.8,
+          "end": 329.94,
+          "probability": 0.9975
+        },
+        {
+          "word": "user's",
+          "start": 329.94,
+          "end": 330.34,
+          "probability": 0.9743
+        },
+        {
+          "word": "question",
+          "start": 330.34,
+          "end": 330.82,
+          "probability": 0.9952
+        },
+        {
+          "word": "cannot",
+          "start": 330.82,
+          "end": 331.52,
+          "probability": 0.9835
+        },
+        {
+          "word": "be",
+          "start": 331.52,
+          "end": 331.94,
+          "probability": 0.9993
+        },
+        {
+          "word": "reliably",
+          "start": 331.94,
+          "end": 332.38,
+          "probability": 0.998
+        },
+        {
+          "word": "answered",
+          "start": 332.38,
+          "end": 333.0,
+          "probability": 0.9969
+        },
+        {
+          "word": "based",
+          "start": 333.0,
+          "end": 333.58,
+          "probability": 0.9012
+        },
+        {
+          "word": "on",
+          "start": 333.58,
+          "end": 334.02,
+          "probability": 0.9994
+        },
+        {
+          "word": "your",
+          "start": 334.02,
+          "end": 334.36,
+          "probability": 0.991
+        },
+        {
+          "word": "data",
+          "start": 334.36,
+          "end": 334.52,
+          "probability": 0.8709
+        },
+        {
+          "word": "store,",
+          "start": 334.52,
+          "end": 334.9,
+          "probability": 0.9912
+        }
+      ]
+    },
+    {
+      "id": 95,
+      "start": 335.4,
+      "end": 339.36,
+      "text": "the model should say, I don't know, instead of making up something that is believable",
+      "confidence": 0.9939,
+      "speaker": null,
+      "words": [
+        {
+          "word": "the",
+          "start": 335.4,
+          "end": 335.56,
+          "probability": 0.9925
+        },
+        {
+          "word": "model",
+          "start": 335.56,
+          "end": 335.78,
+          "probability": 0.9965
+        },
+        {
+          "word": "should",
+          "start": 335.78,
+          "end": 335.94,
+          "probability": 0.9976
+        },
+        {
+          "word": "say,",
+          "start": 335.94,
+          "end": 336.12,
+          "probability": 0.9977
+        },
+        {
+          "word": "I",
+          "start": 336.22,
+          "end": 336.28,
+          "probability": 0.9447
+        },
+        {
+          "word": "don't",
+          "start": 336.28,
+          "end": 336.42,
+          "probability": 0.9994
+        },
+        {
+          "word": "know,",
+          "start": 336.42,
+          "end": 336.7,
+          "probability": 0.9994
+        },
+        {
+          "word": "instead",
+          "start": 336.76,
+          "end": 336.94,
+          "probability": 0.9923
+        },
+        {
+          "word": "of",
+          "start": 336.94,
+          "end": 337.1,
+          "probability": 0.9986
+        },
+        {
+          "word": "making",
+          "start": 337.1,
+          "end": 337.28,
+          "probability": 0.999
+        },
+        {
+          "word": "up",
+          "start": 337.28,
+          "end": 337.56,
+          "probability": 0.9975
+        },
+        {
+          "word": "something",
+          "start": 337.56,
+          "end": 337.82,
+          "probability": 0.9987
+        },
+        {
+          "word": "that",
+          "start": 337.82,
+          "end": 338.26,
+          "probability": 0.999
+        },
+        {
+          "word": "is",
+          "start": 338.26,
+          "end": 338.7,
+          "probability": 0.9984
+        },
+        {
+          "word": "believable",
+          "start": 338.7,
+          "end": 339.36,
+          "probability": 0.997
+        }
+      ]
+    },
+    {
+      "id": 96,
+      "start": 339.36,
+      "end": 341.26,
+      "text": "and may mislead the user.",
+      "confidence": 0.8236,
+      "speaker": null,
+      "words": [
+        {
+          "word": "and",
+          "start": 339.36,
+          "end": 340.2,
+          "probability": 0.7319
+        },
+        {
+          "word": "may",
+          "start": 340.2,
+          "end": 340.52,
+          "probability": 0.5969
+        },
+        {
+          "word": "mislead",
+          "start": 340.52,
+          "end": 340.94,
+          "probability": 0.7955
+        },
+        {
+          "word": "the",
+          "start": 340.94,
+          "end": 341.04,
+          "probability": 0.9976
+        },
+        {
+          "word": "user.",
+          "start": 341.04,
+          "end": 341.26,
+          "probability": 0.9962
+        }
+      ]
+    },
+    {
+      "id": 97,
+      "start": 342.06,
+      "end": 345.92,
+      "text": "This can have a negative effect as well, though, because if the retriever is not",
+      "confidence": 0.9158,
+      "speaker": null,
+      "words": [
+        {
+          "word": "This",
+          "start": 342.04,
+          "end": 342.32,
+          "probability": 0.4696
+        },
+        {
+          "word": "can",
+          "start": 342.32,
+          "end": 342.5,
+          "probability": 0.6344
+        },
+        {
+          "word": "have",
+          "start": 342.5,
+          "end": 342.72,
+          "probability": 0.9952
+        },
+        {
+          "word": "a",
+          "start": 342.72,
+          "end": 342.82,
+          "probability": 0.9887
+        },
+        {
+          "word": "negative",
+          "start": 342.82,
+          "end": 343.06,
+          "probability": 0.9981
+        },
+        {
+          "word": "effect",
+          "start": 343.06,
+          "end": 343.46,
+          "probability": 0.9738
+        },
+        {
+          "word": "as",
+          "start": 343.46,
+          "end": 343.6,
+          "probability": 0.9191
+        },
+        {
+          "word": "well,",
+          "start": 343.6,
+          "end": 343.86,
+          "probability": 0.9969
+        },
+        {
+          "word": "though,",
+          "start": 343.92,
+          "end": 344.06,
+          "probability": 0.9002
+        },
+        {
+          "word": "because",
+          "start": 344.16,
+          "end": 344.44,
+          "probability": 0.9925
+        },
+        {
+          "word": "if",
+          "start": 344.44,
+          "end": 344.66,
+          "probability": 0.9749
+        },
+        {
+          "word": "the",
+          "start": 344.66,
+          "end": 344.78,
+          "probability": 0.9938
+        },
+        {
+          "word": "retriever",
+          "start": 344.78,
+          "end": 345.36,
+          "probability": 0.9079
+        },
+        {
+          "word": "is",
+          "start": 345.36,
+          "end": 345.64,
+          "probability": 0.9941
+        },
+        {
+          "word": "not",
+          "start": 345.64,
+          "end": 345.92,
+          "probability": 0.9982
+        }
+      ]
+    },
+    {
+      "id": 98,
+      "start": 345.92,
+      "end": 351.48,
+      "text": "sufficiently good to give the large language model the best, most highest quality",
+      "confidence": 0.9357,
+      "speaker": null,
+      "words": [
+        {
+          "word": "sufficiently",
+          "start": 345.92,
+          "end": 346.56,
+          "probability": 0.9959
+        },
+        {
+          "word": "good",
+          "start": 346.56,
+          "end": 347.2,
+          "probability": 0.9962
+        },
+        {
+          "word": "to",
+          "start": 347.2,
+          "end": 347.9,
+          "probability": 0.9491
+        },
+        {
+          "word": "give",
+          "start": 347.9,
+          "end": 348.52,
+          "probability": 0.9953
+        },
+        {
+          "word": "the",
+          "start": 348.52,
+          "end": 348.94,
+          "probability": 0.9771
+        },
+        {
+          "word": "large",
+          "start": 348.94,
+          "end": 349.12,
+          "probability": 0.8629
+        },
+        {
+          "word": "language",
+          "start": 349.12,
+          "end": 349.32,
+          "probability": 0.7326
+        },
+        {
+          "word": "model",
+          "start": 349.32,
+          "end": 349.7,
+          "probability": 0.9984
+        },
+        {
+          "word": "the",
+          "start": 349.7,
+          "end": 350.1,
+          "probability": 0.9874
+        },
+        {
+          "word": "best,",
+          "start": 350.1,
+          "end": 350.5,
+          "probability": 0.995
+        },
+        {
+          "word": "most",
+          "start": 350.62,
+          "end": 350.72,
+          "probability": 0.9375
+        },
+        {
+          "word": "highest",
+          "start": 350.72,
+          "end": 350.98,
+          "probability": 0.943
+        },
+        {
+          "word": "quality",
+          "start": 350.98,
+          "end": 351.48,
+          "probability": 0.7935
+        }
+      ]
+    },
+    {
+      "id": 99,
+      "start": 351.48,
+      "end": 356.84,
+      "text": "grounding information, then maybe the user's query that is answerable doesn't get an answer.",
+      "confidence": 0.9755,
+      "speaker": null,
+      "words": [
+        {
+          "word": "grounding",
+          "start": 351.48,
+          "end": 352.0,
+          "probability": 0.8445
+        },
+        {
+          "word": "information,",
+          "start": 352.0,
+          "end": 352.6,
+          "probability": 0.9982
+        },
+        {
+          "word": "then",
+          "start": 353.1,
+          "end": 353.34,
+          "probability": 0.9793
+        },
+        {
+          "word": "maybe",
+          "start": 353.34,
+          "end": 353.68,
+          "probability": 0.9391
+        },
+        {
+          "word": "the",
+          "start": 353.68,
+          "end": 353.98,
+          "probability": 0.9898
+        },
+        {
+          "word": "user's",
+          "start": 353.98,
+          "end": 354.26,
+          "probability": 0.9752
+        },
+        {
+          "word": "query",
+          "start": 354.26,
+          "end": 354.46,
+          "probability": 0.9885
+        },
+        {
+          "word": "that",
+          "start": 354.46,
+          "end": 355.02,
+          "probability": 0.9857
+        },
+        {
+          "word": "is",
+          "start": 355.02,
+          "end": 355.22,
+          "probability": 0.9955
+        },
+        {
+          "word": "answerable",
+          "start": 355.22,
+          "end": 355.86,
+          "probability": 0.9911
+        },
+        {
+          "word": "doesn't",
+          "start": 355.86,
+          "end": 356.34,
+          "probability": 0.9762
+        },
+        {
+          "word": "get",
+          "start": 356.34,
+          "end": 356.52,
+          "probability": 0.9984
+        },
+        {
+          "word": "an",
+          "start": 356.52,
+          "end": 356.6,
+          "probability": 0.995
+        },
+        {
+          "word": "answer.",
+          "start": 356.6,
+          "end": 356.84,
+          "probability": 0.9998
+        }
+      ]
+    },
+    {
+      "id": 100,
+      "start": 357.36,
+      "end": 361.02,
+      "text": "So this is actually why lots of folks, including many of us here at IBM,",
+      "confidence": 0.9631,
+      "speaker": null,
+      "words": [
+        {
+          "word": "So",
+          "start": 357.36,
+          "end": 357.54,
+          "probability": 0.8918
+        },
+        {
+          "word": "this",
+          "start": 357.54,
+          "end": 357.76,
+          "probability": 0.7994
+        },
+        {
+          "word": "is",
+          "start": 357.76,
+          "end": 357.88,
+          "probability": 0.9991
+        },
+        {
+          "word": "actually",
+          "start": 357.88,
+          "end": 358.18,
+          "probability": 0.9898
+        },
+        {
+          "word": "why",
+          "start": 358.18,
+          "end": 358.52,
+          "probability": 0.9988
+        },
+        {
+          "word": "lots",
+          "start": 358.52,
+          "end": 359.14,
+          "probability": 0.9832
+        },
+        {
+          "word": "of",
+          "start": 359.14,
+          "end": 359.28,
+          "probability": 0.9994
+        },
+        {
+          "word": "folks,",
+          "start": 359.28,
+          "end": 359.52,
+          "probability": 0.9959
+        },
+        {
+          "word": "including",
+          "start": 359.54,
+          "end": 359.82,
+          "probability": 0.999
+        },
+        {
+          "word": "many",
+          "start": 359.82,
+          "end": 360.12,
+          "probability": 0.9979
+        },
+        {
+          "word": "of",
+          "start": 360.12,
+          "end": 360.26,
+          "probability": 0.9993
+        },
+        {
+          "word": "us",
+          "start": 360.26,
+          "end": 360.38,
+          "probability": 0.9979
+        },
+        {
+          "word": "here",
+          "start": 360.38,
+          "end": 360.6,
+          "probability": 0.9945
+        },
+        {
+          "word": "at",
+          "start": 360.6,
+          "end": 360.78,
+          "probability": 0.8039
+        },
+        {
+          "word": "IBM,",
+          "start": 360.78,
+          "end": 361.02,
+          "probability": 0.9972
+        }
+      ]
+    },
+    {
+      "id": 101,
+      "start": 361.6,
+      "end": 363.24,
+      "text": "are working the problem on both sides.",
+      "confidence": 0.9746,
+      "speaker": null,
+      "words": [
+        {
+          "word": "are",
+          "start": 361.6,
+          "end": 361.82,
+          "probability": 0.9974
+        },
+        {
+          "word": "working",
+          "start": 361.82,
+          "end": 362.28,
+          "probability": 0.9984
+        },
+        {
+          "word": "the",
+          "start": 362.28,
+          "end": 362.42,
+          "probability": 0.9806
+        },
+        {
+          "word": "problem",
+          "start": 362.42,
+          "end": 362.66,
+          "probability": 0.9988
+        },
+        {
+          "word": "on",
+          "start": 362.66,
+          "end": 362.84,
+          "probability": 0.8623
+        },
+        {
+          "word": "both",
+          "start": 362.84,
+          "end": 362.96,
+          "probability": 0.9989
+        },
+        {
+          "word": "sides.",
+          "start": 362.96,
+          "end": 363.24,
+          "probability": 0.9859
+        }
+      ]
+    },
+    {
+      "id": 102,
+      "start": 363.58,
+      "end": 370.52,
+      "text": "We are both working to improve the retriever to give the large language model the best quality",
+      "confidence": 0.9827,
+      "speaker": null,
+      "words": [
+        {
+          "word": "We",
+          "start": 363.58,
+          "end": 363.82,
+          "probability": 0.9984
+        },
+        {
+          "word": "are",
+          "start": 363.82,
+          "end": 364.02,
+          "probability": 0.997
+        },
+        {
+          "word": "both",
+          "start": 364.02,
+          "end": 364.32,
+          "probability": 0.9987
+        },
+        {
+          "word": "working",
+          "start": 364.32,
+          "end": 364.68,
+          "probability": 0.999
+        },
+        {
+          "word": "to",
+          "start": 364.68,
+          "end": 364.86,
+          "probability": 0.9989
+        },
+        {
+          "word": "improve",
+          "start": 364.86,
+          "end": 365.24,
+          "probability": 0.9981
+        },
+        {
+          "word": "the",
+          "start": 365.24,
+          "end": 365.7,
+          "probability": 0.998
+        },
+        {
+          "word": "retriever",
+          "start": 365.7,
+          "end": 366.44,
+          "probability": 0.9969
+        },
+        {
+          "word": "to",
+          "start": 366.44,
+          "end": 367.2,
+          "probability": 0.7877
+        },
+        {
+          "word": "give",
+          "start": 367.2,
+          "end": 367.72,
+          "probability": 0.9969
+        },
+        {
+          "word": "the",
+          "start": 367.72,
+          "end": 368.08,
+          "probability": 0.9947
+        },
+        {
+          "word": "large",
+          "start": 368.08,
+          "end": 368.58,
+          "probability": 0.9909
+        },
+        {
+          "word": "language",
+          "start": 368.58,
+          "end": 368.74,
+          "probability": 0.9881
+        },
+        {
+          "word": "model",
+          "start": 368.74,
+          "end": 369.08,
+          "probability": 0.9992
+        },
+        {
+          "word": "the",
+          "start": 369.08,
+          "end": 369.24,
+          "probability": 0.9948
+        },
+        {
+          "word": "best",
+          "start": 369.24,
+          "end": 369.6,
+          "probability": 0.9986
+        },
+        {
+          "word": "quality",
+          "start": 369.6,
+          "end": 370.52,
+          "probability": 0.9703
+        }
+      ]
+    },
+    {
+      "id": 103,
+      "start": 370.52,
+      "end": 376.02,
+      "text": "data on which to ground its response and also the generative part so that the LLM can give",
+      "confidence": 0.9193,
+      "speaker": null,
+      "words": [
+        {
+          "word": "data",
+          "start": 370.52,
+          "end": 371.24,
+          "probability": 0.7203
+        },
+        {
+          "word": "on",
+          "start": 371.24,
+          "end": 371.58,
+          "probability": 0.9648
+        },
+        {
+          "word": "which",
+          "start": 371.58,
+          "end": 371.72,
+          "probability": 0.998
+        },
+        {
+          "word": "to",
+          "start": 371.72,
+          "end": 371.86,
+          "probability": 0.9969
+        },
+        {
+          "word": "ground",
+          "start": 371.86,
+          "end": 372.04,
+          "probability": 0.9914
+        },
+        {
+          "word": "its",
+          "start": 372.04,
+          "end": 372.22,
+          "probability": 0.9304
+        },
+        {
+          "word": "response",
+          "start": 372.22,
+          "end": 372.52,
+          "probability": 0.9973
+        },
+        {
+          "word": "and",
+          "start": 372.52,
+          "end": 373.34,
+          "probability": 0.4991
+        },
+        {
+          "word": "also",
+          "start": 373.34,
+          "end": 373.82,
+          "probability": 0.9769
+        },
+        {
+          "word": "the",
+          "start": 373.82,
+          "end": 374.2,
+          "probability": 0.9751
+        },
+        {
+          "word": "generative",
+          "start": 374.2,
+          "end": 374.54,
+          "probability": 0.9958
+        },
+        {
+          "word": "part",
+          "start": 374.54,
+          "end": 374.78,
+          "probability": 0.798
+        },
+        {
+          "word": "so",
+          "start": 374.78,
+          "end": 375.0,
+          "probability": 0.8345
+        },
+        {
+          "word": "that",
+          "start": 375.0,
+          "end": 375.18,
+          "probability": 0.9948
+        },
+        {
+          "word": "the",
+          "start": 375.18,
+          "end": 375.34,
+          "probability": 0.9923
+        },
+        {
+          "word": "LLM",
+          "start": 375.34,
+          "end": 375.7,
+          "probability": 0.8943
+        },
+        {
+          "word": "can",
+          "start": 375.7,
+          "end": 375.86,
+          "probability": 0.9923
+        },
+        {
+          "word": "give",
+          "start": 375.86,
+          "end": 376.02,
+          "probability": 0.9955
+        }
+      ]
+    },
+    {
+      "id": 104,
+      "start": 376.02,
+      "end": 380.58,
+      "text": "the richest best response finally to the user when it generates the answer.",
+      "confidence": 0.9661,
+      "speaker": null,
+      "words": [
+        {
+          "word": "the",
+          "start": 376.02,
+          "end": 376.18,
+          "probability": 0.9978
+        },
+        {
+          "word": "richest",
+          "start": 376.18,
+          "end": 376.46,
+          "probability": 0.9961
+        },
+        {
+          "word": "best",
+          "start": 376.46,
+          "end": 377.16,
+          "probability": 0.7692
+        },
+        {
+          "word": "response",
+          "start": 377.16,
+          "end": 377.58,
+          "probability": 0.9942
+        },
+        {
+          "word": "finally",
+          "start": 377.58,
+          "end": 378.08,
+          "probability": 0.942
+        },
+        {
+          "word": "to",
+          "start": 378.08,
+          "end": 378.62,
+          "probability": 0.98
+        },
+        {
+          "word": "the",
+          "start": 378.62,
+          "end": 378.76,
+          "probability": 0.9988
+        },
+        {
+          "word": "user",
+          "start": 378.76,
+          "end": 378.98,
+          "probability": 0.9973
+        },
+        {
+          "word": "when",
+          "start": 378.98,
+          "end": 379.42,
+          "probability": 0.9858
+        },
+        {
+          "word": "it",
+          "start": 379.42,
+          "end": 379.54,
+          "probability": 0.996
+        },
+        {
+          "word": "generates",
+          "start": 379.54,
+          "end": 379.78,
+          "probability": 0.9976
+        },
+        {
+          "word": "the",
+          "start": 379.78,
+          "end": 380.32,
+          "probability": 0.9126
+        },
+        {
+          "word": "answer.",
+          "start": 380.32,
+          "end": 380.58,
+          "probability": 0.9921
+        }
+      ]
+    },
+    {
+      "id": 105,
+      "start": 380.9,
+      "end": 385.5,
+      "text": "Thank you for learning more about RAG and like and subscribe to the channel.",
+      "confidence": 0.9295,
+      "speaker": null,
+      "words": [
+        {
+          "word": "Thank",
+          "start": 380.9,
+          "end": 381.32,
+          "probability": 0.9532
+        },
+        {
+          "word": "you",
+          "start": 381.32,
+          "end": 381.5,
+          "probability": 0.9955
+        },
+        {
+          "word": "for",
+          "start": 381.5,
+          "end": 381.84,
+          "probability": 0.9978
+        },
+        {
+          "word": "learning",
+          "start": 381.84,
+          "end": 382.5,
+          "probability": 0.9959
+        },
+        {
+          "word": "more",
+          "start": 382.5,
+          "end": 382.88,
+          "probability": 0.9986
+        },
+        {
+          "word": "about",
+          "start": 382.88,
+          "end": 383.28,
+          "probability": 0.9988
+        },
+        {
+          "word": "RAG",
+          "start": 383.28,
+          "end": 383.74,
+          "probability": 0.8975
+        },
+        {
+          "word": "and",
+          "start": 383.74,
+          "end": 384.28,
+          "probability": 0.9291
+        },
+        {
+          "word": "like",
+          "start": 384.28,
+          "end": 384.56,
+          "probability": 0.9562
+        },
+        {
+          "word": "and",
+          "start": 384.56,
+          "end": 384.7,
+          "probability": 0.9873
+        },
+        {
+          "word": "subscribe",
+          "start": 384.7,
+          "end": 384.94,
+          "probability": 0.9938
+        },
+        {
+          "word": "to",
+          "start": 384.94,
+          "end": 385.18,
+          "probability": 0.9139
+        },
+        {
+          "word": "the",
+          "start": 385.18,
+          "end": 385.2,
+          "probability": 0.4009
+        },
+        {
+          "word": "channel.",
+          "start": 385.2,
+          "end": 385.5,
+          "probability": 0.9944
+        }
+      ]
+    },
+    {
+      "id": 106,
+      "start": 385.66,
+      "end": 386.06,
+      "text": "Thank you.",
+      "confidence": 0.9811,
+      "speaker": null,
+      "words": [
+        {
+          "word": "Thank",
+          "start": 385.66,
+          "end": 385.9,
+          "probability": 0.9801
+        },
+        {
+          "word": "you.",
+          "start": 385.9,
+          "end": 386.06,
+          "probability": 0.9822
+        }
+      ]
+    }
+  ],
+  "language": "en",
+  "model_used": "small",
+  "duration_seconds": 386.06,
+  "json_path": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\5391746e-d544-4641-ac0f-4bd14240ee02\\transcript.json",
+  "txt_path": "C:\\Users\\Ganesh\\Documents\\NIT-AP\\ai-services\\video-agent\\output\\5391746e-d544-4641-ac0f-4bd14240ee02\\transcript.txt"
+}

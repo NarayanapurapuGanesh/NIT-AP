@@ -7,6 +7,7 @@ import { Panel, Group as PanelGroup, Separator as PanelResizeHandle } from "reac
 import { getSession, getNextQuestion, completeSession, runCode, submitCode, QuestionResponse, SessionResponse } from "@/lib/api/coding";
 import CodeEditor from "@/components/coding/CodeEditor";
 import ProblemDescription from "@/components/coding/ProblemDescription";
+import AssessmentReport from "@/components/coding/AssessmentReport";
 import ConsolePanel from "@/components/coding/ConsolePanel";
 import EditorToolbar from "@/components/coding/EditorToolbar";
 import { motion } from "framer-motion";
@@ -31,6 +32,9 @@ export default function CodingArena() {
   const [runResult, setRunResult] = useState<any>(null);
   const [submitResult, setSubmitResult] = useState<any>(null);
   const [activeTab, setActiveTab] = useState<"testcase" | "console" | "result" | "complexity" | "ai_feedback">("testcase");
+
+  const [showReport, setShowReport] = useState(false);
+  const [finalReport, setFinalReport] = useState<any>(null);
 
   const [theme, setTheme] = useState("vs-dark");
   const [fontSize, setFontSize] = useState(14);
@@ -79,11 +83,13 @@ export default function CodingArena() {
         clearInterval(timerId);
         alert("Time is up! Compiling final dossier and ending session...");
         try {
-          await completeSession(sessionId);
+          const res = await completeSession(sessionId);
+          setFinalReport(res.report);
+          setShowReport(true);
         } catch (e) {
           console.error(e);
+          router.push("/dashboard/coding-agent");
         }
-        router.push("/dashboard/coding-agent");
       }
     };
     
@@ -182,11 +188,13 @@ export default function CodingArena() {
       if (sess.status === "completed" || err.message?.includes("Maximum questions reached") || err.message?.includes("No more questions")) {
         alert("Assessment complete! Compiling your final dossier...");
         try {
-           await completeSession(sessionId);
+           const res = await completeSession(sessionId);
+           setFinalReport(res.report);
+           setShowReport(true);
         } catch(e) {
            console.error(e);
+           router.push("/dashboard/coding-agent");
         }
-        router.push("/dashboard/coding-agent");
       }
     } finally {
       setIsLoading(false);
@@ -258,6 +266,14 @@ export default function CodingArena() {
   }
 
   const isCompleted = session.status === "completed";
+
+  if (showReport && finalReport) {
+    return (
+      <div className="h-screen w-full bg-[#0C0C0E] overflow-hidden">
+        <AssessmentReport report={finalReport} />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col h-screen bg-[#0C0C0E] overflow-hidden font-sans">
