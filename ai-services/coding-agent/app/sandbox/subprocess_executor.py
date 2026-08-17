@@ -145,24 +145,23 @@ class SubprocessExecutor:
                 stderr=f"Compiler not found. Please ensure {compile_cmd[0]} is installed and in PATH.\n[WinError 2] The system cannot find the file specified",
                 compiled_ok=False,
             )
-
-            if result.returncode != 0:
-                return ExecutionResult(
-                    status=ExecutionStatus.COMPILATION_ERROR,
-                    stderr=result.stderr,
-                    exit_code=result.returncode,
-                    compiled_ok=False,
-                    compilation_error=result.stderr,
-                )
-
-            return ExecutionResult(status=ExecutionStatus.SUCCESS, compiled_ok=True)
-
         except subprocess.TimeoutExpired:
             return ExecutionResult(
                 status=ExecutionStatus.TIMEOUT,
                 stderr="Compilation timed out",
                 compiled_ok=False,
             )
+
+        if result.returncode != 0:
+            return ExecutionResult(
+                status=ExecutionStatus.COMPILATION_ERROR,
+                stderr=result.stderr,
+                exit_code=result.returncode,
+                compiled_ok=False,
+                compilation_error=result.stderr,
+            )
+
+        return ExecutionResult(status=ExecutionStatus.SUCCESS, compiled_ok=True)
 
     def _run(
         self,
@@ -198,26 +197,6 @@ class SubprocessExecutor:
                 exit_code=-1,
                 execution_time_ms=0,
             )
-
-            elapsed_ms = (time.perf_counter() - start_time) * 1000
-
-            if result.returncode != 0:
-                return ExecutionResult(
-                    status=ExecutionStatus.RUNTIME_ERROR,
-                    stdout=result.stdout[:settings.sandbox.max_output_bytes],
-                    stderr=result.stderr[:settings.sandbox.max_output_bytes],
-                    exit_code=result.returncode,
-                    execution_time_ms=round(elapsed_ms, 2),
-                )
-
-            return ExecutionResult(
-                status=ExecutionStatus.SUCCESS,
-                stdout=result.stdout[:settings.sandbox.max_output_bytes],
-                stderr=result.stderr[:settings.sandbox.max_output_bytes],
-                exit_code=0,
-                execution_time_ms=round(elapsed_ms, 2),
-            )
-
         except subprocess.TimeoutExpired:
             elapsed_ms = (time.perf_counter() - start_time) * 1000
             return ExecutionResult(
@@ -225,3 +204,22 @@ class SubprocessExecutor:
                 stderr=f"Time Limit Exceeded ({request.timeout_seconds}s)",
                 execution_time_ms=round(elapsed_ms, 2),
             )
+
+        elapsed_ms = (time.perf_counter() - start_time) * 1000
+
+        if result.returncode != 0:
+            return ExecutionResult(
+                status=ExecutionStatus.RUNTIME_ERROR,
+                stdout=result.stdout[:settings.sandbox.max_output_bytes],
+                stderr=result.stderr[:settings.sandbox.max_output_bytes],
+                exit_code=result.returncode,
+                execution_time_ms=round(elapsed_ms, 2),
+            )
+
+        return ExecutionResult(
+            status=ExecutionStatus.SUCCESS,
+            stdout=result.stdout[:settings.sandbox.max_output_bytes],
+            stderr=result.stderr[:settings.sandbox.max_output_bytes],
+            exit_code=0,
+            execution_time_ms=round(elapsed_ms, 2),
+        )

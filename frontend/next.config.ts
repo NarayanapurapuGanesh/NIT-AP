@@ -11,6 +11,10 @@ const nextConfig: NextConfig = {
         source: '/api/coding/:path*',
         destination: 'http://127.0.0.1:8015/coding/:path*',
       },
+      {
+        source: '/api/interaction/:path*',
+        destination: 'http://127.0.0.1:8020/api/interaction/:path*',
+      },
     ];
   },
 };

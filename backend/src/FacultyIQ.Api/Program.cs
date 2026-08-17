@@ -16,7 +16,11 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddPersistence(builder.Configuration);
 
 // Add API & Security Services
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
+    });
 builder.Services.AddCustomApiVersioning();
 builder.Services.AddCustomSwagger();
 builder.Services.AddCustomAuthentication(builder.Configuration);

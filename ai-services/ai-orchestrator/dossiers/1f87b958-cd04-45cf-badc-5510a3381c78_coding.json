@@ -1,0 +1,505 @@
+{
+    "candidate_name": "John Doe",
+    "session_id": "1f87b958-cd04-45cf-badc-5510a3381c78",
+    "report": {
+        "session": {
+            "id": "1f87b958-cd04-45cf-badc-5510a3381c78",
+            "candidate_name": "John Doe",
+            "candidate_email": "john@example.com",
+            "department": "Software Engineering",
+            "programming_language": "python",
+            "difficulty": "medium",
+            "status": "completed",
+            "started_at": "2026-08-16T06:57:15.538905",
+            "completed_at": "2026-08-16T06:57:53.165391"
+        },
+        "submissions": [
+            {
+                "question": {
+                    "id": "arr-001",
+                    "title": "Two Sum",
+                    "category": "arrays",
+                    "difficulty": "easy",
+                    "bloom_level": "Apply"
+                },
+                "submission": {
+                    "language": "cpp",
+                    "code_length": 130,
+                    "submitted_at": "2026-08-16T06:57:38.891346"
+                },
+                "test_results": {
+                    "total": 5,
+                    "passed": 0,
+                    "failed": 5,
+                    "pass_rate": 0.0,
+                    "public_passed": 0,
+                    "public_total": 2,
+                    "hidden_passed": 0,
+                    "hidden_total": 3,
+                    "results": [
+                        {
+                            "description": "Basic case",
+                            "input": "2 7 11 15\n9",
+                            "expected_output": "0 1",
+                            "actual_output": "",
+                            "verdict": "wrong_answer",
+                            "execution_time_ms": 0.0,
+                            "is_hidden": false,
+                            "is_stress": false,
+                            "is_edge_case": false,
+                            "error": ""
+                        },
+                        {
+                            "description": "Non-adjacent pair",
+                            "input": "3 2 4\n6",
+                            "expected_output": "1 2",
+                            "actual_output": "",
+                            "verdict": "wrong_answer",
+                            "execution_time_ms": 0.0,
+                            "is_hidden": false,
+                            "is_stress": false,
+                            "is_edge_case": false,
+                            "error": ""
+                        },
+                        {
+                            "description": "Duplicate values",
+                            "input": "3 3\n6",
+                            "expected_output": "0 1",
+                            "actual_output": "",
+                            "verdict": "wrong_answer",
+                            "execution_time_ms": 0.0,
+                            "is_hidden": true,
+                            "is_stress": false,
+                            "is_edge_case": false,
+                            "error": ""
+                        },
+                        {
+                            "description": "Larger array",
+                            "input": "1 2 3 4 5 6 7 8 9 10\n19",
+                            "expected_output": "8 9",
+                            "actual_output": "",
+                            "verdict": "wrong_answer",
+                            "execution_time_ms": 0.0,
+                            "is_hidden": true,
+                            "is_stress": false,
+                            "is_edge_case": false,
+                            "error": ""
+                        },
+                        {
+                            "description": "Negative numbers",
+                            "input": "-1 -2 -3 -4 -5\n-8",
+                            "expected_output": "2 4",
+                            "actual_output": "",
+                            "verdict": "wrong_answer",
+                            "execution_time_ms": 0.0,
+                            "is_hidden": true,
+                            "is_stress": false,
+                            "is_edge_case": true,
+                            "error": ""
+                        }
+                    ]
+                },
+                "complexity_analysis": {
+                    "estimated_time_complexity": "O(n)",
+                    "estimated_space_complexity": "O(1)",
+                    "confidence": 0.55
+                },
+                "static_analysis": {
+                    "maintainability_score": 100.0,
+                    "total_issues": 0,
+                    "errors": 0,
+                    "warnings": 0,
+                    "info": 0,
+                    "metrics": {
+                        "total_lines": 7,
+                        "code_lines": 5,
+                        "blank_lines": 1,
+                        "comment_lines": 1,
+                        "cyclomatic_complexity": 1
+                    },
+                    "issues": []
+                },
+                "explanation_evaluation": null,
+                "viva_evaluation": null,
+                "scores": {
+                    "Problem Solving & Algorithmic Thinking": 0.0,
+                    "Code Correctness & Reliability": 0.0,
+                    "Code Quality & Software Engineering": 0,
+                    "Optimization & Complexity": 0,
+                    "Explanation & Teaching Ability": 0.0,
+                    "overall": 0.0
+                }
+            },
+            {
+                "question": {
+                    "id": "str-001",
+                    "title": "Valid Anagram",
+                    "category": "strings",
+                    "difficulty": "easy",
+                    "bloom_level": "Apply"
+                },
+                "submission": {
+                    "language": "cpp",
+                    "code_length": 77,
+                    "submitted_at": "2026-08-16T06:57:43.735775"
+                },
+                "test_results": {
+                    "total": 3,
+                    "passed": 0,
+                    "failed": 3,
+                    "pass_rate": 0.0,
+                    "public_passed": 0,
+                    "public_total": 2,
+                    "hidden_passed": 0,
+                    "hidden_total": 1,
+                    "results": [
+                        {
+                            "description": "Valid anagram",
+                            "input": "anagram\nnagaram",
+                            "expected_output": "true",
+                            "actual_output": "",
+                            "verdict": "wrong_answer",
+                            "execution_time_ms": 0.0,
+                            "is_hidden": false,
+                            "is_stress": false,
+                            "is_edge_case": false,
+                            "error": ""
+                        },
+                        {
+                            "description": "Not anagram",
+                            "input": "rat\ncar",
+                            "expected_output": "false",
+                            "actual_output": "",
+                            "verdict": "wrong_answer",
+                            "execution_time_ms": 0.0,
+                            "is_hidden": false,
+                            "is_stress": false,
+                            "is_edge_case": false,
+                            "error": ""
+                        },
+                        {
+                            "description": "Single char",
+                            "input": "a\na",
+                            "expected_output": "true",
+                            "actual_output": "",
+                            "verdict": "wrong_answer",
+                            "execution_time_ms": 0.0,
+                            "is_hidden": true,
+                            "is_stress": false,
+                            "is_edge_case": true,
+                            "error": ""
+                        }
+                    ]
+                },
+                "complexity_analysis": {
+                    "estimated_time_complexity": "O(n)",
+                    "estimated_space_complexity": "O(1)",
+                    "confidence": 0.55
+                },
+                "static_analysis": {
+                    "maintainability_score": 100.0,
+                    "total_issues": 0,
+                    "errors": 0,
+                    "warnings": 0,
+                    "info": 0,
+                    "metrics": {
+                        "total_lines": 5,
+                        "code_lines": 2,
+                        "blank_lines": 1,
+                        "comment_lines": 2,
+                        "cyclomatic_complexity": 1
+                    },
+                    "issues": []
+                },
+                "explanation_evaluation": null,
+                "viva_evaluation": null,
+                "scores": {
+                    "Problem Solving & Algorithmic Thinking": 0.0,
+                    "Code Correctness & Reliability": 0.0,
+                    "Code Quality & Software Engineering": 0,
+                    "Optimization & Complexity": 0,
+                    "Explanation & Teaching Ability": 0.0,
+                    "overall": 0.0
+                }
+            },
+            {
+                "question": {
+                    "id": "ll-002",
+                    "title": "Detect Cycle in Linked List",
+                    "category": "linked_list",
+                    "difficulty": "medium",
+                    "bloom_level": "Apply"
+                },
+                "submission": {
+                    "language": "cpp",
+                    "code_length": 77,
+                    "submitted_at": "2026-08-16T06:57:47.152317"
+                },
+                "test_results": {
+                    "total": 3,
+                    "passed": 0,
+                    "failed": 3,
+                    "pass_rate": 0.0,
+                    "public_passed": 0,
+                    "public_total": 2,
+                    "hidden_passed": 0,
+                    "hidden_total": 1,
+                    "results": [
+                        {
+                            "description": "Cycle at pos 1",
+                            "input": "3 2 0 -4\n1",
+                            "expected_output": "true",
+                            "actual_output": "",
+                            "verdict": "wrong_answer",
+                            "execution_time_ms": 0.0,
+                            "is_hidden": false,
+                            "is_stress": false,
+                            "is_edge_case": false,
+                            "error": ""
+                        },
+                        {
+                            "description": "No cycle",
+                            "input": "1 2\n-1",
+                            "expected_output": "false",
+                            "actual_output": "",
+                            "verdict": "wrong_answer",
+                            "execution_time_ms": 0.0,
+                            "is_hidden": false,
+                            "is_stress": false,
+                            "is_edge_case": false,
+                            "error": ""
+                        },
+                        {
+                            "description": "Single node no cycle",
+                            "input": "1\n-1",
+                            "expected_output": "false",
+                            "actual_output": "",
+                            "verdict": "wrong_answer",
+                            "execution_time_ms": 0.0,
+                            "is_hidden": true,
+                            "is_stress": false,
+                            "is_edge_case": true,
+                            "error": ""
+                        }
+                    ]
+                },
+                "complexity_analysis": {
+                    "estimated_time_complexity": "O(n)",
+                    "estimated_space_complexity": "O(1)",
+                    "confidence": 0.55
+                },
+                "static_analysis": {
+                    "maintainability_score": 100.0,
+                    "total_issues": 0,
+                    "errors": 0,
+                    "warnings": 0,
+                    "info": 0,
+                    "metrics": {
+                        "total_lines": 5,
+                        "code_lines": 2,
+                        "blank_lines": 1,
+                        "comment_lines": 2,
+                        "cyclomatic_complexity": 1
+                    },
+                    "issues": []
+                },
+                "explanation_evaluation": null,
+                "viva_evaluation": null,
+                "scores": {
+                    "Problem Solving & Algorithmic Thinking": 0.0,
+                    "Code Correctness & Reliability": 0.0,
+                    "Code Quality & Software Engineering": 0,
+                    "Optimization & Complexity": 0,
+                    "Explanation & Teaching Ability": 0.0,
+                    "overall": 0.0
+                }
+            },
+            {
+                "question": {
+                    "id": "stk-002",
+                    "title": "Min Stack",
+                    "category": "stack",
+                    "difficulty": "medium",
+                    "bloom_level": "Apply"
+                },
+                "submission": {
+                    "language": "cpp",
+                    "code_length": 77,
+                    "submitted_at": "2026-08-16T06:57:49.479826"
+                },
+                "test_results": {
+                    "total": 1,
+                    "passed": 0,
+                    "failed": 1,
+                    "pass_rate": 0.0,
+                    "public_passed": 0,
+                    "public_total": 1,
+                    "hidden_passed": 0,
+                    "hidden_total": 0,
+                    "results": [
+                        {
+                            "description": "Standard operations",
+                            "input": "push -2\npush 0\npush -3\ngetMin\npop\ntop\ngetMin",
+                            "expected_output": "-3\n0\n-2",
+                            "actual_output": "",
+                            "verdict": "wrong_answer",
+                            "execution_time_ms": 0.0,
+                            "is_hidden": false,
+                            "is_stress": false,
+                            "is_edge_case": false,
+                            "error": ""
+                        }
+                    ]
+                },
+                "complexity_analysis": {
+                    "estimated_time_complexity": "O(n)",
+                    "estimated_space_complexity": "O(1)",
+                    "confidence": 0.55
+                },
+                "static_analysis": {
+                    "maintainability_score": 100.0,
+                    "total_issues": 0,
+                    "errors": 0,
+                    "warnings": 0,
+                    "info": 0,
+                    "metrics": {
+                        "total_lines": 5,
+                        "code_lines": 2,
+                        "blank_lines": 1,
+                        "comment_lines": 2,
+                        "cyclomatic_complexity": 1
+                    },
+                    "issues": []
+                },
+                "explanation_evaluation": null,
+                "viva_evaluation": null,
+                "scores": {
+                    "Problem Solving & Algorithmic Thinking": 0.0,
+                    "Code Correctness & Reliability": 0.0,
+                    "Code Quality & Software Engineering": 0,
+                    "Optimization & Complexity": 0,
+                    "Explanation & Teaching Ability": 0.0,
+                    "overall": 0.0
+                }
+            },
+            {
+                "question": {
+                    "id": "bt-001",
+                    "title": "N-Queens",
+                    "category": "backtracking",
+                    "difficulty": "hard",
+                    "bloom_level": "Create"
+                },
+                "submission": {
+                    "language": "cpp",
+                    "code_length": 77,
+                    "submitted_at": "2026-08-16T06:57:53.170255"
+                },
+                "test_results": {
+                    "total": 3,
+                    "passed": 0,
+                    "failed": 3,
+                    "pass_rate": 0.0,
+                    "public_passed": 0,
+                    "public_total": 1,
+                    "hidden_passed": 0,
+                    "hidden_total": 2,
+                    "results": [
+                        {
+                            "description": "4-Queens has 2 solutions",
+                            "input": "4",
+                            "expected_output": "2",
+                            "actual_output": "",
+                            "verdict": "wrong_answer",
+                            "execution_time_ms": 0.0,
+                            "is_hidden": false,
+                            "is_stress": false,
+                            "is_edge_case": false,
+                            "error": ""
+                        },
+                        {
+                            "description": "Trivial",
+                            "input": "1",
+                            "expected_output": "1",
+                            "actual_output": "",
+                            "verdict": "wrong_answer",
+                            "execution_time_ms": 0.0,
+                            "is_hidden": true,
+                            "is_stress": false,
+                            "is_edge_case": true,
+                            "error": ""
+                        },
+                        {
+                            "description": "Classic 8-Queens",
+                            "input": "8",
+                            "expected_output": "92",
+                            "actual_output": "",
+                            "verdict": "wrong_answer",
+                            "execution_time_ms": 0.0,
+                            "is_hidden": true,
+                            "is_stress": false,
+                            "is_edge_case": false,
+                            "error": ""
+                        }
+                    ]
+                },
+                "complexity_analysis": {
+                    "estimated_time_complexity": "O(n)",
+                    "estimated_space_complexity": "O(1)",
+                    "confidence": 0.55
+                },
+                "static_analysis": {
+                    "maintainability_score": 100.0,
+                    "total_issues": 0,
+                    "errors": 0,
+                    "warnings": 0,
+                    "info": 0,
+                    "metrics": {
+                        "total_lines": 5,
+                        "code_lines": 2,
+                        "blank_lines": 1,
+                        "comment_lines": 2,
+                        "cyclomatic_complexity": 1
+                    },
+                    "issues": []
+                },
+                "explanation_evaluation": null,
+                "viva_evaluation": null,
+                "scores": {
+                    "Problem Solving & Algorithmic Thinking": 0.0,
+                    "Code Correctness & Reliability": 0.0,
+                    "Code Quality & Software Engineering": 0,
+                    "Optimization & Complexity": 0,
+                    "Explanation & Teaching Ability": 0.0,
+                    "overall": 0.0
+                }
+            }
+        ],
+        "overall_assessment": {
+            "total_score": 0.0,
+            "questions_attempted": 5,
+            "grade": "F",
+            "recommendation": "Not Recommended \u2014 Below expected threshold for this position.",
+            "score_breakdown": {
+                "per_question_scores": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "highest_score": 0.0,
+                "lowest_score": 0.0
+            },
+            "weights_used": {
+                "Problem Solving & Algorithmic Thinking": 0.3,
+                "Code Correctness & Reliability": 0.25,
+                "Code Quality & Software Engineering": 0.15,
+                "Optimization & Complexity": 0.15,
+                "Explanation & Teaching Ability": 0.15
+            }
+        },
+        "generated_at": "2026-08-16T06:57:54.755383+00:00",
+        "engine_version": "1.0.0"
+    }
+}
