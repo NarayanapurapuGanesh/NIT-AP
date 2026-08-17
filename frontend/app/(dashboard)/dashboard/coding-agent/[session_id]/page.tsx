@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Clock, ChevronRight } from "lucide-react";
 import { Panel, Group as PanelGroup, Separator as PanelResizeHandle } from "react-resizable-panels"; // force reload
-import { getSession, getNextQuestion, completeSession, runCode, submitCode, QuestionResponse, SessionResponse } from "@/lib/api/coding";
+import { getSession, getNextQuestion, completeSession, runCode, submitCode, QuestionResponse, SessionResponse, RunCodeResponse, SubmitResponse, CompleteSessionResponse } from "@/lib/api/coding";
 import CodeEditor from "@/components/coding/CodeEditor";
 import ProblemDescription from "@/components/coding/ProblemDescription";
 import AssessmentReport from "@/components/coding/AssessmentReport";
@@ -29,17 +29,26 @@ export default function CodingArena() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(1);
   
-  const [runResult, setRunResult] = useState<any>(null);
-  const [submitResult, setSubmitResult] = useState<any>(null);
+  const [runResult, setRunResult] = useState<RunCodeResponse | null>(null);
+  const [submitResult, setSubmitResult] = useState<SubmitResponse | null>(null);
   const [activeTab, setActiveTab] = useState<"testcase" | "console" | "result" | "complexity" | "ai_feedback">("testcase");
 
   const [showReport, setShowReport] = useState(false);
-  const [finalReport, setFinalReport] = useState<any>(null);
+  const [finalReport, setFinalReport] = useState<Record<string, unknown> | null>(null);
 
   const [theme, setTheme] = useState("vs-dark");
   const [fontSize, setFontSize] = useState(14);
-  const editorRef = useRef<any>(null);
-  const monacoRef = useRef<any>(null);
+
+  type EditorType = {
+    getAction: (id: string) => { run: () => void } | null;
+    addCommand: (keybinding: number, handler: () => void) => void;
+  };
+  type MonacoType = {
+    KeyMod: { CtrlCmd: number; Shift: number };
+    KeyCode: { Enter: number };
+  };
+  const editorRef = useRef<EditorType | null>(null);
+  const monacoRef = useRef<MonacoType | null>(null);
 
   useEffect(() => {
     async function loadData() {
@@ -146,13 +155,8 @@ export default function CodingArena() {
       });
       setSubmitResult(result);
       
-      if (session) {
-        setSession({
-          ...session,
-          questions_answered: session.questions_answered + 1,
-          total_score: result.overall_score,
-        });
-      }
+      const updatedSession = await getSession(sessionId);
+      setSession(updatedSession);
     } catch (err) {
       console.error(err);
     } finally {
@@ -183,9 +187,10 @@ export default function CodingArena() {
         setCode(defaultCode);
         setCodeCache({ [language]: defaultCode });
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
+      const error = err as Error;
       const sess = await getSession(sessionId);
-      if (sess.status === "completed" || err.message?.includes("Maximum questions reached") || err.message?.includes("No more questions")) {
+      if (sess.status === "completed" || error.message?.includes("Maximum questions reached") || error.message?.includes("No more questions")) {
         alert("Assessment complete! Compiling your final dossier...");
         try {
            const res = await completeSession(sessionId);
@@ -240,7 +245,7 @@ export default function CodingArena() {
     }
   };
 
-  const handleEditorMount = (editor: any, monaco: any) => {
+  const handleEditorMount = (editor: EditorType, monaco: MonacoType) => {
     editorRef.current = editor;
     monacoRef.current = monaco;
 

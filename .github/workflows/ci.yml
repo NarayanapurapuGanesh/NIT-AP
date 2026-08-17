@@ -29,7 +29,7 @@ jobs:
         run: dotnet test backend/FacultyIQ.sln --configuration Release --no-build --verbosity normal
 
   frontend-build:
-    name: Build & Verify Next.js 15 App
+    name: Build & Verify Next.js 16 App
     runs-on: ubuntu-latest
 
     steps:

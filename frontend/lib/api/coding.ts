@@ -53,6 +53,7 @@ export interface SubmitResponse {
   submission_id: string;
   session_status: string;
   overall_score: number;
+  problem_solving_score: number;
   correctness_score: number;
   complexity_score: number;
   quality_score: number;
@@ -61,13 +62,19 @@ export interface SubmitResponse {
     passed: number;
     failed: number;
     pass_rate: number;
-    results: any[];
+    results: unknown[];
   };
-  complexity_analysis: any;
-  static_analysis: any;
+  complexity_analysis: Record<string, unknown>;
+  static_analysis: Record<string, unknown>;
 }
 
-export async function startSession(data: any): Promise<SessionResponse> {
+export interface CompleteSessionResponse {
+  status: string;
+  message: string;
+  report: Record<string, unknown>;
+}
+
+export async function startSession(data: Record<string, unknown>): Promise<SessionResponse> {
   const res = await fetch(`${API_BASE}/session/start`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -83,7 +90,7 @@ export async function getSession(sessionId: string): Promise<SessionResponse> {
   return res.json();
 }
 
-export async function completeSession(sessionId: string): Promise<any> {
+export async function completeSession(sessionId: string): Promise<CompleteSessionResponse> {
   const res = await fetch(`${API_BASE}/session/${sessionId}/complete`, {
     method: "POST",
   });
@@ -120,7 +127,7 @@ export async function submitCode(data: {
   question_id: string;
   source_code: string;
   language: string;
-}): Promise<{ submission_id: string }> {
+}): Promise<SubmitResponse> {
   const res = await fetch(`${API_BASE}/submit`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
